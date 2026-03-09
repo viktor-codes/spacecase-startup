@@ -8,6 +8,17 @@ class Settings(BaseSettings):
     app_name: str = Field(default="Spacecase Backend", alias="APP_NAME")
     debug: bool = Field(default=False, alias="DEBUG")
 
+    nasa_api_key: str = Field(
+        default="DEMO_KEY",
+        alias="NASA_API_KEY",
+        description="NASA API key (DEMO_KEY is rate-limited, use real key in production).",
+    )
+    nasa_api_url: str = Field(
+        default="https://api.nasa.gov/planetary/apod",
+        alias="NASA_APOD_URL",
+        description="Base URL for NASA APOD endpoint.",
+    )
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
