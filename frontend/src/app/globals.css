@@ -211,14 +211,18 @@
     cursor: pointer;
   }
 
-  /* Слайдер с космонавтом: нативный бегунок скрыт, визуально только motion.div с картинкой */
+  /* Слайдер с космонавтом: нативный бегунок и трек полностью скрыты (в т.ч. Safari/iOS) */
   .slider-astronaut {
     background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .slider-astronaut::-webkit-slider-runnable-track {
     height: 40px;
     background: transparent;
+    border: none;
+    -webkit-appearance: none;
   }
 
   .slider-astronaut::-webkit-slider-thumb {
@@ -226,15 +230,17 @@
     appearance: none;
     width: 80px;
     height: 40px;
-    background: transparent;
+    background: transparent !important;
     border: none;
     cursor: pointer;
     margin-top: 0;
+    opacity: 0;
   }
 
   .slider-astronaut::-moz-range-track {
     height: 40px;
     background: transparent;
+    border: none;
   }
 
   .slider-astronaut::-moz-range-thumb {
@@ -243,11 +249,13 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    opacity: 0;
   }
 
   .slider-astronaut::-ms-track {
     height: 40px;
     background: transparent;
+    border: none;
     border-color: transparent;
     color: transparent;
   }
@@ -258,6 +266,7 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    opacity: 0;
   }
 }
 
