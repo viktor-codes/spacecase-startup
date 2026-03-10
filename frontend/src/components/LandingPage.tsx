@@ -9,13 +9,15 @@ import QualitySection from "@/components/landing/QualitySection";
 import GuaranteesSection from "@/components/landing/GuaranteesSection";
 import FAQSection from "@/components/landing/FAQSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
+import SpaceDateScanner from "./SpaceDateScanner";
 
 const LandingPage = () => {
   return (
-    <div className="grain">
+    <div className="grain-dark">
       <HeroSection />
       <StoriesSection />
       <TryNowSection />
+
       <HowItWorksSection />
       <QualitySection />
       <TestimonialsSection />

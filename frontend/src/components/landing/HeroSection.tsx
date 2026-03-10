@@ -15,11 +15,10 @@ const HeroSection = () => {
               alt="funny astronaut"
               width={160}
               height={160}
-              className="w-full animate-float mx-auto"
+              className="w-full animate-float mx-auto -mt-8"
             />
           </div>
           <div className="absolute w-52 left-0 -top-32 hidden lg:block">
-            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t via-slate-50/50 from-slate-50 h-10" />
             <Image
               src="/logo.png"
               alt="funny astronaut"
