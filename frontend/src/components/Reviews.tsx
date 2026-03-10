@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import type { HTMLAttributes } from "react"
-import React, { useEffect, useRef, useState } from "react"
+import type { HTMLAttributes } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-import Container from "./Container"
-import Phone from "./Phone"
+import Container from "./Container";
+import Phone from "./Phone";
 
 const PHONES = [
   "/testimonials/1.jpg",
@@ -15,7 +15,7 @@ const PHONES = [
   "/testimonials/4.jpg",
   "/testimonials/5.jpg",
   "/testimonials/6.jpg",
-]
+];
 
 const POSSIBLE_ANIMATION_DELAYS = [
   "0s",
@@ -24,20 +24,20 @@ const POSSIBLE_ANIMATION_DELAYS = [
   "0.3s",
   "0.4s",
   "0.5s",
-]
+];
 
 function splitArray<T>(array: Array<T>, numParts: number) {
-  const result: Array<Array<T>> = []
+  const result: Array<Array<T>> = [];
 
   for (let i = 0; i < array.length; i++) {
-    const index = i % numParts
+    const index = i % numParts;
     if (!result[index]) {
-      result[index] = []
+      result[index] = [];
     }
-    result[index].push(array[i])
+    result[index].push(array[i]);
   }
 
-  return result
+  return result;
 }
 
 function ReviewColumn({
@@ -46,28 +46,28 @@ function ReviewColumn({
   reviewClassName,
   msPerPixel = 0,
 }: {
-  reviews: string[]
-  className?: string
-  reviewClassName?: (reviewIndex: number) => string
-  msPerPixel?: number
+  reviews: string[];
+  className?: string;
+  reviewClassName?: (reviewIndex: number) => string;
+  msPerPixel?: number;
 }) {
-  const columnRef = useRef<HTMLDivElement | null>(null)
-  const [columnHeight, setColumnHeight] = useState(0)
-  const duration = `${columnHeight * msPerPixel}ms`
+  const columnRef = useRef<HTMLDivElement | null>(null);
+  const [columnHeight, setColumnHeight] = useState(0);
+  const duration = `${columnHeight * msPerPixel}ms`;
 
   useEffect(() => {
-    if (!columnRef.current) return
+    if (!columnRef.current) return;
 
     const resizeObserver = new window.ResizeObserver(() => {
-      setColumnHeight(columnRef.current?.offsetHeight ?? 0)
-    })
+      setColumnHeight(columnRef.current?.offsetHeight ?? 0);
+    });
 
-    resizeObserver.observe(columnRef.current)
+    resizeObserver.observe(columnRef.current);
 
     return () => {
-      resizeObserver.disconnect()
-    }
-  }, [])
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   return (
     <div
@@ -84,45 +84,43 @@ function ReviewColumn({
         />
       ))}
     </div>
-  )
+  );
 }
 
 interface ReviewProps extends HTMLAttributes<HTMLDivElement> {
-  imgSrc: string
-  delayIndex: number
+  imgSrc: string;
+  delayIndex: number;
 }
 
 function Review({ imgSrc, className, delayIndex, ...props }: ReviewProps) {
   const animationDelay =
-    POSSIBLE_ANIMATION_DELAYS[
-      delayIndex % POSSIBLE_ANIMATION_DELAYS.length
-    ]
+    POSSIBLE_ANIMATION_DELAYS[delayIndex % POSSIBLE_ANIMATION_DELAYS.length];
 
   return (
     <div
       className={cn(
-        "animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5",
+        "animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5 mx-auto w-[260px] sm:w-full",
         className,
       )}
       style={{ animationDelay }}
       {...props}
     >
-      <Phone imgSrc={imgSrc} />
+      <Phone imgSrc={imgSrc} className="mx-auto w-[200px] sm:w-full" />
     </div>
-  )
+  );
 }
 
 function ReviewGrid() {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const columns = splitArray(PHONES, 3)
-  const column1 = columns[0]
-  const column2 = columns[1]
-  const column3 = splitArray(columns[2], 2)
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const columns = splitArray(PHONES, 3);
+  const column1 = columns[0];
+  const column2 = columns[1];
+  const column3 = splitArray(columns[2], 2);
 
   return (
     <div
       ref={containerRef}
-      className="relative -mx-4 mt-16 grid h-[49rem] max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+      className="relative -mx-4 mt-16 grid h-196 max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
     >
       <>
         <ReviewColumn
@@ -152,7 +150,7 @@ function ReviewGrid() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-100" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-100" />
     </div>
-  )
+  );
 }
 
 export function Reviews() {
@@ -166,6 +164,5 @@ export function Reviews() {
 
       <ReviewGrid />
     </Container>
-  )
+  );
 }
-
