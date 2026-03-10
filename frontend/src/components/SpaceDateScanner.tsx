@@ -39,11 +39,15 @@ const SpaceDateScanner = ({
     return maxDate;
   }, [value, minDate, maxDate]);
 
+  // timestamp — «зафиксированная» выбранная дата (обновляется не на каждый пиксель)
   const [timestamp, setTimestamp] = useState(initialTimestamp);
+  // sliderValue — текущее положение ползунка (ездит плавно)
+  const [sliderValue, setSliderValue] = useState(initialTimestamp);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setTimestamp(initialTimestamp);
+    setSliderValue(initialTimestamp);
   }, [initialTimestamp]);
 
   // Превращаем timestamp в читаемую дату YYYY-MM-DD и пробрасываем наверх
@@ -68,10 +72,16 @@ const SpaceDateScanner = ({
     };
   }, [timestamp]);
 
+  // Слайдер двигает только sliderValue (для плавного движения),
+  // а timestamp (и видимая дата) обновляются при отпускании ползунка.
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);
     const clamped = Math.min(Math.max(next, minDate), maxDate);
-    setTimestamp(clamped);
+    setSliderValue(clamped);
+  };
+
+  const commitSliderValue = () => {
+    setTimestamp(sliderValue);
   };
 
   const handleManualInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,6 +90,7 @@ const SpaceDateScanner = ({
       const ts = newDate.getTime();
       const clamped = Math.min(Math.max(ts, minDate), maxDate);
       setTimestamp(clamped);
+      setSliderValue(clamped);
     }
   };
 
@@ -91,8 +102,8 @@ const SpaceDateScanner = ({
 
   const percentage = useMemo(() => {
     if (maxDate === minDate) return 0;
-    return ((timestamp - minDate) / (maxDate - minDate)) * 100;
-  }, [timestamp, minDate, maxDate]);
+    return ((sliderValue - minDate) / (maxDate - minDate)) * 100;
+  }, [sliderValue, minDate, maxDate]);
 
   return (
     <div
@@ -141,30 +152,32 @@ const SpaceDateScanner = ({
         </p>
       </div>
 
-      {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР */}
-      <div className="relative w-full max-w-2xl px-4">
-        {/* Тонкая линия трека (визуально — только она, нативный range прозрачный) */}
-        <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 rounded-full bg-white/20" />
+      {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
+      <div className="relative w-full max-w-2xl px-4 touch-none">
+        {/* Тонкая линия трека (визуально — только она, нативный range скрыт) */}
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 rounded-full bg-gray-900" />
 
-        {/* Нативный range — только для логики/доступности; бегунок скрыт, виден только космонавт */}
+        {/* Нативный range — только логика; бегунок и трек полностью скрыты (в т.ч. Safari) */}
         <input
           type="range"
           min={minDate}
           max={maxDate}
-          value={timestamp}
+          value={sliderValue}
           onChange={handleSliderChange}
+          onMouseUp={commitSliderValue}
+          onTouchEnd={commitSliderValue}
           className="slider-astronaut relative z-10 w-full h-10 bg-transparent appearance-none cursor-pointer"
         />
 
-        {/* КОСМОНАВТ = единственный визуальный бегунок, привязан к value */}
+        {/* КОСМОНАВТ = единственный визуальный бегунок */}
         <motion.div
           className="pointer-events-none absolute top-1/2 z-20 -translate-y-1/2"
-          style={{ left: `${percentage}%` }}
+          style={{ left: `${percentage}%`, marginTop: "-5px" }}
         >
           <div className="relative w-20 h-20 -translate-x-1/2">
             <img
               src="/slider.svg"
-              alt="Astronaut slider"
+              alt=""
               className="w-full h-full object-contain"
             />
           </div>
@@ -184,7 +197,7 @@ const SpaceDateScanner = ({
           type="button"
           disabled={loading}
           onClick={handleSubmitClick}
-          className="group relative px-12 py-5 bg-foreground text-background rounded-2xl font-bold text-xl transition-all hover:bg-accent hover:text-accent-foreground hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] disabled:opacity-60 disabled:pointer-events-none"
+          className="group cursor-pointer relative px-12 py-5 bg-foreground text-background rounded-2xl font-bold text-xl transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] disabled:opacity-60 disabled:pointer-events-none"
         >
           <span className="relative z-10 flex items-center gap-3">
             {loading ? "Loading..." : "Reveal the Universe"}

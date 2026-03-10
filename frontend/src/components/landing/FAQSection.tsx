@@ -35,7 +35,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <Section className="py-20">
+    <Section>
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
           FAQ
