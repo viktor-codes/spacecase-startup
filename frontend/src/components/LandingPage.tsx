@@ -12,7 +12,7 @@ import FinalCTASection from "@/components/landing/FinalCTASection";
 
 const LandingPage = () => {
   return (
-    <div className="bg-slate-50 grain">
+    <div className="grain">
       <HeroSection />
       <StoriesSection />
       <TryNowSection />

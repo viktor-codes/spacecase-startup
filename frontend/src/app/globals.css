@@ -42,6 +42,10 @@
     text-wrap: balance;
   }
 
+  .animate-float {
+    animation: float 2s ease-in-out infinite;
+  }
+
   /* Анимация вертикального бесконечного скролла колонок отзывов */
   .animate-marquee {
     animation-name: reviews-marquee;
@@ -148,7 +152,14 @@
     background-size: repeat;
     background-repeat: repeat;
   }
-  .grain-overlay {
-    opacity: 0.14;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
