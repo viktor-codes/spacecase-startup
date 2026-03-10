@@ -1,23 +1,23 @@
-import type { HTMLAttributes } from "react"
+import type { HTMLAttributes } from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 type PhoneProps = HTMLAttributes<HTMLDivElement> & {
-  imgSrc: string
-  dark?: boolean
-}
+  imgSrc: string;
+  dark?: boolean;
+};
 
 export default function Phone(props: PhoneProps) {
-  const { imgSrc, dark = false, className, ...rest } = props
+  const { imgSrc, dark = false, className, ...rest } = props;
 
   const frameSrc = dark
-    ? "/phone-template-dark-edges.png"
-    : "/phone-template-white-edges.png"
+    ? "/phone-template-dark-edges-1.png"
+    : "/phone-template-white-edges-1.png";
 
   return (
     <div
       className={cn(
-        "relative z-50 overflow-hidden pointer-events-none",
+        "relative z-50 overflow-hidden pointer-events-none rounded-4xl",
         className,
       )}
       {...rest}
@@ -36,5 +36,5 @@ export default function Phone(props: PhoneProps) {
         />
       </div>
     </div>
-  )
+  );
 }

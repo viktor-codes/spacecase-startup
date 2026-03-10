@@ -1,7 +1,7 @@
 import { Check, Star } from "lucide-react";
 
 import Section from "@/components/Section";
-import Phone from "@/components/Phone";
+import FloatingCase from "@/components/FloatingCase";
 
 const HeroSection = () => {
   return (
@@ -93,7 +93,7 @@ const HeroSection = () => {
             src="/line.png"
             className="absolute w-20 -left-6 -bottom-6 select-none"
           />
-          <Phone className="w-64" imgSrc="/nebula.png" />
+          <FloatingCase imgSrc="/nebula.png" />
         </div>
       </div>
     </Section>
