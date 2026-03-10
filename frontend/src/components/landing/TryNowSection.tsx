@@ -4,33 +4,31 @@ import { useState } from "react";
 
 import Section from "@/components/Section";
 import { buttonVariants } from "@/components/ui/button";
-
-type ApodData = {
-  url: string;
-  title?: string;
-  explanation?: string;
-};
+import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
 
 const TryNowSection = () => {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [apod, setApod] = useState<ApodData | null>(null);
+  const [apod, setApod] = useState<ApodResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!date) return;
-
     setLoading(true);
     setError(null);
+    setApod(null);
 
     try {
-      const response = await fetch(`/api/apod?date=${encodeURIComponent(date)}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch image for this date.");
+      const data = await fetchApod(date || undefined);
+
+      if (data.media_type !== "image" || !data.url) {
+        setError(
+          "For this date NASA APOD is not an image. Please try another date.",
+        );
+        return;
       }
-      const data = (await response.json()) as ApodData;
+
       setApod(data);
       setIsModalOpen(true);
     } catch (err) {
@@ -86,7 +84,6 @@ const TryNowSection = () => {
               id="try-now-date"
               name="date"
               type="date"
-              required
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="flex-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 focus:border-[#4A325E] focus:ring-2 focus:ring-[#4A325E]/20"
