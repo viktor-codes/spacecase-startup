@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
@@ -44,6 +44,14 @@ const SpaceDateScanner = ({
   // sliderValue — текущее положение ползунка (ездит плавно)
   const [sliderValue, setSliderValue] = useState(initialTimestamp);
   const [isEditing, setIsEditing] = useState(false);
+  const [manualDay, setManualDay] = useState<string | null>(null);
+  const [manualMonth, setManualMonth] = useState<string | null>(null);
+  const [manualYear, setManualYear] = useState<string | null>(null);
+  const [hasError, setHasError] = useState(false);
+
+  const dayInputRef = useRef<HTMLInputElement>(null);
+  const monthInputRef = useRef<HTMLInputElement>(null);
+  const yearInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTimestamp(initialTimestamp);
@@ -84,13 +92,108 @@ const SpaceDateScanner = ({
     setTimestamp(sliderValue);
   };
 
-  const handleManualInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = new Date(e.target.value);
-    if (!Number.isNaN(newDate.getTime())) {
-      const ts = newDate.getTime();
-      const clamped = Math.min(Math.max(ts, minDate), maxDate);
-      setTimestamp(clamped);
-      setSliderValue(clamped);
+  const handleManualPartChange =
+    (part: "day" | "month" | "year") =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const raw = e.target.value.replace(/\D/g, "");
+
+      if (part === "year") {
+        const value = raw.slice(0, 4);
+        if (!value) {
+          setManualYear(null);
+          return;
+        }
+        setManualYear(value);
+        // Проверяем год только на коммите, чтобы не мешать вводу
+      } else {
+        const value = raw.slice(0, 2);
+        if (part === "day") {
+          if (!value) {
+            setManualDay(null);
+            return;
+          }
+          const num = Number(value);
+          if (Number.isNaN(num) || num < 1 || num > 31) {
+            // Не даём ввести заведомо неверный день
+            return;
+          }
+          setManualDay(value);
+          if (value.length === 2 && monthInputRef.current) {
+            monthInputRef.current.focus();
+            monthInputRef.current.select();
+          }
+        } else {
+          if (!value) {
+            setManualMonth(null);
+            return;
+          }
+          const num = Number(value);
+          if (Number.isNaN(num) || num < 1 || num > 12) {
+            // Не даём ввести заведомо неверный месяц
+            return;
+          }
+          setManualMonth(value);
+          if (value.length === 2 && yearInputRef.current) {
+            yearInputRef.current.focus();
+            yearInputRef.current.select();
+          }
+        }
+      }
+    };
+
+  const commitManualInput = (options?: { submit?: boolean }) => {
+    const dayString = manualDay ?? displayDate.day;
+    const monthString = manualMonth ?? displayDate.month;
+    const yearString = manualYear ?? String(displayDate.year);
+
+    if (!dayString || !monthString || !yearString) {
+      setHasError(true);
+      return;
+    }
+
+    const day = Number(dayString);
+    const month = Number(monthString);
+    const year = Number(yearString);
+
+    if (
+      Number.isNaN(day) ||
+      Number.isNaN(month) ||
+      Number.isNaN(year) ||
+      day < 1 ||
+      month < 1 ||
+      month > 12
+    ) {
+      setHasError(true);
+      return;
+    }
+
+    const candidate = new Date(year, month - 1, day);
+
+    if (
+      candidate.getFullYear() !== year ||
+      candidate.getMonth() !== month - 1 ||
+      candidate.getDate() !== day
+    ) {
+      setHasError(true);
+      return;
+    }
+
+    let ts = candidate.getTime();
+    if (ts < minDate || ts > maxDate) {
+      setHasError(true);
+      return;
+    }
+
+    setTimestamp(ts);
+    setSliderValue(ts);
+    setManualDay(null);
+    setManualMonth(null);
+    setManualYear(null);
+    setHasError(false);
+
+    if (options?.submit && onSubmit) {
+      const iso = new Date(ts).toISOString().split("T")[0];
+      onSubmit(iso);
     }
   };
 
@@ -114,46 +217,263 @@ const SpaceDateScanner = ({
       )}
     >
       {/* 1. ГИГАНТСКИЕ ЦИФРЫ (РУЧНОЙ ВВОД) */}
-      <div className="relative group cursor-pointer">
+      <div className="relative group cursor-text">
         <div
           className={cn(
-            "flex items-center gap-4 text-5xl md:text-9xl font-mono tracking-tighter transition-all duration-500",
-            isEditing ? "scale-105 text-accent" : "text-foreground",
+            "flex items-center gap-4 text-5xl md:text-9xl font-mono tracking-tighter transition-all duration-500 text-foreground",
+            isEditing && "scale-105",
           )}
         >
-          <span className="[font-variation-settings:'MONO'_1]">
-            {displayDate.day}
-          </span>
+          <input
+            ref={dayInputRef}
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            aria-label="Day"
+            placeholder="DD"
+            className="[font-variation-settings:'MONO'_1] w-[2ch] bg-transparent border-none outline-none text-current text-center cursor-text"
+            value={manualDay ?? displayDate.day}
+            onChange={handleManualPartChange("day")}
+            onFocus={() => {
+              setIsEditing(true);
+              setHasError(false);
+              // При первом входе в режим редактирования очищаем все поля,
+              // чтобы показать плейсхолдеры DD MM YYYY
+              if (
+                manualDay === null &&
+                manualMonth === null &&
+                manualYear === null
+              ) {
+                setManualDay("");
+                setManualMonth("");
+                setManualYear("");
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitManualInput({ submit: true });
+              }
+              if (e.key === "Escape") {
+                e.preventDefault();
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setHasError(false);
+                setIsEditing(false);
+              }
+              if (e.key === "ArrowRight" && monthInputRef.current) {
+                e.preventDefault();
+                monthInputRef.current.focus();
+                monthInputRef.current.select();
+              }
+            }}
+            onBlur={(e) => {
+              const related = e.relatedTarget as HTMLElement | null;
+              if (
+                manualDay === "" &&
+                manualMonth === "" &&
+                manualYear === ""
+              ) {
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setIsEditing(false);
+                setHasError(false);
+                return;
+              }
+              if (
+                !related ||
+                (related !== monthInputRef.current &&
+                  related !== yearInputRef.current)
+              ) {
+                if (manualDay || manualMonth || manualYear) {
+                  commitManualInput();
+                }
+                setIsEditing(false);
+              }
+            }}
+          />
           <span className="opacity-20">/</span>
-          <span className="[font-variation-settings:'MONO'_1]">
-            {displayDate.month}
-          </span>
+          <input
+            ref={monthInputRef}
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            aria-label="Month"
+            placeholder="MM"
+            className="[font-variation-settings:'MONO'_1] w-[2ch] bg-transparent border-none outline-none text-current text-center cursor-text"
+            value={manualMonth ?? displayDate.month}
+            onChange={handleManualPartChange("month")}
+            onFocus={() => {
+              setIsEditing(true);
+              setHasError(false);
+              if (
+                manualDay === null &&
+                manualMonth === null &&
+                manualYear === null
+              ) {
+                setManualDay("");
+                setManualMonth("");
+                setManualYear("");
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitManualInput({ submit: true });
+              }
+              if (e.key === "Escape") {
+                e.preventDefault();
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setHasError(false);
+                setIsEditing(false);
+              }
+              if (e.key === "ArrowLeft" && dayInputRef.current) {
+                e.preventDefault();
+                dayInputRef.current.focus();
+                dayInputRef.current.select();
+              }
+              if (e.key === "ArrowRight" && yearInputRef.current) {
+                e.preventDefault();
+                yearInputRef.current.focus();
+                yearInputRef.current.select();
+              }
+            }}
+            onBlur={(e) => {
+              const related = e.relatedTarget as HTMLElement | null;
+              if (
+                manualDay === "" &&
+                manualMonth === "" &&
+                manualYear === ""
+              ) {
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setIsEditing(false);
+                setHasError(false);
+                return;
+              }
+              if (
+                !related ||
+                (related !== dayInputRef.current &&
+                  related !== yearInputRef.current)
+              ) {
+                if (manualDay || manualMonth || manualYear) {
+                  commitManualInput();
+                }
+                setIsEditing(false);
+              }
+            }}
+          />
           <span className="opacity-20">/</span>
-          <span className="[font-variation-settings:'MONO'_1]">
-            {displayDate.year}
-          </span>
+          <input
+            ref={yearInputRef}
+            type="text"
+            inputMode="numeric"
+            maxLength={4}
+            aria-label="Year"
+            placeholder="YYYY"
+            className="[font-variation-settings:'MONO'_1] w-[4ch] bg-transparent border-none outline-none text-current text-center cursor-text"
+            value={manualYear ?? String(displayDate.year)}
+            onChange={handleManualPartChange("year")}
+            onFocus={() => {
+              setIsEditing(true);
+              setHasError(false);
+              if (
+                manualDay === null &&
+                manualMonth === null &&
+                manualYear === null
+              ) {
+                setManualDay("");
+                setManualMonth("");
+                setManualYear("");
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitManualInput({ submit: true });
+              }
+              if (e.key === "Escape") {
+                e.preventDefault();
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setHasError(false);
+                setIsEditing(false);
+              }
+              if (e.key === "ArrowLeft" && monthInputRef.current) {
+                e.preventDefault();
+                monthInputRef.current.focus();
+                monthInputRef.current.select();
+              }
+            }}
+            onBlur={(e) => {
+              const related = e.relatedTarget as HTMLElement | null;
+              if (
+                manualDay === "" &&
+                manualMonth === "" &&
+                manualYear === ""
+              ) {
+                setManualDay(null);
+                setManualMonth(null);
+                setManualYear(null);
+                setIsEditing(false);
+                setHasError(false);
+                return;
+              }
+              if (
+                !related ||
+                (related !== dayInputRef.current &&
+                  related !== monthInputRef.current)
+              ) {
+                if (manualDay || manualMonth || manualYear) {
+                  commitManualInput();
+                }
+                setIsEditing(false);
+              }
+            }}
+          />
         </div>
 
-        {/* Скрытый настоящий инпут поверх цифр для фокуса */}
-        <input
-          type="date"
-          className="absolute inset-0 opacity-0 cursor-pointer"
-          onChange={handleManualInput}
-          onFocus={() => setIsEditing(true)}
-          onBlur={() => setIsEditing(false)}
-          max={new Date().toISOString().split("T")[0]}
-          min="1995-06-16"
-        />
-
-        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] text-muted-foreground font-mono">
-          {isEditing
-            ? "Entering coordinates..."
-            : "Click digits to type or slide below"}
+        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-mono">
+          <span
+            className={cn(
+              "transition-colors",
+              hasError ? "text-red-400" : "text-muted-foreground",
+            )}
+          >
+            {hasError
+              ? "Invalid date — check the coordinates"
+              : isEditing
+                ? "Entering coordinates..."
+                : "Click digits to type or slide below"}
+          </span>
         </p>
       </div>
 
       {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
-      <div className="relative w-full max-w-2xl px-4 touch-none">
+      <div
+        className="relative w-full max-w-2xl px-4 touch-none"
+        onMouseDown={() => {
+          // При взаимодействии со слайдером возвращаемся к последней зафиксированной дате
+          setManualDay(null);
+          setManualMonth(null);
+          setManualYear(null);
+          setIsEditing(false);
+          setHasError(false);
+        }}
+        onTouchStart={() => {
+          setManualDay(null);
+          setManualMonth(null);
+          setManualYear(null);
+          setIsEditing(false);
+          setHasError(false);
+        }}
+      >
         {/* Тонкая линия трека (визуально — только она, нативный range скрыт) */}
         <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 rounded-full bg-gray-900" />
 
