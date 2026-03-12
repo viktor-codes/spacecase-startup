@@ -14,6 +14,10 @@ type SpaceDateScannerProps = {
   onChange?: (date: string) => void;
   onSubmit?: (date: string) => void;
   showPrimaryButton?: boolean;
+  showSlider?: boolean;
+  size?: "default" | "compact";
+  helperVariant?: "default" | "minimal" | "none";
+  helperTextOverride?: string;
   loading?: boolean;
   className?: string;
 };
@@ -23,6 +27,10 @@ const SpaceDateScanner = ({
   onChange,
   onSubmit,
   showPrimaryButton = true,
+  showSlider = true,
+  size = "default",
+  helperVariant = "default",
+  helperTextOverride,
   loading = false,
   className,
 }: SpaceDateScannerProps) => {
@@ -124,6 +132,9 @@ const SpaceDateScanner = ({
         manualDay={manualDay}
         manualMonth={manualMonth}
         manualYear={manualYear}
+        size={size}
+        helperVariant={helperVariant}
+        helperTextOverride={helperTextOverride}
         isEditing={isEditing}
         hasError={hasError}
         setManualDay={setManualDay}
@@ -135,21 +146,23 @@ const SpaceDateScanner = ({
       />
 
       {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
-      <SpaceDateScannerTimeline
-        minDate={minDate}
-        maxDate={maxDate}
-        sliderValue={sliderValue}
-        percentage={percentage}
-        onChange={handleSliderChange}
-        onCommit={commitSliderValue}
-        onInteractStart={() => {
-          setManualDay(null);
-          setManualMonth(null);
-          setManualYear(null);
-          setIsEditing(false);
-          setHasError(false);
-        }}
-      />
+      {showSlider && (
+        <SpaceDateScannerTimeline
+          minDate={minDate}
+          maxDate={maxDate}
+          sliderValue={sliderValue}
+          percentage={percentage}
+          onChange={handleSliderChange}
+          onCommit={commitSliderValue}
+          onInteractStart={() => {
+            setManualDay(null);
+            setManualMonth(null);
+            setManualYear(null);
+            setIsEditing(false);
+            setHasError(false);
+          }}
+        />
+      )}
 
       {/* 3. КНОПКА ПОИСКА (ОПЦИОНАЛЬНО) — запрос в NASA по клику или Enter */}
       {showPrimaryButton && (

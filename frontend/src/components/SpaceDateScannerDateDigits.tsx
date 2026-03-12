@@ -15,6 +15,9 @@ type DateDigitsInputProps = {
   manualDay: string | null;
   manualMonth: string | null;
   manualYear: string | null;
+  size?: "default" | "compact";
+  helperVariant?: "default" | "minimal" | "none";
+  helperTextOverride?: string;
   isEditing: boolean;
   hasError: boolean;
   setManualDay: (value: string | null) => void;
@@ -30,6 +33,9 @@ const SpaceDateScannerDateDigits = ({
   manualDay,
   manualMonth,
   manualYear,
+  size = "default",
+  helperVariant = "default",
+  helperTextOverride,
   isEditing,
   hasError,
   setManualDay,
@@ -113,7 +119,9 @@ const SpaceDateScannerDateDigits = ({
     <div className="relative group cursor-text">
       <div
         className={cn(
-          "flex items-center gap-4 text-5xl md:text-9xl font-mono tracking-tighter transition-all duration-500 text-foreground",
+          "flex items-center gap-4 font-mono tracking-tighter transition-all duration-500 text-foreground",
+          size === "default" && "text-5xl md:text-9xl",
+          size === "compact" && "text-xl md:text-3xl",
           isEditing && "scale-105",
         )}
       >
@@ -279,23 +287,28 @@ const SpaceDateScannerDateDigits = ({
         />
       </div>
 
-      <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-mono">
-        <span
-          className={cn(
-            "transition-colors",
-            hasError ? "text-red-400" : "text-muted-foreground",
-          )}
-        >
-          {hasError
-            ? "Invalid date — check the coordinates"
-            : isEditing
-              ? "Entering coordinates..."
-              : "Click digits to type or slide below"}
-        </span>
-      </p>
+      {helperVariant !== "none" && (
+        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-mono">
+          <span
+            className={cn(
+              "transition-colors",
+              hasError ? "text-red-400" : "text-muted-foreground",
+            )}
+          >
+            {hasError
+              ? (helperTextOverride ?? "Invalid date — check the coordinates")
+              : helperTextOverride
+                ? helperTextOverride
+                : isEditing
+                  ? "Entering coordinates..."
+                  : helperVariant === "minimal"
+                    ? "Click digits to type"
+                    : "Click digits to type or slide below"}
+          </span>
+        </p>
+      )}
     </div>
   );
 };
 
 export default SpaceDateScannerDateDigits;
-
