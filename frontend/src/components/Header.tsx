@@ -19,7 +19,7 @@ export default function Header() {
 
           <div className="flex h-full items-center space-x-4">
             <Link
-              href="/create"
+              href="/configure/upload"
               className={buttonVariants({
                 variant: "space",
                 size: "sm",
