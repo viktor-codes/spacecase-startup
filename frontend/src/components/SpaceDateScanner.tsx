@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { useApodDate } from "@/hooks/useApodDate";
 
 type SpaceDateScannerProps = {
   value?: string;
@@ -14,8 +15,6 @@ type SpaceDateScannerProps = {
   className?: string;
 };
 
-const APOD_MIN_DATE = "1995-06-16";
-
 const SpaceDateScanner = ({
   value,
   onChange,
@@ -24,25 +23,18 @@ const SpaceDateScanner = ({
   loading = false,
   className,
 }: SpaceDateScannerProps) => {
-  // NASA APOD доступен с 16 июня 1995 года
-  const minDate = useMemo(() => new Date(APOD_MIN_DATE).getTime(), []);
-  const maxDate = useMemo(() => new Date().getTime(), []);
-
-  const initialTimestamp = useMemo(() => {
-    if (value) {
-      const parsed = new Date(value);
-      if (!Number.isNaN(parsed.getTime())) {
-        const ts = parsed.getTime();
-        return Math.min(Math.max(ts, minDate), maxDate);
-      }
-    }
-    return maxDate;
-  }, [value, minDate, maxDate]);
-
-  // timestamp — «зафиксированная» выбранная дата (обновляется не на каждый пиксель)
-  const [timestamp, setTimestamp] = useState(initialTimestamp);
-  // sliderValue — текущее положение ползунка (ездит плавно)
-  const [sliderValue, setSliderValue] = useState(initialTimestamp);
+  const {
+    minDate,
+    maxDate,
+    timestamp,
+    setTimestamp,
+    sliderValue,
+    setSliderValue,
+    dateString,
+    displayDate,
+    handleSliderChange,
+    commitSliderValue,
+  } = useApodDate({ value, onChange });
   const [isEditing, setIsEditing] = useState(false);
   const [manualDay, setManualDay] = useState<string | null>(null);
   const [manualMonth, setManualMonth] = useState<string | null>(null);
@@ -52,45 +44,6 @@ const SpaceDateScanner = ({
   const dayInputRef = useRef<HTMLInputElement>(null);
   const monthInputRef = useRef<HTMLInputElement>(null);
   const yearInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setTimestamp(initialTimestamp);
-    setSliderValue(initialTimestamp);
-  }, [initialTimestamp]);
-
-  // Превращаем timestamp в читаемую дату YYYY-MM-DD и пробрасываем наверх
-  const dateString = useMemo(() => {
-    const d = new Date(timestamp);
-    return d.toISOString().split("T")[0];
-  }, [timestamp]);
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(dateString);
-    }
-  }, [dateString, onChange]);
-
-  // Разделяем на сегменты для отображения
-  const displayDate = useMemo(() => {
-    const d = new Date(timestamp);
-    return {
-      day: String(d.getDate()).padStart(2, "0"),
-      month: String(d.getMonth() + 1).padStart(2, "0"),
-      year: d.getFullYear(),
-    };
-  }, [timestamp]);
-
-  // Слайдер двигает только sliderValue (для плавного движения),
-  // а timestamp (и видимая дата) обновляются при отпускании ползунка.
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(e.target.value);
-    const clamped = Math.min(Math.max(next, minDate), maxDate);
-    setSliderValue(clamped);
-  };
-
-  const commitSliderValue = () => {
-    setTimestamp(sliderValue);
-  };
 
   const handleManualPartChange =
     (part: "day" | "month" | "year") =>
@@ -178,7 +131,7 @@ const SpaceDateScanner = ({
       return;
     }
 
-    let ts = candidate.getTime();
+    const ts = candidate.getTime();
     if (ts < minDate || ts > maxDate) {
       setHasError(true);
       return;
