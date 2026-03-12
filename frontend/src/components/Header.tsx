@@ -21,6 +21,7 @@ export default function Header() {
             <Link
               href="/create"
               className={buttonVariants({
+                variant: "space",
                 size: "sm",
                 className: "hidden sm:flex items-center gap-1",
               })}

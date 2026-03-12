@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useApodDate } from "@/hooks/useApodDate";
 import SpaceDateScannerDateDigits from "@/components/SpaceDateScannerDateDigits";
 import SpaceDateScannerTimeline from "@/components/SpaceDateScannerTimeline";
+import { Button } from "@/components/ui/button";
 
 type SpaceDateScannerProps = {
   value?: string;
@@ -150,13 +151,15 @@ const SpaceDateScanner = ({
         }}
       />
 
-      {/* 3. КНОПКА ПОИСКА (ОПЦИОНАЛЬНО) — запрос в NASA только по клику */}
+      {/* 3. КНОПКА ПОИСКА (ОПЦИОНАЛЬНО) — запрос в NASA по клику или Enter */}
       {showPrimaryButton && (
-        <button
+        <Button
           type="button"
           disabled={loading}
           onClick={handleSubmitClick}
-          className="group cursor-pointer relative px-12 py-5 bg-foreground text-background rounded-2xl font-bold text-xl transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] disabled:opacity-60 disabled:pointer-events-none"
+          variant="space"
+          size="hero"
+          className="group cursor-pointer relative"
         >
           <span className="relative z-10 flex items-center gap-3">
             {loading ? "Loading..." : "Reveal the Universe"}
@@ -169,7 +172,7 @@ const SpaceDateScanner = ({
               </motion.span>
             )}
           </span>
-        </button>
+        </Button>
       )}
     </div>
   );
