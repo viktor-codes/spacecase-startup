@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { useApodDate } from "@/hooks/useApodDate";
+import SpaceDateScannerDateDigits from "@/components/SpaceDateScannerDateDigits";
 
 type SpaceDateScannerProps = {
   value?: string;
@@ -40,59 +41,6 @@ const SpaceDateScanner = ({
   const [manualMonth, setManualMonth] = useState<string | null>(null);
   const [manualYear, setManualYear] = useState<string | null>(null);
   const [hasError, setHasError] = useState(false);
-
-  const dayInputRef = useRef<HTMLInputElement>(null);
-  const monthInputRef = useRef<HTMLInputElement>(null);
-  const yearInputRef = useRef<HTMLInputElement>(null);
-
-  const handleManualPartChange =
-    (part: "day" | "month" | "year") =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value.replace(/\D/g, "");
-
-      if (part === "year") {
-        const value = raw.slice(0, 4);
-        if (!value) {
-          setManualYear(null);
-          return;
-        }
-        setManualYear(value);
-        // Проверяем год только на коммите, чтобы не мешать вводу
-      } else {
-        const value = raw.slice(0, 2);
-        if (part === "day") {
-          if (!value) {
-            setManualDay(null);
-            return;
-          }
-          const num = Number(value);
-          if (Number.isNaN(num) || num < 1 || num > 31) {
-            // Не даём ввести заведомо неверный день
-            return;
-          }
-          setManualDay(value);
-          if (value.length === 2 && monthInputRef.current) {
-            monthInputRef.current.focus();
-            monthInputRef.current.select();
-          }
-        } else {
-          if (!value) {
-            setManualMonth(null);
-            return;
-          }
-          const num = Number(value);
-          if (Number.isNaN(num) || num < 1 || num > 12) {
-            // Не даём ввести заведомо неверный месяц
-            return;
-          }
-          setManualMonth(value);
-          if (value.length === 2 && yearInputRef.current) {
-            yearInputRef.current.focus();
-            yearInputRef.current.select();
-          }
-        }
-      }
-    };
 
   const commitManualInput = (options?: { submit?: boolean }) => {
     const dayString = manualDay ?? displayDate.day;
@@ -170,243 +118,20 @@ const SpaceDateScanner = ({
       )}
     >
       {/* 1. ГИГАНТСКИЕ ЦИФРЫ (РУЧНОЙ ВВОД) */}
-      <div className="relative group cursor-text">
-        <div
-          className={cn(
-            "flex items-center gap-4 text-5xl md:text-9xl font-mono tracking-tighter transition-all duration-500 text-foreground",
-            isEditing && "scale-105",
-          )}
-        >
-          <input
-            ref={dayInputRef}
-            type="text"
-            inputMode="numeric"
-            maxLength={2}
-            aria-label="Day"
-            placeholder="DD"
-            className="[font-variation-settings:'MONO'_1] w-[2ch] bg-transparent border-none outline-none text-current text-center cursor-text"
-            value={manualDay ?? displayDate.day}
-            onChange={handleManualPartChange("day")}
-            onFocus={() => {
-              setIsEditing(true);
-              setHasError(false);
-              // При первом входе в режим редактирования очищаем все поля,
-              // чтобы показать плейсхолдеры DD MM YYYY
-              if (
-                manualDay === null &&
-                manualMonth === null &&
-                manualYear === null
-              ) {
-                setManualDay("");
-                setManualMonth("");
-                setManualYear("");
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitManualInput({ submit: true });
-              }
-              if (e.key === "Escape") {
-                e.preventDefault();
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setHasError(false);
-                setIsEditing(false);
-              }
-              if (e.key === "ArrowRight" && monthInputRef.current) {
-                e.preventDefault();
-                monthInputRef.current.focus();
-                monthInputRef.current.select();
-              }
-            }}
-            onBlur={(e) => {
-              const related = e.relatedTarget as HTMLElement | null;
-              if (
-                manualDay === "" &&
-                manualMonth === "" &&
-                manualYear === ""
-              ) {
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setIsEditing(false);
-                setHasError(false);
-                return;
-              }
-              if (
-                !related ||
-                (related !== monthInputRef.current &&
-                  related !== yearInputRef.current)
-              ) {
-                if (manualDay || manualMonth || manualYear) {
-                  commitManualInput();
-                }
-                setIsEditing(false);
-              }
-            }}
-          />
-          <span className="opacity-20">/</span>
-          <input
-            ref={monthInputRef}
-            type="text"
-            inputMode="numeric"
-            maxLength={2}
-            aria-label="Month"
-            placeholder="MM"
-            className="[font-variation-settings:'MONO'_1] w-[2ch] bg-transparent border-none outline-none text-current text-center cursor-text"
-            value={manualMonth ?? displayDate.month}
-            onChange={handleManualPartChange("month")}
-            onFocus={() => {
-              setIsEditing(true);
-              setHasError(false);
-              if (
-                manualDay === null &&
-                manualMonth === null &&
-                manualYear === null
-              ) {
-                setManualDay("");
-                setManualMonth("");
-                setManualYear("");
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitManualInput({ submit: true });
-              }
-              if (e.key === "Escape") {
-                e.preventDefault();
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setHasError(false);
-                setIsEditing(false);
-              }
-              if (e.key === "ArrowLeft" && dayInputRef.current) {
-                e.preventDefault();
-                dayInputRef.current.focus();
-                dayInputRef.current.select();
-              }
-              if (e.key === "ArrowRight" && yearInputRef.current) {
-                e.preventDefault();
-                yearInputRef.current.focus();
-                yearInputRef.current.select();
-              }
-            }}
-            onBlur={(e) => {
-              const related = e.relatedTarget as HTMLElement | null;
-              if (
-                manualDay === "" &&
-                manualMonth === "" &&
-                manualYear === ""
-              ) {
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setIsEditing(false);
-                setHasError(false);
-                return;
-              }
-              if (
-                !related ||
-                (related !== dayInputRef.current &&
-                  related !== yearInputRef.current)
-              ) {
-                if (manualDay || manualMonth || manualYear) {
-                  commitManualInput();
-                }
-                setIsEditing(false);
-              }
-            }}
-          />
-          <span className="opacity-20">/</span>
-          <input
-            ref={yearInputRef}
-            type="text"
-            inputMode="numeric"
-            maxLength={4}
-            aria-label="Year"
-            placeholder="YYYY"
-            className="[font-variation-settings:'MONO'_1] w-[4ch] bg-transparent border-none outline-none text-current text-center cursor-text"
-            value={manualYear ?? String(displayDate.year)}
-            onChange={handleManualPartChange("year")}
-            onFocus={() => {
-              setIsEditing(true);
-              setHasError(false);
-              if (
-                manualDay === null &&
-                manualMonth === null &&
-                manualYear === null
-              ) {
-                setManualDay("");
-                setManualMonth("");
-                setManualYear("");
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitManualInput({ submit: true });
-              }
-              if (e.key === "Escape") {
-                e.preventDefault();
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setHasError(false);
-                setIsEditing(false);
-              }
-              if (e.key === "ArrowLeft" && monthInputRef.current) {
-                e.preventDefault();
-                monthInputRef.current.focus();
-                monthInputRef.current.select();
-              }
-            }}
-            onBlur={(e) => {
-              const related = e.relatedTarget as HTMLElement | null;
-              if (
-                manualDay === "" &&
-                manualMonth === "" &&
-                manualYear === ""
-              ) {
-                setManualDay(null);
-                setManualMonth(null);
-                setManualYear(null);
-                setIsEditing(false);
-                setHasError(false);
-                return;
-              }
-              if (
-                !related ||
-                (related !== dayInputRef.current &&
-                  related !== monthInputRef.current)
-              ) {
-                if (manualDay || manualMonth || manualYear) {
-                  commitManualInput();
-                }
-                setIsEditing(false);
-              }
-            }}
-          />
-        </div>
-
-        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-mono">
-          <span
-            className={cn(
-              "transition-colors",
-              hasError ? "text-red-400" : "text-muted-foreground",
-            )}
-          >
-            {hasError
-              ? "Invalid date — check the coordinates"
-              : isEditing
-                ? "Entering coordinates..."
-                : "Click digits to type or slide below"}
-          </span>
-        </p>
-      </div>
+      <SpaceDateScannerDateDigits
+        displayDate={displayDate}
+        manualDay={manualDay}
+        manualMonth={manualMonth}
+        manualYear={manualYear}
+        isEditing={isEditing}
+        hasError={hasError}
+        setManualDay={setManualDay}
+        setManualMonth={setManualMonth}
+        setManualYear={setManualYear}
+        setIsEditing={setIsEditing}
+        setHasError={setHasError}
+        onCommit={commitManualInput}
+      />
 
       {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
       <div
