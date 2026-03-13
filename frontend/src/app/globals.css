@@ -26,6 +26,10 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
+  --color-brand: #4A325E;
+  --color-brand-light: #F5F0F9;
+  --color-brand-foreground: #ffffff;
+
   /* Recursive как базовый шрифт */
   --font-sans: var(--font-recursive), ui-sans-serif, system-ui;
   --font-mono:
@@ -35,6 +39,8 @@
   --font-casual: "CASL" 1;
   --font-strict: "CASL" 0;
   --font-code: "MONO" 1;
+
+  --font-variation-mono: "MONO" 1, "CASL" 0;
 }
 
 @layer utilities {
@@ -61,6 +67,10 @@
   /* Плавное появление карточек отзывов */
   .animate-fade-in {
     animation: reviews-fade-in 700ms ease forwards;
+  }
+
+  .font-technical {
+    font-variation-settings: "MONO" 1, "CASL" 0;
   }
 }
 

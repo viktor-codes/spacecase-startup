@@ -73,9 +73,9 @@ const specs = [
 
 const TechnicalExcellenceSection = () => {
   return (
-    <Section>
+    <Section className="bg-brand-light/60">
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
           Anatomy of a SpaceCase
         </p>
         <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
@@ -123,8 +123,8 @@ const TechnicalExcellenceSection = () => {
               className="rounded-2xl border border-slate-200 bg-white/60 p-5 shadow-sm backdrop-blur-sm text-left"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#4A325E]/10">
-                  <spec.icon className="h-4 w-4 text-[#4A325E]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/10">
+                  <spec.icon className="h-4 w-4 text-brand" />
                 </div>
                 <h3 className="text-sm font-semibold text-slate-900">
                   {spec.title}

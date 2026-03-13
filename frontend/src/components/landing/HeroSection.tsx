@@ -1,90 +1,93 @@
 import Image from "next/image";
-import { Check, Star } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Star } from "lucide-react";
 
 import Section from "@/components/Section";
 import FloatingCase from "@/components/FloatingCase";
+import { buttonVariants } from "@/components/ui/button";
+
+const features = [
+  "NASA APOD — curated since 1995",
+  "AI-restored to 300+ DPI",
+  "Dual-layer Tough case",
+];
 
 const HeroSection = () => {
   return (
     <Section containerClassName="lg:grid lg:grid-cols-3 lg:gap-x-0 xl:gap-x-8 mt-0 lg:mt-20">
       <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
         <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
-          <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold leading-tight! text-grey-900 text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold leading-[1.1]! text-gray-900 text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
             The sky remembers.{" "}
-            <span className="bg-[#4A325E] px-2 text-white">Carry it.</span>
+            <span className="bg-brand px-2 text-brand-foreground">
+              Carry it.
+            </span>
           </h1>
-          <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
+
+          <p className="mt-8 text-lg lg:text-xl lg:pr-10 max-w-prose text-center lg:text-left text-balance text-slate-600">
             Pick a date that changed your world. We find NASA&apos;s Astronomy
             Picture of the Day from that exact moment, restore it with AI to
             print-grade resolution, and place it on a dual-layer phone case
             you&apos;ll never want to put down.
           </p>
-          <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
-            <div className="space-y-2">
-              <li className="flex gap-1.5 items-center text-left">
-                <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                NASA&apos;s Astronomy Picture of the Day — curated since 1995
-              </li>
-              <li className="flex gap-1.5 items-center text-left">
-                <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                AI-restored to 300+ DPI print resolution
-              </li>
-              <li className="flex gap-1.5 items-center text-left">
-                <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                Dual-layer Tough case — built to protect, designed to inspire
-              </li>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+            {features.map((f) => (
+              <span
+                key={f}
+                className="inline-flex items-center rounded-full bg-brand/5 px-3.5 py-1.5 text-xs font-medium text-brand font-technical tracking-wide"
+              >
+                {f}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <Link
+              href="/configure/upload"
+              className={buttonVariants({
+                variant: "space",
+                size: "lg",
+                className: "px-8 py-3 text-base",
+              })}
+            >
+              Discover My Sky
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+            <a
+              href="#how-it-works"
+              className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors py-3"
+            >
+              See how it works
+            </a>
+          </div>
+
+          <div className="mt-8 flex items-center gap-3 text-sm text-slate-500">
+            <div className="flex -space-x-2.5">
+              {[1, 5, 4, 3, 2].map((n) => (
+                <Image
+                  key={n}
+                  src={`/avatar-${n}.png`}
+                  alt="customer"
+                  width={28}
+                  height={28}
+                  className="inline-block h-7 w-7 rounded-full ring-2 ring-white"
+                />
+              ))}
             </div>
-          </ul>
-          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5">
-            <div className="flex -space-x-4">
-              <Image
-                src="/avatar-1.png"
-                alt="user avatar"
-                width={40}
-                height={40}
-                className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-              />
-              <Image
-                src="/avatar-5.png"
-                alt="user avatar"
-                width={40}
-                height={40}
-                className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-              />
-              <Image
-                src="/avatar-4.png"
-                alt="user avatar"
-                width={40}
-                height={40}
-                className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-              />
-              <Image
-                src="/avatar-3.png"
-                alt="user avatar"
-                width={40}
-                height={40}
-                className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-              />
-              <Image
-                src="/avatar-2.png"
-                alt="user avatar"
-                width={40}
-                height={40}
-                className="inline-block h-10 w-10 rounded-full ring-2 ring-slate-100"
-              />
-            </div>
-            <div className="flex flex-col justify-between items-center sm:items-start">
+            <div className="flex items-center gap-1.5">
               <div className="flex gap-0.5">
-                <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
-                <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
-                <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
-                <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
-                <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-3 w-3 text-yellow-400 fill-yellow-400"
+                  />
+                ))}
               </div>
-              <p>
-                <span className="font-semibold">1.250 </span>
+              <span className="text-xs">
+                <span className="font-semibold text-slate-700">1,250+</span>{" "}
                 happy customers
-              </p>
+              </span>
             </div>
           </div>
         </div>

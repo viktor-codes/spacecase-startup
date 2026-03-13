@@ -10,7 +10,7 @@ export default function Header() {
       <Container>
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 z-40">
-            <img src="/newlogo.svg" alt="SpaceCase" className="h-48 w-auto" />
+            <img src="/newlogo.svg" alt="SpaceCase" className="h-7 w-auto" />
           </Link>
 
           <div className="flex h-full items-center space-x-4">

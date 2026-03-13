@@ -18,7 +18,7 @@ const FinalCTASection = () => {
     <Section className="relative bg-slate-950 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
       <div className="px-6 lg:px-8 mx-auto max-w-3xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
           Your moment, your universe
         </p>
         <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">

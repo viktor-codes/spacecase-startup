@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
 import Section from "@/components/Section";
@@ -47,7 +48,7 @@ const AIRestorationSection = () => {
     <Section className="relative bg-slate-950 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
           AI restoration
         </p>
         <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
@@ -70,10 +71,13 @@ const AIRestorationSection = () => {
           onPointerUp={handlePointerUp}
         >
           {/* After (AI-Restored) — full layer behind */}
-          <img
+          <Image
             src={COMPARISON_IMAGE}
             alt="AI-restored NASA image"
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            sizes="(min-width: 1024px) 768px, 100vw"
+            quality={75}
+            className="object-cover"
             draggable={false}
           />
 
@@ -82,10 +86,13 @@ const AIRestorationSection = () => {
             className="absolute inset-0 overflow-hidden"
             style={{ width: `${sliderPosition}%` }}
           >
-            <img
+            <Image
               src={COMPARISON_IMAGE}
               alt="Original NASA archive image"
-              className="absolute inset-0 h-full w-full object-cover blur-[2px] brightness-75 saturate-50 contrast-75"
+              fill
+              sizes="(min-width: 1024px) 768px, 100vw"
+              quality={75}
+              className="object-cover blur-[2px] brightness-75 saturate-50 contrast-75"
               style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
               draggable={false}
             />

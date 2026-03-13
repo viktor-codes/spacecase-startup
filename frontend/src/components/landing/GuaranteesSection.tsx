@@ -30,10 +30,10 @@ const GuaranteesSection = () => {
   return (
     <Section>
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
           Guarantees & delivery
         </p>
-        <h2 className="mt-4 tracking-tight text-balance !leading-tight font-bold text-4xl md:text-5xl text-gray-900">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
           Safe purchase, predictable delivery
         </h2>
         <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto">

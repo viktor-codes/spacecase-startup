@@ -6,17 +6,17 @@ import { Reviews } from "@/components/Reviews";
 
 const TestimonialsSection = () => {
   return (
-    <Section>
+    <Section className="bg-slate-50">
       <div className="flex flex-col items-center gap-16 sm:gap-32">
         <div className="flex flex-col items-center gap-4 sm:gap-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
             Trusted by space enthusiasts
           </p>
           <h2 className="mt-2 tracking-tight text-center text-balance leading-tight! font-bold text-5xl md:text-6xl text-gray-900">
             What our{" "}
             <span className="relative px-2">
               customers{" "}
-              <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-[#4A325E]" />
+              <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-brand" />
             </span>{" "}
             say
           </h2>
@@ -51,7 +51,7 @@ const TestimonialsSection = () => {
               <div className="flex flex-col">
                 <p className="font-semibold">Orla</p>
                 <div className="flex gap-1.5 items-center text-zinc-600">
-                  <Check className="h-4 w-4 stroke-[3px] text-[#4A325E]" />
+                  <Check className="h-4 w-4 stroke-[3px] text-brand" />
                   <p className="text-sm">Verified Customer</p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const TestimonialsSection = () => {
               <div className="flex flex-col">
                 <p className="font-semibold">Josh</p>
                 <div className="flex gap-1.5 items-center text-zinc-600">
-                  <Check className="h-4 w-4 stroke-[3px] text-[#4A325E]" />
+                  <Check className="h-4 w-4 stroke-[3px] text-brand" />
                   <p className="text-sm">Verified Customer</p>
                 </div>
               </div>

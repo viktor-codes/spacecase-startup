@@ -395,7 +395,7 @@ export default function ConfigureUploadPageClient({
                     className={cn(
                       "flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
                       shipping === key
-                        ? "border-[#4A325E] bg-[#4A325E]/5 ring-1 ring-[#4A325E]/20"
+                        ? "border-brand bg-brand/5 ring-1 ring-brand/20"
                         : "border-slate-200 hover:border-slate-300",
                     )}
                   >
@@ -403,7 +403,7 @@ export default function ConfigureUploadPageClient({
                       className={cn(
                         "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
                         shipping === key
-                          ? "border-[#4A325E] bg-[#4A325E]"
+                          ? "border-brand bg-brand"
                           : "border-slate-300",
                       )}
                     >
@@ -475,7 +475,7 @@ export default function ConfigureUploadPageClient({
                     key={item}
                     className="flex items-center gap-2"
                   >
-                    <Check className="h-3 w-3 shrink-0 text-[#4A325E]" />
+                    <Check className="h-3 w-3 shrink-0 text-brand" />
                     <span className="font-mono text-[11px] text-slate-600">
                       {item}
                     </span>

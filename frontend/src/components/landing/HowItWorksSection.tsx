@@ -1,78 +1,123 @@
-import {
-  ArrowRight,
-  Binoculars,
-  CalendarHeart,
-  Paintbrush,
-  ShoppingBasket,
-} from "lucide-react";
+import { ArrowRight, CalendarHeart, Sparkles, Printer, Package } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import Section from "@/components/Section";
 import Phone from "@/components/Phone";
 import { buttonVariants } from "@/components/ui/button";
 
+const steps = [
+  {
+    number: "01",
+    icon: CalendarHeart,
+    title: "Pick your date",
+    description:
+      "Enter a birthday, anniversary, or any date that shifted your orbit. We'll find the exact NASA Astronomy Picture of the Day from that moment.",
+  },
+  {
+    number: "02",
+    icon: Sparkles,
+    title: "AI restores every pixel",
+    description:
+      "Our neural network reconstructs the archive image to 300+ DPI — recovering detail, sharpening edges, and calibrating color depth for print.",
+  },
+  {
+    number: "03",
+    icon: Printer,
+    title: "Printed edge-to-edge",
+    description:
+      "UV-cured ink on a dual-layer Tough case. Colors are tuned for the exact material, so deep blacks stay deep and nebulas stay vivid.",
+  },
+  {
+    number: "04",
+    icon: Package,
+    title: "Shipped with tracking",
+    description:
+      "Production takes 3–5 business days. Every SpaceCase ships with full tracking so you know exactly when the cosmos arrives.",
+  },
+];
+
 const HowItWorksSection = () => {
   return (
-    <Section>
-      <div className="mb-12 px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-            From a date to your hands —{" "}
-            <span className="relative px-2 bg-[#4A325E] text-white">
-              in 4 steps
-            </span>
-          </h2>
-        </div>
+    <Section className="scroll-mt-20" containerClassName="relative" as="section">
+      <div id="how-it-works" className="absolute -top-24" />
+
+      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
+          How it works
+        </p>
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
+          From a date to your hands —{" "}
+          <span className="bg-brand px-2 text-brand-foreground">in 4 steps</span>
+        </h2>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40">
-          <img
-            src="/arrow.png"
-            className="absolute top-[25rem] md:top-1/2 -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"
-          />
+      <div className="mt-16 mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center">
+          {/* Visual: source → case */}
+          <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center lg:flex-col">
+            <div className="relative w-56 sm:w-48 lg:w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-gray-900/10">
+              <Image
+                src="/rosette-cone.jpg"
+                alt="NASA Rosette Cone Nebula — original archive"
+                width={480}
+                height={480}
+                quality={75}
+                className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent px-3 py-2">
+                <p className="font-technical text-[10px] uppercase tracking-[0.15em] text-white/80">
+                  NASA APOD · Archive
+                </p>
+              </div>
+            </div>
 
-          <div className="relative h-80 md:h-full w-full md:justify-self-end max-w-sm rounded-xl bg-gray-900/5 ring-inset ring-gray-900/10 lg:rounded-2xl">
-            <img
-              src="/rosette-cone.jpg"
-              className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
-            />
+            <div className="text-slate-300 text-2xl select-none hidden sm:block lg:rotate-90">
+              →
+            </div>
+
+            <Phone className="w-48 lg:w-56" imgSrc="/rosette-cone.jpg" dark />
           </div>
 
-          <Phone className="w-60" imgSrc="/rosette-cone.jpg" />
+          {/* Steps */}
+          <div className="relative">
+            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-slate-200 hidden sm:block" />
+            <div className="space-y-8">
+              {steps.map((step) => (
+                <div key={step.number} className="relative flex gap-5">
+                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                    <step.icon className="h-4 w-4" />
+                  </div>
+                  <div className="pt-1">
+                    <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      Step {step.number}
+                    </p>
+                    <h3 className="mt-1 text-base font-semibold text-slate-900">
+                      {step.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
-        <li className="w-fit">
-          <CalendarHeart className="h-5 w-5 text-[#4A325E] inline mr-1.5" />|
-          Choose a meaningful date that matters to you
-        </li>
-        <li className="w-fit">
-          <Binoculars className="h-5 w-5 text-[#4A325E] inline mr-1.5" />|
-          Discover the perfect NASA image from that day
-        </li>
-        <li className="w-fit">
-          <Paintbrush className="h-5 w-5 text-[#4A325E] inline mr-1.5" />|
-          Personalize it with your unique design choices
-        </li>
-        <li className="w-fit">
-          <ShoppingBasket className="h-5 w-5 text-[#4A325E] inline mr-1.5" />|
-          Submit your order, and let us handle the magic
-        </li>
-
-        <div className="flex justify-center">
-          <Link
-            className={buttonVariants({
-              size: "lg",
-              className: "mx-auto mt-8",
-            })}
-            href="/configure/upload"
-          >
-            Find Your Sky <ArrowRight className="h-4 w-4 ml-1.5" />
-          </Link>
-        </div>
-      </ul>
+      <div className="mt-12 flex justify-center">
+        <Link
+          className={buttonVariants({
+            variant: "space",
+            size: "lg",
+            className: "px-8",
+          })}
+          href="/configure/upload"
+        >
+          Find Your Sky <ArrowRight className="h-4 w-4 ml-1.5" />
+        </Link>
+      </div>
     </Section>
   );
 };
