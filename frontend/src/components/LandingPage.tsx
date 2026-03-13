@@ -2,7 +2,7 @@
 
 import HeroSection from "@/components/landing/HeroSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
-import QualitySection from "@/components/landing/QualitySection";
+import TechnicalExcellenceSection from "@/components/landing/TechnicalExcellenceSection";
 import StoriesSection from "@/components/landing/StoriesSection";
 import TryNowSection from "@/components/landing/TryNowSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
@@ -15,7 +15,7 @@ const LandingPage = () => {
     <div className="grain-dark">
       <HeroSection />
       <HowItWorksSection />
-      <QualitySection />
+      <TechnicalExcellenceSection />
       <StoriesSection />
       <TryNowSection />
       <TestimonialsSection />

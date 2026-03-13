@@ -56,7 +56,13 @@ export default function FloatingCase({ imgSrc, className }: FloatingCaseProps) {
             imgSrc={imgSrc}
             dark={true}
           /> */}
-          <Image src="/try.svg" alt="phone template" width={300} height={300} />
+          <Image
+            src="/try.svg"
+            alt="phone template"
+            width={300}
+            height={300}
+            className="animate-float"
+          />
         </div>
       </div>
     </div>
