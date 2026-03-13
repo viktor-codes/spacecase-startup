@@ -9,24 +9,6 @@ const HeroSection = () => {
     <Section containerClassName="lg:grid lg:grid-cols-3 lg:gap-x-0 xl:gap-x-8 mt-0 lg:mt-20">
       <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
         <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
-          <div className="mb-6 w-36 sm:w-40 lg:hidden">
-            <Image
-              src="/logo.png"
-              alt="funny astronaut"
-              width={160}
-              height={160}
-              className="w-full animate-float mx-auto -mt-8"
-            />
-          </div>
-          <div className="absolute w-52 left-0 -top-32 hidden lg:block">
-            <Image
-              src="/logo.png"
-              alt="funny astronaut"
-              width={208}
-              height={208}
-              className="w-full animate-float"
-            />
-          </div>
           <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold leading-tight! text-grey-900 text-5xl md:text-6xl lg:text-7xl">
             The sky remembers.{" "}
             <span className="bg-[#4A325E] px-2 text-white">Carry it.</span>
@@ -110,22 +92,7 @@ const HeroSection = () => {
 
       <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit">
         <div className="relative md:max-w-xl">
-          <Image
-            src="/your-image.png"
-            alt="case detail"
-            width={208}
-            height={208}
-            className="absolute w-40 lg:w-52 left-56 -top-20 select-none hidden sm:block lg:hidden xl:block"
-          />
-          <Image
-            src="/line.png"
-            alt=""
-            width={80}
-            height={80}
-            className="absolute w-20 -left-6 -bottom-6 select-none"
-          />
           <FloatingCase imgSrc="/nebula.png" />
-          {/* <Image src="/try.svg" alt="phone template" width={300} height={300} /> */}
         </div>
       </div>
     </Section>

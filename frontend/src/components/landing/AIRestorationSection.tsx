@@ -44,7 +44,8 @@ const AIRestorationSection = () => {
   }, []);
 
   return (
-    <Section className="bg-slate-950 grain-dark">
+    <Section className="relative bg-slate-950 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
           AI restoration

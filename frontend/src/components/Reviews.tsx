@@ -156,12 +156,6 @@ function ReviewGrid() {
 export function Reviews() {
   return (
     <Container className="relative max-w-5xl">
-      <img
-        aria-hidden="true"
-        src="/your-des.png"
-        className="absolute select-none hidden xl:block -left-96 top-1/5"
-      />
-
       <ReviewGrid />
     </Container>
   );

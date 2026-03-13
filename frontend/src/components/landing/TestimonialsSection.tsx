@@ -8,8 +8,11 @@ const TestimonialsSection = () => {
   return (
     <Section>
       <div className="flex flex-col items-center gap-16 sm:gap-32">
-        <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
-          <h2 className="order-1 mt-2 tracking-tight text-center text-balance leading-tight! font-bold text-5xl md:text-6xl text-gray-900">
+        <div className="flex flex-col items-center gap-4 sm:gap-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Trusted by space enthusiasts
+          </p>
+          <h2 className="mt-2 tracking-tight text-center text-balance leading-tight! font-bold text-5xl md:text-6xl text-gray-900">
             What our{" "}
             <span className="relative px-2">
               customers{" "}
@@ -17,7 +20,6 @@ const TestimonialsSection = () => {
             </span>{" "}
             say
           </h2>
-          <img src="/astro-write.png" className="w-48 order-0 lg:order-2" />
         </div>
 
         <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
