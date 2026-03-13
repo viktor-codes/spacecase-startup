@@ -2,24 +2,22 @@
 
 import HeroSection from "@/components/landing/HeroSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import QualitySection from "@/components/landing/QualitySection";
 import StoriesSection from "@/components/landing/StoriesSection";
 import TryNowSection from "@/components/landing/TryNowSection";
-import QualitySection from "@/components/landing/QualitySection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import GuaranteesSection from "@/components/landing/GuaranteesSection";
 import FAQSection from "@/components/landing/FAQSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
-import SpaceDateScanner from "./SpaceDateScanner";
 
 const LandingPage = () => {
   return (
     <div className="grain-dark">
       <HeroSection />
-      <StoriesSection />
-      <TryNowSection />
-
       <HowItWorksSection />
       <QualitySection />
+      <StoriesSection />
+      <TryNowSection />
       <TestimonialsSection />
       <GuaranteesSection />
       <FAQSection />
