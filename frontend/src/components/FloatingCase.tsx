@@ -46,7 +46,7 @@ export default function FloatingCase({ imgSrc, className }: FloatingCaseProps) {
         </div>
 
         <div
-          className="transform-gpu transform-3d transition-transform duration-150 ease-out"
+          className="transform transform-3d transition-transform duration-150 ease-out"
           style={{
             transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(16px)`,
           }}
