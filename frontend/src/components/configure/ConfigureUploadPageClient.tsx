@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { Check } from "lucide-react";
 
 import Container from "@/components/Container";
 import Phone from "@/components/Phone";
@@ -21,7 +22,25 @@ const SpaceDateScanner = dynamic(
   },
 );
 
-const DEVICE_PRICE_EUR = 39;
+type ShippingOption = "standard" | "express";
+
+const SHIPPING_OPTIONS: Record<
+  ShippingOption,
+  { label: string; price: number; description: string; delivery: string }
+> = {
+  standard: {
+    label: "Standard Delivery",
+    price: 39,
+    description: "Tracked postal service",
+    delivery: "7–12 business days",
+  },
+  express: {
+    label: "Priority Galactic Launch",
+    price: 49,
+    description: "DHL/DPD tracked courier · Priority processing",
+    delivery: "2–4 business days",
+  },
+};
 
 const PHONE_MODELS: string[] = [
   "iPhone 16 Pro Max",
@@ -93,17 +112,21 @@ export default function ConfigureUploadPageClient({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
+  const [shipping, setShipping] = useState<ShippingOption>("standard");
 
   const hasImage = apod && apod.media_type === "image" && apod.url;
 
-  const formattedPrice = useMemo(
+  const euroFormatter = useMemo(
     () =>
       new Intl.NumberFormat("de-DE", {
         style: "currency",
         currency: "EUR",
-      }).format(DEVICE_PRICE_EUR),
+      }),
     [],
   );
+
+  const totalPrice = SHIPPING_OPTIONS[shipping].price;
+  const formattedPrice = euroFormatter.format(totalPrice);
 
   useEffect(() => {
     if (!initialDate) return;
@@ -147,12 +170,12 @@ export default function ConfigureUploadPageClient({
   };
 
   const handleAddToCart = () => {
-    // TODO: интеграция с корзиной
-    // Пока просто логируем выбор, чтобы не ломать UX.
-
+    // TODO: cart integration
     console.log("Add to cart", {
       date: selectedDate,
       deviceModel,
+      shipping,
+      totalPrice,
       apod,
     });
   };
@@ -161,7 +184,7 @@ export default function ConfigureUploadPageClient({
     <div className="grain-dark min-h-[calc(100vh-56px)] py-10">
       <Container className="h-full">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12">
-          {/* Левая сцена: заголовок + телефон, закреплённый на экране */}
+          {/* Left scene: title + phone, sticky on screen */}
           <div className="flex flex-col gap-10 lg:sticky lg:top-20 lg:h-[calc(100vh-120px)]">
             <div className="max-w-xl">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
@@ -190,9 +213,9 @@ export default function ConfigureUploadPageClient({
             </div>
           </div>
 
-          {/* Правая колонка: вертикальный стек модулей */}
+          {/* Right column: vertical module stack */}
           <div className="flex flex-col gap-6 pb-8">
-            {/* Модуль 1: сканер даты (компактный) */}
+            {/* Module 1: Date scanner */}
             <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
@@ -234,7 +257,7 @@ export default function ConfigureUploadPageClient({
               )}
             </section>
 
-            {/* Модуль 2: превью изображения + метаданные */}
+            {/* Module 2: Image preview + metadata */}
             <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
               <div className="flex items-center justify-between">
                 <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
@@ -294,9 +317,21 @@ export default function ConfigureUploadPageClient({
                   </p>
                 </div>
               </div>
+
+              {hasImage && (
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mt-3 text-center text-sm italic leading-relaxed text-slate-500"
+                >
+                  On this day, the light you see traveled millions of years to
+                  reach Earth — and now it&apos;s yours.
+                </motion.p>
+              )}
             </section>
 
-            {/* Модуль 3: конфигурация устройства */}
+            {/* Module 3: Device configuration */}
             <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
               <div className="flex items-center justify-between">
                 <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
@@ -340,12 +375,69 @@ export default function ConfigureUploadPageClient({
               </div>
             </section>
 
-            {/* Модуль 4: итог заказа */}
+            {/* Module 4: Delivery options */}
+            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+                04 · Delivery
+              </h2>
+
+              <div className="space-y-3">
+                {(
+                  Object.entries(SHIPPING_OPTIONS) as [
+                    ShippingOption,
+                    (typeof SHIPPING_OPTIONS)[ShippingOption],
+                  ][]
+                ).map(([key, option]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setShipping(key)}
+                    className={cn(
+                      "flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
+                      shipping === key
+                        ? "border-[#4A325E] bg-[#4A325E]/5 ring-1 ring-[#4A325E]/20"
+                        : "border-slate-200 hover:border-slate-300",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
+                        shipping === key
+                          ? "border-[#4A325E] bg-[#4A325E]"
+                          : "border-slate-300",
+                      )}
+                    >
+                      {shipping === key && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-white" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-baseline justify-between">
+                        <p className="font-mono text-sm font-semibold text-slate-900">
+                          {option.label}
+                        </p>
+                        <p className="font-mono text-sm font-semibold text-slate-900">
+                          {euroFormatter.format(option.price)}
+                        </p>
+                      </div>
+                      <p className="mt-0.5 font-mono text-[11px] text-slate-500">
+                        {option.description}
+                      </p>
+                      <p className="font-mono text-[11px] text-slate-500">
+                        {option.delivery}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Module 5: Order summary */}
             <section className="sticky bottom-4 mt-auto space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div className="space-y-1">
                   <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
-                    04 · Order summary
+                    05 · Order summary
                   </p>
                   <p className="font-mono text-sm text-slate-900">
                     {deviceModel || "Select your device"}
@@ -365,6 +457,30 @@ export default function ConfigureUploadPageClient({
                     {formattedPrice}
                   </p>
                 </div>
+              </div>
+
+              <div className="space-y-1.5 border-t border-slate-100 pt-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                  What&apos;s included
+                </p>
+                {[
+                  "NASA APOD image for your exact date",
+                  "AI reconstruction to 300+ DPI",
+                  "Dual-layer Tough case (PC + TPU)",
+                  "Full-wrap edge-to-edge print",
+                  "Fade-resistant UV ink",
+                  SHIPPING_OPTIONS[shipping].label,
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2"
+                  >
+                    <Check className="h-3 w-3 shrink-0 text-[#4A325E]" />
+                    <span className="font-mono text-[11px] text-slate-600">
+                      {item}
+                    </span>
+                  </div>
+                ))}
               </div>
 
               <Button
