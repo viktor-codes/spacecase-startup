@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import Phone from "@/components/Phone";
-
+import Image from "next/image";
 type FloatingCaseProps = {
   imgSrc: string;
   className?: string;
@@ -51,11 +51,12 @@ export default function FloatingCase({ imgSrc, className }: FloatingCaseProps) {
             transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(16px)`,
           }}
         >
-          <Phone
+          {/* <Phone
             className="w-64 sm:w-72 drop-shadow-2xl"
             imgSrc={imgSrc}
             dark={true}
-          />
+          /> */}
+          <Image src="/try.svg" alt="phone template" width={300} height={300} />
         </div>
       </div>
     </div>

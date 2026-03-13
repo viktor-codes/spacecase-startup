@@ -124,6 +124,7 @@ const HeroSection = () => {
             className="absolute w-20 -left-6 -bottom-6 select-none"
           />
           <FloatingCase imgSrc="/nebula.png" />
+          {/* <Image src="/try.svg" alt="phone template" width={300} height={300} /> */}
         </div>
       </div>
     </Section>

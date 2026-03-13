@@ -8,13 +8,9 @@ export default function Header() {
   return (
     <header className="sticky top-0 inset-x-0 z-100 border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <Container>
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 z-40">
-            <img
-              src="/space-logo.svg"
-              alt="SpaceCase"
-              className="h-48 w-auto"
-            />
+            <img src="/newlogo.svg" alt="SpaceCase" className="h-48 w-auto" />
           </Link>
 
           <div className="flex h-full items-center space-x-4">
