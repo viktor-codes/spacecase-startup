@@ -4,22 +4,53 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import { buttonVariants } from "@/components/ui/button";
 
+function Logo() {
+  return (
+    <span className="flex items-center gap-1.5 select-none">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        className="text-brand"
+        aria-hidden="true"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.3" />
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+        <circle cx="18" cy="7" r="0.8" fill="currentColor" opacity="0.5" />
+        <circle cx="7" cy="17" r="0.6" fill="currentColor" opacity="0.4" />
+        <circle cx="16" cy="16" r="0.5" fill="currentColor" opacity="0.3" />
+      </svg>
+      <span className="text-base font-bold tracking-tight text-white uppercase">
+        Space<span className="text-brand">Case</span>
+      </span>
+    </span>
+  );
+}
+
 export default function Header() {
   return (
-    <header className="sticky top-0 inset-x-0 z-100 border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
+    <header className="sticky top-0 inset-x-0 z-100 border-b border-white/10 bg-black/60 backdrop-blur-lg transition-all">
       <Container>
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 z-40">
-            <img src="/newlogo.svg" alt="SpaceCase" className="h-7 w-auto" />
+            <Logo />
           </Link>
 
           <div className="flex h-full items-center space-x-4">
             <Link
               href="/configure/upload"
               className={buttonVariants({
-                variant: "space",
                 size: "sm",
-                className: "hidden sm:flex items-center gap-1",
+                className:
+                  "hidden sm:flex items-center gap-1 bg-white text-slate-900 font-bold rounded-2xl hover:bg-white/90",
               })}
             >
               Create Your SpaceCase

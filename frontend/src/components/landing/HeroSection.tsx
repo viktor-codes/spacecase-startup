@@ -1,104 +1,127 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import Section from "@/components/Section";
-import FloatingCase from "@/components/FloatingCase";
+import Container from "@/components/Container";
 import { buttonVariants } from "@/components/ui/button";
-
-const features = [
-  "NASA APOD — curated since 1995",
-  "AI-restored to 300+ DPI",
-  "Dual-layer Tough case",
-];
+import { cn } from "@/lib/utils";
 
 const HeroSection = () => {
   return (
-    <Section containerClassName="lg:grid lg:grid-cols-3 lg:gap-x-0 xl:gap-x-8 mt-0 lg:mt-20">
-      <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
-        <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
-          <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold leading-[1.1]! text-gray-900 text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-            The sky remembers.{" "}
-            <span className="bg-brand px-2 text-brand-foreground">
-              Carry it.
-            </span>
-          </h1>
+    <section
+      className="relative w-full overflow-hidden bg-[#050505] pt-24 pb-16 lg:pt-28 lg:pb-20"
+      style={{
+        backgroundImage: [
+          "radial-gradient(ellipse 70% 50% at 88% 10%, rgba(168,85,247,0.18) 0%, transparent 70%)",
+          "radial-gradient(ellipse 40% 40% at 92% 5%, rgba(255,255,255,0.06) 0%, transparent 50%)",
+          "radial-gradient(ellipse 50% 50% at 78% 15%, rgba(59,130,246,0.08) 0%, transparent 60%)",
+        ].join(", "),
+      }}
+    >
+      {/* Star dots near light source */}
+      <div
+        className="pointer-events-none absolute inset-0 right-0"
+        aria-hidden="true"
+      >
+        <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_rgba(168,85,247,0.5)]" />
+        <div className="absolute top-[4%] right-[22%] h-1 w-1 rounded-full bg-white/60 shadow-[0_0_4px_1px_rgba(139,92,246,0.4)]" />
+        <div className="absolute top-[10%] right-[8%] h-[5px] w-[5px] rounded-full bg-purple-200/50 shadow-[0_0_4px_1px_rgba(168,85,247,0.4)]" />
+        <div className="absolute top-[14%] right-[30%] h-1 w-1 rounded-full bg-violet-200/40 shadow-[0_0_3px_1px_rgba(139,92,246,0.3)]" />
+        <div className="absolute top-[20%] right-[5%] h-[3px] w-[3px] rounded-full bg-white/50 shadow-[0_0_3px_1px_rgba(139,92,246,0.3)]" />
+        <div className="absolute top-[8%] right-[38%] h-[3px] w-[3px] rounded-full bg-violet-100/40 shadow-[0_0_2px_1px_rgba(139,92,246,0.25)]" />
+        <div className="absolute top-[25%] right-[12%] h-0.5 w-0.5 rounded-full bg-white/40" />
+        <div className="absolute top-[18%] right-[26%] h-0.5 w-0.5 rounded-full bg-purple-200/35" />
+      </div>
 
-          <p className="mt-8 text-lg lg:text-xl lg:pr-10 max-w-prose text-center lg:text-left text-balance text-slate-600">
-            Pick a date that changed your world. We find NASA&apos;s Astronomy
-            Picture of the Day from that exact moment, restore it with AI to
-            print-grade resolution, and place it on a dual-layer phone case
-            you&apos;ll never want to put down.
-          </p>
+      <Container className="relative z-10">
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 xl:gap-20 items-center">
+          {/* Content */}
+          <div className="flex flex-col space-y-7 text-center lg:text-left items-center lg:items-start">
+            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+              <span className="font-technical text-[10px] uppercase tracking-[0.25em] text-slate-400">
+                Powered by NASA · 10,000+ astronomy images
+              </span>
+            </p>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2">
-            {features.map((f) => (
-              <span
-                key={f}
-                className="inline-flex items-center rounded-full bg-brand/5 px-3.5 py-1.5 text-xs font-medium text-brand font-technical tracking-wide"
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]! text-white">
+              The sky remembers.
+              <br />
+              <span className="text-brand bg-clip-text">Carry it.</span>
+            </h1>
+
+            <p className="max-w-[480px] text-lg text-slate-400 leading-relaxed">
+              Pick a date that changed your world. We find NASA&apos;s exact
+              astronomy photo from that moment and restore it with AI to
+              print-grade resolution.
+            </p>
+            <p className="max-w-[480px] text-lg text-slate-400 leading-relaxed -mt-3">
+              The result? A dual-layer phone case you&apos;ll never want to put
+              down.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-5">
+              <Link
+                href="/configure/upload"
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "h-13 px-10 rounded-2xl bg-white text-black hover:bg-slate-200 font-bold tracking-wide text-sm transition-all",
+                )}
               >
-                {f}
-              </span>
-            ))}
-          </div>
+                Discover My Sky
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
 
-          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-4">
-            <Link
-              href="/configure/upload"
-              className={buttonVariants({
-                variant: "space",
-                size: "lg",
-                className: "px-8 py-3 text-base",
-              })}
-            >
-              Discover My Sky
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-            <a
-              href="#how-it-works"
-              className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors py-3"
-            >
-              See how it works
-            </a>
-          </div>
-
-          <div className="mt-8 flex items-center gap-3 text-sm text-slate-500">
-            <div className="flex -space-x-2.5">
-              {[1, 5, 4, 3, 2].map((n) => (
-                <Image
-                  key={n}
-                  src={`/avatar-${n}.png`}
-                  alt="customer"
-                  width={28}
-                  height={28}
-                  className="inline-block h-7 w-7 rounded-full ring-2 ring-white"
-                />
-              ))}
+              <a
+                href="#how-it-works"
+                className="text-sm font-medium text-slate-500 hover:text-white transition-colors"
+              >
+                See how it works
+              </a>
             </div>
-            <div className="flex items-center gap-1.5">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-3 w-3 text-yellow-400 fill-yellow-400"
-                  />
-                ))}
-              </div>
-              <span className="text-xs">
-                <span className="font-semibold text-slate-700">1,250+</span>{" "}
-                happy customers
-              </span>
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 -mt-2">
+              {["Dual-layer protection", "300+ DPI print", "UV-resistant ink"].map(
+                (label) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center rounded-full bg-white/5 border border-white/8 px-3 py-1 text-[11px] font-technical tracking-wide text-slate-500"
+                  >
+                    {label}
+                  </span>
+                ),
+              )}
+            </div>
+          </div>
+
+          {/* Product */}
+          <div className="relative flex justify-center lg:justify-end">
+            <div
+              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-purple-500/15 blur-3xl lg:hidden"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute -bottom-[30%] -left-[20%] w-[70%] h-[60%] rounded-full bg-purple-500/15 blur-3xl lg:hidden"
+              aria-hidden="true"
+            />
+
+            {/* Glow under the product — gradient, no blur */}
+            <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[40%]" />
+
+            <div className="relative group">
+              <Image
+                src="/hero-phone.png"
+                alt="SpaceCase — premium phone case with NASA nebula print"
+                width={1024}
+                height={1024}
+                priority
+                quality={85}
+                className="relative z-10 w-72 sm:w-80 md:w-96 lg:w-[420px] xl:w-[480px] h-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              />
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit">
-        <div className="relative md:max-w-xl">
-          <FloatingCase imgSrc="/nebula.png" />
-        </div>
-      </div>
-    </Section>
+      </Container>
+    </section>
   );
 };
 

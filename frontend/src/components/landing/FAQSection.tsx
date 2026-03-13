@@ -1,6 +1,10 @@
-import { ChevronDown } from "lucide-react";
-
 import Section from "@/components/Section";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -37,32 +41,33 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <Section>
+    <Section className="bg-[#0A0A0A]">
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
           FAQ
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
           Answers before you launch your SpaceCase
         </h2>
-        <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
+        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
           If you are wondering about how we use NASA imagery, shipping, or
           customization, you will probably find your answer below.
         </p>
       </div>
 
-      <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl divide-y divide-slate-200">
-        {faqs.map((item) => (
-          <details key={item.question} className="group">
-            <summary className="flex cursor-pointer items-center justify-between gap-4 py-5 text-left text-base md:text-lg font-semibold text-slate-900 select-none [&::-webkit-details-marker]:hidden">
-              {item.question}
-              <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180" />
-            </summary>
-            <div className="pb-5 text-sm md:text-base text-slate-600 leading-relaxed">
-              {item.answer}
-            </div>
-          </details>
-        ))}
+      <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
+        <Accordion type="single" collapsible>
+          {faqs.map((item, i) => (
+            <AccordionItem key={item.question} value={`faq-${i}`}>
+              <AccordionTrigger className="text-white">
+                {item.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-400">
+                {item.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </Section>
   );

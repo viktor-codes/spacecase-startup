@@ -50,17 +50,17 @@ const TryNowSection = () => {
   };
 
   return (
-    <Section>
+    <Section className="bg-[#0A0A0A]">
       <div className="px-6 lg:px-8 mx-auto max-w-3xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
           Try it now
         </p>
 
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
           See what the universe looked like on your day
         </h2>
 
-        <p className="mt-4 text-base md:text-lg text-slate-600">
+        <p className="mt-4 text-base md:text-lg text-slate-400">
           Type any date and instantly preview the NASA Astronomy Picture of the
           Day from that moment. This is the exact image we&apos;ll restore with
           AI and print on your SpaceCase.
@@ -75,12 +75,12 @@ const TryNowSection = () => {
       />
 
       {isModalOpen && apod && (
-        <div className="fixed inset-0 z-120 flex items-center justify-center bg-black/60 px-4">
-          <div className="relative w-full max-w-2xl rounded-2xl bg-white p-5 shadow-xl">
+        <div className="fixed inset-0 z-120 flex items-center justify-center bg-black/70 px-4">
+          <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900 border border-white/10 p-5 shadow-xl">
             <button
               type="button"
               onClick={handleCloseModal}
-              className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 text-xl leading-none"
+              className="absolute right-3 top-3 text-slate-500 hover:text-white text-xl leading-none"
               aria-label="Close preview"
             >
               ×
@@ -88,17 +88,17 @@ const TryNowSection = () => {
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900">
+                <h3 className="text-lg font-semibold text-white">
                   {apod.title || "Your NASA image"}
                 </h3>
 
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-400">
                   Preview of the NASA Astronomy Picture of the Day for your
                   selected date.
                 </p>
               </div>
 
-              <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-slate-950">
                 <Image
                   src={apod.url}
                   alt={apod.title || "NASA Astronomy Picture of the Day"}
@@ -109,7 +109,7 @@ const TryNowSection = () => {
               </div>
 
               {apod.explanation && (
-                <p className="text-xs text-slate-600 line-clamp-4">
+                <p className="text-xs text-slate-400 line-clamp-4">
                   {apod.explanation}
                 </p>
               )}
@@ -118,7 +118,7 @@ const TryNowSection = () => {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="text-xs text-slate-500 hover:text-slate-800"
+                  className="text-xs text-slate-500 hover:text-white transition-colors"
                 >
                   Close
                 </button>
@@ -127,8 +127,7 @@ const TryNowSection = () => {
                   href={`/configure/upload?date=${encodeURIComponent(date)}`}
                   className={buttonVariants({
                     size: "sm",
-
-                    className: "text-xs",
+                    className: "text-xs bg-white text-slate-900 hover:bg-white/90",
                   })}
                 >
                   Make This My SpaceCase

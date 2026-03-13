@@ -99,7 +99,7 @@ function Review({ imgSrc, className, delayIndex, ...props }: ReviewProps) {
   return (
     <div
       className={cn(
-        "animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5 mx-auto w-[260px] sm:w-full",
+        "animate-fade-in rounded-[2.25rem] bg-white/5 border border-white/10 p-6 opacity-0 mx-auto w-[260px] sm:w-full",
         className,
       )}
       style={{ animationDelay }}
@@ -147,8 +147,8 @@ function ReviewGrid() {
           msPerPixel={10}
         />
       </>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-slate-50" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-slate-50" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-[#0A0A0A]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-[#0A0A0A]" />
     </div>
   );
 }
