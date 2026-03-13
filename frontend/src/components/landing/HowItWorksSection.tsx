@@ -17,10 +17,10 @@ const HowItWorksSection = () => {
       <div className="mb-12 px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-            Turn a date into your own{" "}
+            From a date to your hands —{" "}
             <span className="relative px-2 bg-[#4A325E] text-white">
-              SpaceCase
-            </span>{" "}
+              in 4 steps
+            </span>
           </h2>
         </div>
       </div>
@@ -69,7 +69,7 @@ const HowItWorksSection = () => {
             })}
             href="/configure/upload"
           >
-            Create your case now <ArrowRight className="h-4 w-4 ml-1.5" />
+            Find Your Sky <ArrowRight className="h-4 w-4 ml-1.5" />
           </Link>
         </div>
       </ul>

@@ -57,13 +57,13 @@ const TryNowSection = () => {
         </p>
 
         <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-gray-900">
-          Which date changed your universe?
+          See what the universe looked like on your day
         </h2>
 
         <p className="mt-4 text-base md:text-lg text-slate-600">
-          Choose a meaningful date and preview the NASA Astronomy Picture of the
-          Day from that moment. This is the image we can turn into your
-          SpaceCase.
+          Type any date and instantly preview the NASA Astronomy Picture of the
+          Day from that moment. This is the exact image we&apos;ll restore with
+          AI and print on your SpaceCase.
         </p>
       </div>
       <SpaceDateScanner
@@ -131,7 +131,7 @@ const TryNowSection = () => {
                     className: "text-xs",
                   })}
                 >
-                  Use this date for my case
+                  Make This My SpaceCase
                 </a>
               </div>
             </div>

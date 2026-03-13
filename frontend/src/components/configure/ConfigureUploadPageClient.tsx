@@ -182,7 +182,7 @@ export default function ConfigureUploadPageClient({
                   <Phone
                     imgSrc={hasImage ? (apod as ApodResponse).url : null}
                     dark
-                    placeholderText="Waiting for your moment..."
+                    placeholderText="Your sky is waiting..."
                     className="shadow-[0_40px_80px_rgba(0,0,0,0.65)] rounded-[3.5rem]"
                   />
                 </motion.div>
@@ -211,7 +211,7 @@ export default function ConfigureUploadPageClient({
                   disabled={loading}
                   onClick={() => void handleSync()}
                 >
-                  {loading ? "Syncing..." : "Sync"}
+                  {loading ? "Syncing..." : "Sync with NASA"}
                 </Button>
               </div>
 
@@ -375,7 +375,7 @@ export default function ConfigureUploadPageClient({
                 disabled={!deviceModel}
                 onClick={handleAddToCart}
               >
-                Add to Cart
+                Launch My SpaceCase
               </Button>
             </section>
           </div>
