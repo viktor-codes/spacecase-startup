@@ -13,8 +13,9 @@ const recursive = Recursive({
 });
 
 export const metadata: Metadata = {
-  title: "SpaceCase",
-  description: "NASA imagery on custom merchandise",
+  title: "SpaceCase — The Sky From Your Most Important Date, On Your Phone",
+  description:
+    "Choose a date that matters. We find NASA's Astronomy Picture of the Day, restore it with AI to 300+ DPI, and print it on a premium dual-layer phone case.",
 };
 
 export default function RootLayout({

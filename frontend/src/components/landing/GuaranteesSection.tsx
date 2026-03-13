@@ -4,7 +4,7 @@ const guarantees = [
   {
     title: "Clear production timeline",
     description:
-      "We start working on your SpaceCase as soon as you place the order. Typical production time is X–Y business days before your case ships out.",
+      "We start working on your SpaceCase as soon as you place the order. Typical production time is 3–5 business days before your case ships out.",
   },
   {
     title: "Tracked delivery",

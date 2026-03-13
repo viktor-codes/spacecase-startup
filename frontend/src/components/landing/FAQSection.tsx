@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "How long will it take to receive my order?",
     answer:
-      "Production typically takes X–Y business days. Shipping times depend on your region and the method you select at checkout, where you’ll also see estimated delivery dates.",
+      "Production typically takes 3–5 business days. Shipping times depend on your region and the method you select at checkout, where you’ll also see estimated delivery dates.",
   },
 ];
 
