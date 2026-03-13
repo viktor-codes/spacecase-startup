@@ -115,7 +115,7 @@ export default function ConfigureUploadPageClient({
     const dateToUse = explicitDate ?? selectedDate;
     if (!dateToUse) {
       setError(
-        "Пожалуйста, выберите дату, чтобы синхронизировать изображение NASA.",
+        "Please select a date to sync your NASA image.",
       );
       return;
     }
@@ -129,7 +129,7 @@ export default function ConfigureUploadPageClient({
 
       if (data.media_type !== "image" || !data.url) {
         setError(
-          "Для этой даты NASA APOD не содержит изображение. Попробуйте другую дату.",
+          "No image available for this date in NASA APOD. Please try another date.",
         );
         return;
       }
@@ -137,7 +137,7 @@ export default function ConfigureUploadPageClient({
       setApod(data);
     } catch (e) {
       setError(
-        "Не удалось получить данные NASA APOD. Попробуйте ещё раз чуть позже.",
+        "Failed to fetch NASA APOD data. Please try again later.",
       );
 
       console.error(e);
@@ -183,7 +183,7 @@ export default function ConfigureUploadPageClient({
                     imgSrc={hasImage ? (apod as ApodResponse).url : null}
                     dark
                     placeholderText="Waiting for your moment..."
-                    className="shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
+                    className="shadow-[0_40px_80px_rgba(0,0,0,0.65)] rounded-[3.5rem]"
                   />
                 </motion.div>
               </AnimatePresence>

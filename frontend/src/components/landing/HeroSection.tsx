@@ -100,7 +100,7 @@ const HeroSection = () => {
               </div>
               <p>
                 <span className="font-semibold">1.250 </span>
-                happy costumers
+                happy customers
               </p>
             </div>
           </div>

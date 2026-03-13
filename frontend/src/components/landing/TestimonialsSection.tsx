@@ -50,7 +50,7 @@ const TestimonialsSection = () => {
                 <p className="font-semibold">Orla</p>
                 <div className="flex gap-1.5 items-center text-zinc-600">
                   <Check className="h-4 w-4 stroke-[3px] text-[#4A325E]" />
-                  <p className="text-sm">Verified Costumer</p>
+                  <p className="text-sm">Verified Customer</p>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ const TestimonialsSection = () => {
                 <p className="font-semibold">Josh</p>
                 <div className="flex gap-1.5 items-center text-zinc-600">
                   <Check className="h-4 w-4 stroke-[3px] text-[#4A325E]" />
-                  <p className="text-sm">Verified Costumer</p>
+                  <p className="text-sm">Verified Customer</p>
                 </div>
               </div>
             </div>
