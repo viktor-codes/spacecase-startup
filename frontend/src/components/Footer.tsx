@@ -12,8 +12,8 @@ const Footer = () => {
           <div className="space-y-2 text-sm text-slate-600">
             <p className="font-semibold text-slate-900">SpaceCase</p>
             <p className="max-w-md text-xs md:text-sm text-slate-500">
-              Turn the date that changed your world into a SpaceCase with NASA
-              imagery you can carry every day.
+              The sky from your most important date — AI-restored and printed on
+              a premium dual-layer phone case.
             </p>
             <p className="text-xs text-slate-400">
               © {year} SpaceCase. All rights reserved.
@@ -22,7 +22,7 @@ const Footer = () => {
 
           <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-500">
             <Link href="/configure/upload" className="hover:text-slate-900">
-              Create your case
+              Create Your SpaceCase
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-slate-300 md:inline-block" />
             <Link href="/legal/terms" className="hover:text-slate-900">

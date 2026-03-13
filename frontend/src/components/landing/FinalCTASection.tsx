@@ -11,12 +11,12 @@ const FinalCTASection = () => {
           Your moment, your universe
         </p>
         <h2 className="mt-4 tracking-tight text-balance !leading-tight font-bold text-4xl md:text-5xl text-gray-900">
-          Which date changed your universe?
+          Your sky is waiting. Don&apos;t let it fade.
         </h2>
         <p className="mt-4 text-base md:text-lg text-slate-600">
-          Pick a meaningful date, and we will show you how the universe looked
-          that day — then turn it into a SpaceCase you can carry with you
-          everywhere.
+          Every day that passes, another piece of the cosmos is archived by
+          NASA. Pick the date that matters most — and carry the sky that
+          witnessed it.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3">
@@ -27,7 +27,7 @@ const FinalCTASection = () => {
               className: "px-8",
             })}
           >
-            Create my cosmic case
+            Discover My Sky
           </Link>
           <p className="text-xs text-slate-500">
             It takes less than 2 minutes. All you need is a date.
