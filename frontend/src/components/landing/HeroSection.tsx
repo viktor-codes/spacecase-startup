@@ -28,27 +28,28 @@ const HeroSection = () => {
             />
           </div>
           <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold leading-tight! text-grey-900 text-5xl md:text-6xl lg:text-7xl">
-            Turn a date into a{" "}
-            <span className="bg-[#4A325E] px-2 text-white">SpaceCase</span>
+            The sky remembers.{" "}
+            <span className="bg-[#4A325E] px-2 text-white">Carry it.</span>
           </h1>
           <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
-            We take NASA&apos;s Astronomy Picture of the Day from a date that
-            matters to you and print it on a custom case, so your moment is
-            always in your hand.
+            Pick a date that changed your world. We find NASA&apos;s Astronomy
+            Picture of the Day from that exact moment, restore it with AI to
+            print-grade resolution, and place it on a dual-layer phone case
+            you&apos;ll never want to put down.
           </p>
           <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
             <div className="space-y-2">
-              <li className="flex gap-1 5 items-center text-left">
+              <li className="flex gap-1.5 items-center text-left">
                 <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                High-quality durable prints
+                NASA&apos;s Astronomy Picture of the Day — curated since 1995
               </li>
-              <li className="flex gap-1 5 items-center text-left">
+              <li className="flex gap-1.5 items-center text-left">
                 <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                Eco-friendly materials
+                AI-restored to 300+ DPI print resolution
               </li>
-              <li className="flex gap-1 5 items-center text-left">
+              <li className="flex gap-1.5 items-center text-left">
                 <Check className="h-5 w-5 shrink-0 text-[#4A325E]" />
-                Satisfaction guarantee
+                Dual-layer Tough case — built to protect, designed to inspire
               </li>
             </div>
           </ul>
@@ -91,7 +92,7 @@ const HeroSection = () => {
               />
             </div>
             <div className="flex flex-col justify-between items-center sm:items-start">
-              <div className="flex gap-0 5">
+              <div className="flex gap-0.5">
                 <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
                 <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
                 <Star className="h-4 w-4 shrink-0 text-yellow-400 fill-yellow-400" />
