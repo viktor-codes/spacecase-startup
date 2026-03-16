@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 const HeroSection = () => {
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#050505] pt-24 pb-16 lg:pt-28 lg:pb-20"
+      className="relative w-full overflow-hidden  pt-24 pb-16 lg:pt-28 lg:pb-20"
       style={{
         backgroundImage: [
-          "radial-gradient(ellipse 70% 50% at 88% 10%, rgba(168,85,247,0.18) 0%, transparent 70%)",
+          "radial-gradient(ellipse 70% 50% at 88% 10%, var(--glow-pink) 0%, transparent 70%)",
           "radial-gradient(ellipse 40% 40% at 92% 5%, rgba(255,255,255,0.06) 0%, transparent 50%)",
-          "radial-gradient(ellipse 50% 50% at 78% 15%, rgba(59,130,246,0.08) 0%, transparent 60%)",
+          "radial-gradient(ellipse 50% 50% at 78% 15%, var(--glow-purple) 0%, transparent 60%)",
         ].join(", "),
       }}
     >
@@ -23,38 +23,38 @@ const HeroSection = () => {
         className="pointer-events-none absolute inset-0 right-0"
         aria-hidden="true"
       >
-        <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_rgba(168,85,247,0.5)]" />
-        <div className="absolute top-[4%] right-[22%] h-1 w-1 rounded-full bg-white/60 shadow-[0_0_4px_1px_rgba(139,92,246,0.4)]" />
-        <div className="absolute top-[10%] right-[8%] h-[5px] w-[5px] rounded-full bg-purple-200/50 shadow-[0_0_4px_1px_rgba(168,85,247,0.4)]" />
-        <div className="absolute top-[14%] right-[30%] h-1 w-1 rounded-full bg-violet-200/40 shadow-[0_0_3px_1px_rgba(139,92,246,0.3)]" />
-        <div className="absolute top-[20%] right-[5%] h-[3px] w-[3px] rounded-full bg-white/50 shadow-[0_0_3px_1px_rgba(139,92,246,0.3)]" />
-        <div className="absolute top-[8%] right-[38%] h-[3px] w-[3px] rounded-full bg-violet-100/40 shadow-[0_0_2px_1px_rgba(139,92,246,0.25)]" />
+        <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_var(--glow-pink)]" />
+        <div className="absolute top-[4%] right-[22%] h-1 w-1 rounded-full bg-white/60 shadow-[0_0_4px_1px_var(--glow-purple)]" />
+        <div className="absolute top-[10%] right-[8%] h-[5px] w-[5px] rounded-full bg-brand-pink/50 shadow-[0_0_4px_1px_var(--glow-pink)]" />
+        <div className="absolute top-[14%] right-[30%] h-1 w-1 rounded-full bg-brand-pink/40 shadow-[0_0_3px_1px_var(--glow-purple)]" />
+        <div className="absolute top-[20%] right-[5%] h-[3px] w-[3px] rounded-full bg-white/50 shadow-[0_0_3px_1px_var(--glow-purple)]" />
+        <div className="absolute top-[8%] right-[38%] h-[3px] w-[3px] rounded-full bg-brand-pink/40 shadow-[0_0_2px_1px_var(--glow-purple)]" />
         <div className="absolute top-[25%] right-[12%] h-0.5 w-0.5 rounded-full bg-white/40" />
-        <div className="absolute top-[18%] right-[26%] h-0.5 w-0.5 rounded-full bg-purple-200/35" />
+        <div className="absolute top-[18%] right-[26%] h-0.5 w-0.5 rounded-full bg-brand-pink/35" />
       </div>
 
       <Container className="relative z-10">
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 xl:gap-20 items-center">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] xl:grid-cols-[1fr_1.05fr] gap-10 xl:gap-20 items-center">
           {/* Content */}
           <div className="flex flex-col space-y-7 text-center lg:text-left items-center lg:items-start">
-            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-              <span className="font-technical text-[10px] uppercase tracking-[0.25em] text-slate-400">
+            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-(--border-default)">
+              <span className="font-technical text-[10px] uppercase tracking-[0.25em] text-text-secondary">
                 Powered by NASA · 10,000+ astronomy images
               </span>
             </p>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]! text-white">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]! text-text-primary">
               The sky remembers.
               <br />
-              <span className="text-brand bg-clip-text">Carry it.</span>
+              <span className="text-brand-pink bg-clip-text">Carry it.</span>
             </h1>
 
-            <p className="max-w-[480px] text-lg text-slate-400 leading-relaxed">
+            <p className="max-w-[480px] text-lg text-text-secondary leading-relaxed">
               Pick a date that changed your world. We find NASA&apos;s exact
               astronomy photo from that moment and restore it with AI to
               print-grade resolution.
             </p>
-            <p className="max-w-[480px] text-lg text-slate-400 leading-relaxed -mt-3">
+            <p className="max-w-[480px] text-lg text-text-secondary leading-relaxed -mt-3">
               The result? A dual-layer phone case you&apos;ll never want to put
               down.
             </p>
@@ -63,8 +63,8 @@ const HeroSection = () => {
               <Link
                 href="/configure/upload"
                 className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "h-13 px-10 rounded-2xl bg-white text-black hover:bg-slate-200 font-bold tracking-wide text-sm transition-all",
+                  buttonVariants({ variant: "space", size: "lg" }),
+                  "h-13 px-10 text-sm",
                 )}
               >
                 Discover My Sky
@@ -73,39 +73,57 @@ const HeroSection = () => {
 
               <a
                 href="#how-it-works"
-                className="text-sm font-medium text-slate-500 hover:text-white transition-colors"
+                className="text-sm font-medium text-text-tertiary hover:text-text-primary transition-colors"
               >
                 See how it works
               </a>
             </div>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 -mt-2">
-              {["Dual-layer protection", "300+ DPI print", "UV-resistant ink"].map(
-                (label) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center rounded-full bg-white/5 border border-white/8 px-3 py-1 text-[11px] font-technical tracking-wide text-slate-500"
-                  >
-                    {label}
-                  </span>
-                ),
-              )}
+              {[
+                "Dual-layer protection",
+                "300+ DPI print",
+                "UV-resistant ink",
+              ].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center rounded-full bg-white/5 border border-(--border-subtle) px-3 py-1 text-[11px] font-technical tracking-wide text-text-tertiary"
+                >
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
 
           {/* Product */}
           <div className="relative flex justify-center lg:justify-end">
             <div
-              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-purple-500/15 blur-3xl lg:hidden"
-              aria-hidden="true"
-            />
-            <div
-              className="pointer-events-none absolute -bottom-[30%] -left-[20%] w-[70%] h-[60%] rounded-full bg-purple-500/15 blur-3xl lg:hidden"
+              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden"
               aria-hidden="true"
             />
 
-            {/* Glow under the product — gradient, no blur */}
-            <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[40%]" />
+            {/* Tech grid under the product */}
+            <div
+              className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[120%] h-[120%] pointer-events-none"
+              style={{
+                perspective: "1000px", // Создает точку схода
+              }}
+            >
+              <div
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
+      `,
+                  backgroundSize: "70px 70px",
+                  transform: "rotateZ(70deg)",
+                  // Наклоняем сетку от себя
+                  maskImage:
+                    "radial-gradient(ellipse at center, black 20%, transparent 80%)", // Смягчаем края
+                }}
+              />
+            </div>
 
             <div className="relative group">
               <Image
@@ -115,7 +133,7 @@ const HeroSection = () => {
                 height={1024}
                 priority
                 quality={85}
-                className="relative z-10 w-72 sm:w-80 md:w-96 lg:w-[420px] xl:w-[480px] h-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                className="relative z-10 w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               />
             </div>
           </div>

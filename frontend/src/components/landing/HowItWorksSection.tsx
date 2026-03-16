@@ -1,4 +1,10 @@
-import { ArrowRight, CalendarHeart, Sparkles, Printer, Package } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarHeart,
+  Sparkles,
+  Printer,
+  Package,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -39,16 +45,22 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <Section className="scroll-mt-20 bg-slate-950" containerClassName="relative" as="section">
+    <Section
+      className="scroll-mt-20"
+      containerClassName="relative"
+      as="section"
+    >
       <div id="how-it-works" className="absolute -top-24" />
 
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           How it works
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           From a date to your hands —{" "}
-          <span className="bg-brand px-2 text-brand-foreground">in 4 steps</span>
+          <span className="bg-brand-subtle px-2 text-brand-pink">
+            in 4 steps
+          </span>
         </h2>
       </div>
 
@@ -56,7 +68,7 @@ const HowItWorksSection = () => {
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center">
           {/* Visual: source → case */}
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center lg:flex-col">
-            <div className="relative w-56 sm:w-48 lg:w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10">
+            <div className="relative w-56 sm:w-48 lg:w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-(--border-default)">
               <Image
                 src="/rosette-cone.jpg"
                 alt="NASA Rosette Cone Nebula — original archive"
@@ -72,7 +84,7 @@ const HowItWorksSection = () => {
               </div>
             </div>
 
-            <div className="text-slate-600 text-2xl select-none hidden sm:block lg:rotate-90">
+            <div className="text-text-tertiary text-2xl select-none hidden sm:block lg:rotate-90">
               →
             </div>
 
@@ -81,21 +93,21 @@ const HowItWorksSection = () => {
 
           {/* Steps */}
           <div className="relative">
-            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-white/10 hidden sm:block" />
+            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-(--border-default) hidden sm:block" />
             <div className="space-y-8">
               {steps.map((step) => (
                 <div key={step.number} className="relative flex gap-5">
-                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/15 text-brand">
+                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand-pink">
                     <step.icon className="h-4 w-4" />
                   </div>
                   <div className="pt-1">
-                    <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-slate-500">
+                    <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
                       Step {step.number}
                     </p>
-                    <h3 className="mt-1 text-base font-semibold text-white">
+                    <h3 className="mt-1 text-base font-semibold text-text-primary">
                       {step.title}
                     </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+                    <p className="mt-1.5 text-sm leading-relaxed text-text-secondary">
                       {step.description}
                     </p>
                   </div>
@@ -109,8 +121,9 @@ const HowItWorksSection = () => {
       <div className="mt-12 flex justify-center">
         <Link
           className={buttonVariants({
+            variant: "space",
             size: "lg",
-            className: "px-8 bg-white text-slate-900 font-bold rounded-2xl hover:bg-white/90",
+            className: "px-8",
           })}
           href="/configure/upload"
         >

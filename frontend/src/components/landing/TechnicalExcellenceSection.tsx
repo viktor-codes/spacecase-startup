@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import Section from "@/components/Section";
+import { GlassCard } from "@/components/ui/glass-card";
 
 const layers = [
   {
@@ -73,17 +74,15 @@ const specs = [
 
 const TechnicalExcellenceSection = () => {
   return (
-    <Section className="relative bg-slate-950 overflow-x-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
-
+    <Section className="overflow-x-hidden">
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           Anatomy of a SpaceCase
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           Engineered for the cosmos. Built for your pocket.
         </h2>
-        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
           Every SpaceCase is a dual-layer Tough case with AI-restored NASA
           imagery printed at 300+ DPI. Here&apos;s what&apos;s inside.
         </p>
@@ -100,14 +99,14 @@ const TechnicalExcellenceSection = () => {
               {layers.map((layer, i) => (
                 <div key={layer.label} className="relative w-full group">
                   <div
-                    className={`${layer.color} ${layer.height} w-full rounded-2xl shadow-lg ring-1 ring-white/10 transition-transform duration-300 hover:scale-105`}
+                    className={`${layer.color} ${layer.height} w-full rounded-2xl shadow-lg ring-1 ring-(--border-default) transition-transform duration-300 hover:scale-105`}
                     style={{
                       transform: `rotateX(8deg) rotateY(-4deg) translateZ(${(layers.length - i) * 12}px)`,
                     }}
                   />
                   <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 flex items-center gap-2 whitespace-nowrap">
-                    <div className="h-px w-6 bg-white/20" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-400">
+                    <div className="h-px w-6 bg-(--border-default)" />
+                    <span className="font-technical text-[10px] uppercase tracking-[0.15em] text-text-secondary">
                       {layer.label}
                     </span>
                   </div>
@@ -120,22 +119,23 @@ const TechnicalExcellenceSection = () => {
         {/* Specs grid */}
         <div className="grid gap-5 sm:grid-cols-2">
           {specs.map((spec) => (
-            <div
+            <GlassCard
               key={spec.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm text-left"
+              variant="interactive"
+              className="p-5 text-left"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/15">
-                  <spec.icon className="h-4 w-4 text-brand" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-subtle">
+                  <spec.icon className="h-4 w-4 text-brand-pink" />
                 </div>
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-text-primary">
                   {spec.title}
                 </h3>
               </div>
-              <p className="text-xs leading-relaxed text-slate-400">
+              <p className="text-xs leading-relaxed text-text-secondary">
                 {spec.description}
               </p>
-            </div>
+            </GlassCard>
           ))}
         </div>
       </div>

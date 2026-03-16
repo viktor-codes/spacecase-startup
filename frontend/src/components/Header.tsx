@@ -12,7 +12,7 @@ function Logo() {
         height="20"
         viewBox="0 0 24 24"
         fill="none"
-        className="text-brand"
+        className="text-brand-pink"
         aria-hidden="true"
       >
         <circle
@@ -28,8 +28,8 @@ function Logo() {
         <circle cx="7" cy="17" r="0.6" fill="currentColor" opacity="0.4" />
         <circle cx="16" cy="16" r="0.5" fill="currentColor" opacity="0.3" />
       </svg>
-      <span className="text-base font-bold tracking-tight text-white uppercase">
-        Space<span className="text-brand">Case</span>
+      <span className="text-base font-bold tracking-tight text-text-primary uppercase">
+        Space<span className="text-brand-pink">Case</span>
       </span>
     </span>
   );
@@ -37,7 +37,7 @@ function Logo() {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 inset-x-0 z-100 border-b border-white/10 bg-black/60 backdrop-blur-lg transition-all">
+    <header className="sticky top-0 inset-x-0 z-100 border-b border-(--border-default) bg-surface-base/60 backdrop-blur-lg transition-all">
       <Container>
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 z-40">
@@ -48,9 +48,10 @@ export default function Header() {
             <Link
               href="/configure/upload"
               className={buttonVariants({
+                variant: "space",
                 size: "sm",
                 className:
-                  "hidden sm:flex items-center gap-1 bg-white text-slate-900 font-bold rounded-2xl hover:bg-white/90",
+                  "hidden sm:flex items-center gap-1",
               })}
             >
               Create Your SpaceCase

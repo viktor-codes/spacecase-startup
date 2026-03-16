@@ -6,7 +6,6 @@ import TechnicalExcellenceSection from "@/components/landing/TechnicalExcellence
 import AIRestorationSection from "@/components/landing/AIRestorationSection";
 import StoriesSection from "@/components/landing/StoriesSection";
 import TryNowSection from "@/components/landing/TryNowSection";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import GuaranteesSection from "@/components/landing/GuaranteesSection";
 import FAQSection from "@/components/landing/FAQSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
@@ -20,7 +19,6 @@ const LandingPage = () => {
       <AIRestorationSection />
       <StoriesSection />
       <TryNowSection />
-      <TestimonialsSection />
       <GuaranteesSection />
       <FAQSection />
       <FinalCTASection />

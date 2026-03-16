@@ -50,17 +50,17 @@ const TryNowSection = () => {
   };
 
   return (
-    <Section className="bg-[#0A0A0A]">
+    <Section>
       <div className="px-6 lg:px-8 mx-auto max-w-3xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           Try it now
         </p>
 
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           See what the universe looked like on your day
         </h2>
 
-        <p className="mt-4 text-base md:text-lg text-slate-400">
+        <p className="mt-4 text-base md:text-lg text-text-secondary">
           Type any date and instantly preview the NASA Astronomy Picture of the
           Day from that moment. This is the exact image we&apos;ll restore with
           AI and print on your SpaceCase.
@@ -76,11 +76,11 @@ const TryNowSection = () => {
 
       {isModalOpen && apod && (
         <div className="fixed inset-0 z-120 flex items-center justify-center bg-black/70 px-4">
-          <div className="relative w-full max-w-2xl rounded-2xl bg-slate-900 border border-white/10 p-5 shadow-xl">
+          <div className="relative w-full max-w-2xl rounded-2xl bg-surface-overlay border border-(--border-default) p-5 shadow-xl">
             <button
               type="button"
               onClick={handleCloseModal}
-              className="absolute right-3 top-3 text-slate-500 hover:text-white text-xl leading-none"
+              className="absolute right-3 top-3 text-text-tertiary hover:text-text-primary text-xl leading-none"
               aria-label="Close preview"
             >
               ×
@@ -88,17 +88,17 @@ const TryNowSection = () => {
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-text-primary">
                   {apod.title || "Your NASA image"}
                 </h3>
 
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-xs text-text-secondary">
                   Preview of the NASA Astronomy Picture of the Day for your
                   selected date.
                 </p>
               </div>
 
-              <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-slate-950">
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-(--border-default) bg-surface-base">
                 <Image
                   src={apod.url}
                   alt={apod.title || "NASA Astronomy Picture of the Day"}
@@ -109,7 +109,7 @@ const TryNowSection = () => {
               </div>
 
               {apod.explanation && (
-                <p className="text-xs text-slate-400 line-clamp-4">
+                <p className="text-xs text-text-secondary line-clamp-4">
                   {apod.explanation}
                 </p>
               )}
@@ -118,7 +118,7 @@ const TryNowSection = () => {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="text-xs text-slate-500 hover:text-white transition-colors"
+                  className="text-xs text-text-tertiary hover:text-text-primary transition-colors"
                 >
                   Close
                 </button>
@@ -126,8 +126,9 @@ const TryNowSection = () => {
                 <a
                   href={`/configure/upload?date=${encodeURIComponent(date)}`}
                   className={buttonVariants({
+                    variant: "space",
                     size: "sm",
-                    className: "text-xs bg-white text-slate-900 hover:bg-white/90",
+                    className: "text-xs",
                   })}
                 >
                   Make This My SpaceCase

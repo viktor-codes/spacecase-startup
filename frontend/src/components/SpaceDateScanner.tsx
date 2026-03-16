@@ -122,7 +122,7 @@ const SpaceDateScanner = ({
     <div
       suppressHydrationWarning
       className={cn(
-        "flex flex-col items-center space-y-12 p-10 bg-surface-elevated/30 rounded-[3rem] border border-white/5 backdrop-blur-xl",
+        "flex flex-col items-center space-y-12 p-10 bg-brand-subtle rounded-[3rem] border border-(--border-subtle) backdrop-blur-xl",
         className,
       )}
     >

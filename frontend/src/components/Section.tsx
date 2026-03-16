@@ -8,6 +8,7 @@ type SectionProps = {
   children?: ReactNode
   className?: string
   containerClassName?: string
+  grain?: boolean
 }
 
 export default function Section({
@@ -15,10 +16,19 @@ export default function Section({
   children,
   className,
   containerClassName,
+  grain = false,
 }: SectionProps) {
   return (
-    <Tag className={cn("py-24", className)}>
-      <Container className={containerClassName}>{children}</Container>
+    <Tag className={cn("relative py-24", className)}>
+      {grain && (
+        <div
+          className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light"
+          aria-hidden="true"
+        />
+      )}
+      <Container className={cn("relative z-10", containerClassName)}>
+        {children}
+      </Container>
     </Tag>
   )
 }

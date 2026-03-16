@@ -13,15 +13,12 @@ const AIRestorationSection = () => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
 
-  const updatePosition = useCallback(
-    (clientX: number) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-      setSliderPosition((x / rect.width) * 100);
-    },
-    [],
-  );
+  const updatePosition = useCallback((clientX: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    setSliderPosition((x / rect.width) * 100);
+  }, []);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
@@ -45,16 +42,15 @@ const AIRestorationSection = () => {
   }, []);
 
   return (
-    <Section className="relative bg-slate-950 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
+    <Section className="overflow-hidden">
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           AI restoration
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           From archive to artwork
         </h2>
-        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
           Many NASA images date back decades. Our neural network reconstructs
           every pixel to 300+ DPI — turning a compressed archive file into a
           print-ready masterpiece.
@@ -65,7 +61,7 @@ const AIRestorationSection = () => {
         {/* Interactive slider comparison */}
         <div
           ref={containerRef}
-          className="relative aspect-video w-full cursor-ew-resize select-none overflow-hidden rounded-2xl border border-white/10 shadow-2xl"
+          className="relative aspect-video w-full cursor-ew-resize select-none overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -106,7 +102,7 @@ const AIRestorationSection = () => {
             style={{ left: `${sliderPosition}%` }}
           >
             {/* Slider handle */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-slate-900/80 backdrop-blur-sm shadow-lg">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-surface-overlay/80 backdrop-blur-sm shadow-lg">
               <svg
                 width="16"
                 height="16"
@@ -127,19 +123,19 @@ const AIRestorationSection = () => {
 
           {/* Labels */}
           <div className="absolute left-4 top-4 z-10 rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-300">
+            <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-secondary">
               Original Archive
             </p>
           </div>
           <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 backdrop-blur-sm">
-            <Sparkles className="h-3 w-3 text-violet-300" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white">
+            <Sparkles className="h-3 w-3 text-brand-pink" />
+            <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-primary">
               AI-Restored · 300+ DPI
             </p>
           </div>
         </div>
 
-        <p className="mt-4 text-center font-mono text-xs text-slate-500">
+        <p className="mt-4 text-center font-technical text-xs text-text-tertiary">
           Drag the slider to compare
         </p>
 
@@ -166,13 +162,13 @@ const AIRestorationSection = () => {
             },
           ].map((item) => (
             <div key={item.step} className="text-center sm:text-left">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-violet-400">
+              <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-brand-pink">
                 {item.step}
               </p>
-              <h3 className="mt-1 text-sm font-semibold text-white">
+              <h3 className="mt-1 text-sm font-semibold text-text-primary">
                 {item.title}
               </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+              <p className="mt-1.5 text-xs leading-relaxed text-text-tertiary">
                 {item.description}
               </p>
             </div>

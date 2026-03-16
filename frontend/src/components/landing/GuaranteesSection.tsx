@@ -1,6 +1,7 @@
 import { Clock, Truck, ShieldCheck, Lock } from "lucide-react";
 
 import Section from "@/components/Section";
+import { GlassCard } from "@/components/ui/glass-card";
 
 const guarantees = [
   {
@@ -34,17 +35,15 @@ const deliveryNote =
 
 const GuaranteesSection = () => {
   return (
-    <Section className="relative bg-slate-950">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/grain.png')] bg-repeat opacity-[0.03] mix-blend-soft-light" />
-
+    <Section>
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           Guarantees & delivery
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           Safe purchase, predictable delivery
         </h2>
-        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
           We want your SpaceCase to feel exciting, not stressful. That is why we
           keep our production, shipping, and guarantees as transparent as
           possible.
@@ -53,24 +52,27 @@ const GuaranteesSection = () => {
 
       <div className="mt-12 px-6 lg:px-8 mx-auto max-w-6xl grid gap-8 md:grid-cols-2">
         {guarantees.map((item) => (
-          <div
+          <GlassCard
             key={item.title}
-            className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm text-left"
+            variant="interactive"
+            className="p-6 text-left"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/15">
-                <item.icon className="h-4 w-4 text-brand" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-subtle">
+                <item.icon className="h-4 w-4 text-brand-pink" />
               </div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-text-primary">
                 {item.title}
               </h3>
             </div>
-            <p className="mt-1 text-sm text-slate-400">{item.description}</p>
-          </div>
+            <p className="mt-1 text-sm text-text-secondary">
+              {item.description}
+            </p>
+          </GlassCard>
         ))}
       </div>
 
-      <p className="mt-10 px-6 lg:px-8 mx-auto max-w-3xl text-center text-xs text-slate-500">
+      <p className="mt-10 px-6 lg:px-8 mx-auto max-w-3xl text-center text-xs text-text-tertiary">
         {deliveryNote}
       </p>
     </Section>
@@ -78,4 +80,3 @@ const GuaranteesSection = () => {
 };
 
 export default GuaranteesSection;
-

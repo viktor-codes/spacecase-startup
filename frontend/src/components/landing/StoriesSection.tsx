@@ -48,15 +48,15 @@ const stories = [
 
 const StoriesSection = () => {
   return (
-    <Section className="bg-[#0A0A0A]">
+    <Section>
       <div className="px-6 lg:px-8 mx-auto max-w-5xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 font-technical">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
           Stories from the universe
         </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-white">
+        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
           Every important date is already stored in space
         </h2>
-        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
           NASA publishes a photo of the universe every single day. We find the
           image from your exact date and turn it into a phone case that is
           always with you.
@@ -64,7 +64,7 @@ const StoriesSection = () => {
       </div>
 
       <div className="mt-14 px-6 lg:px-8 mx-auto max-w-6xl">
-        <p className="text-xs text-slate-500 mb-4 md:hidden">
+        <p className="text-xs text-text-tertiary mb-4 md:hidden">
           Swipe to explore stories
         </p>
 
@@ -77,13 +77,13 @@ const StoriesSection = () => {
               <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
                 <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
               </div>
-              <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-slate-500">
+              <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
                 {story.dateLabel}
               </p>
-              <h3 className="mt-1.5 text-base font-semibold text-white">
+              <h3 className="mt-1.5 text-base font-semibold text-text-primary">
                 {story.title}
               </h3>
-              <p className="mt-1.5 text-sm text-slate-400 max-w-[22ch] mx-auto leading-relaxed">
+              <p className="mt-1.5 text-sm text-text-secondary max-w-[22ch] mx-auto leading-relaxed">
                 {story.description}
               </p>
             </article>
