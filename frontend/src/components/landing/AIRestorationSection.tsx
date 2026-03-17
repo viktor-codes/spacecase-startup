@@ -98,7 +98,7 @@ const AIRestorationSection = () => {
 
           {/* Slider line */}
           <div
-            className="absolute top-0 bottom-0 z-10 w-0.5 bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+            className="absolute top-0 bottom-0 z-[var(--z-top)] w-0.5 bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]"
             style={{ left: `${sliderPosition}%` }}
           >
             {/* Slider handle */}
@@ -122,12 +122,12 @@ const AIRestorationSection = () => {
           </div>
 
           {/* Labels */}
-          <div className="absolute left-4 top-4 z-10 rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
+          <div className="absolute left-4 top-4 z-[var(--z-top)] rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
             <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-secondary">
               Original Archive
             </p>
           </div>
-          <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 backdrop-blur-sm">
+          <div className="absolute right-4 top-4 z-[var(--z-top)] flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 backdrop-blur-sm">
             <Sparkles className="h-3 w-3 text-brand-pink" />
             <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-primary">
               AI-Restored · 300+ DPI

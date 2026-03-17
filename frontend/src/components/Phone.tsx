@@ -26,18 +26,18 @@ export default function Phone(props: PhoneProps) {
   return (
     <div
       className={cn(
-        "relative z-50 overflow-hidden pointer-events-none rounded-4xl",
+        "relative z-[var(--z-top)] overflow-hidden pointer-events-none rounded-4xl",
         className,
       )}
       {...rest}
     >
       <img
         src={frameSrc}
-        className="pointer-events-none z-50 select-none"
+        className="pointer-events-none z-[var(--z-top)] select-none"
         alt="phone frame"
       />
 
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 z-[var(--z-bottom)]">
         {hasImage ? (
           <img
             className="object-cover w-full h-full"

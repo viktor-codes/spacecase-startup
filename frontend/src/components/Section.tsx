@@ -26,7 +26,7 @@ export default function Section({
           aria-hidden="true"
         />
       )}
-      <Container className={cn("relative z-10", containerClassName)}>
+      <Container className={cn("relative z-[var(--z-top)]", containerClassName)}>
         {children}
       </Container>
     </Tag>

@@ -97,7 +97,7 @@ const HowItWorksSection = () => {
             <div className="space-y-8">
               {steps.map((step) => (
                 <div key={step.number} className="relative flex gap-5">
-                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand-pink">
+                  <div className="relative z-[var(--z-top)] flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand-pink">
                     <step.icon className="h-4 w-4" />
                   </div>
                   <div className="pt-1">

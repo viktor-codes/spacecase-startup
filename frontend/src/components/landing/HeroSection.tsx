@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import Container from "@/components/Container";
+import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,7 @@ const HeroSection = () => {
     >
       {/* Star dots near light source */}
       <div
-        className="pointer-events-none absolute inset-0 right-0"
+        className="pointer-events-none absolute inset-0 right-0 z-[var(--z-bottom)]"
         aria-hidden="true"
       >
         <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_var(--glow-pink)]" />
@@ -33,15 +34,11 @@ const HeroSection = () => {
         <div className="absolute top-[18%] right-[26%] h-0.5 w-0.5 rounded-full bg-brand-pink/35" />
       </div>
 
-      <Container className="relative z-10">
+      <Container className="relative z-(--z-top)">
         <div className="grid lg:grid-cols-[1.1fr_1fr] xl:grid-cols-[1fr_1.05fr] gap-10 xl:gap-20 items-center">
           {/* Content */}
           <div className="flex flex-col space-y-7 text-center lg:text-left items-center lg:items-start">
-            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-(--border-default)">
-              <span className="font-technical text-[10px] uppercase tracking-[0.25em] text-text-secondary">
-                Powered by NASA · 10,000+ astronomy images
-              </span>
-            </p>
+            <Badge>Powered by NASA</Badge>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]! text-text-primary">
               The sky remembers.
@@ -85,12 +82,9 @@ const HeroSection = () => {
                 "300+ DPI print",
                 "UV-resistant ink",
               ].map((label) => (
-                <span
-                  key={label}
-                  className="inline-flex items-center rounded-full bg-white/5 border border-(--border-subtle) px-3 py-1 text-[11px] font-technical tracking-wide text-text-tertiary"
-                >
+                <Badge key={label} variant="outline" className="tracking-wide">
                   {label}
-                </span>
+                </Badge>
               ))}
             </div>
           </div>
@@ -98,7 +92,7 @@ const HeroSection = () => {
           {/* Product */}
           <div className="relative flex justify-center lg:justify-end">
             <div
-              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden"
+              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden z-[var(--z-bottom)]"
               aria-hidden="true"
             />
 
@@ -126,7 +120,7 @@ const HeroSection = () => {
             </div> */}
 
             {/* Сферическая сетка "Рыбий глаз" за продуктом */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none z-[var(--z-bottom)]">
               <div
                 className="w-full h-full"
                 style={{
@@ -154,7 +148,7 @@ const HeroSection = () => {
                 height={1024}
                 priority
                 quality={85}
-                className="relative z-10 w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto"
+                className="relative z-[var(--z-top)] w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto"
               />
             </div>
           </div>

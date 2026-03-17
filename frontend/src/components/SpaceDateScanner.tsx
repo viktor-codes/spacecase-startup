@@ -145,7 +145,7 @@ const SpaceDateScanner = ({
           size="hero"
           className="group cursor-pointer relative"
         >
-          <span className="relative z-10 flex items-center gap-3">
+          <span className="relative z-[var(--z-top)] flex items-center gap-3">
             {loading ? "Loading..." : "Reveal the Universe"}
             {!loading && (
               <motion.span

@@ -37,10 +37,10 @@ function Logo() {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 inset-x-0 z-100 border-b border-(--border-default) bg-surface-base/60 backdrop-blur-lg transition-all">
+    <header className="sticky top-0 inset-x-0 z-[var(--z-header)] border-b border-(--border-default) bg-surface-base/60 backdrop-blur-lg transition-all">
       <Container>
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 z-40">
+          <Link href="/" className="flex items-center gap-2 z-[var(--z-top)]">
             <Logo />
           </Link>
 

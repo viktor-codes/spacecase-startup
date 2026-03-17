@@ -75,7 +75,7 @@ const TryNowSection = () => {
       />
 
       {isModalOpen && apod && (
-        <div className="fixed inset-0 z-120 flex items-center justify-center bg-black/70 px-4">
+        <div className="fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center bg-black/70 px-4">
           <div className="relative w-full max-w-2xl rounded-2xl bg-surface-overlay border border-(--border-default) p-5 shadow-xl">
             <button
               type="button"

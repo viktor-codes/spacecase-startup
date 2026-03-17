@@ -183,6 +183,21 @@
     --glow-combined: rgba(140, 86, 253, 0.1);
 
     --radius: 0.5rem;
+
+    /* Z-index tokens: global layers */
+    --z-base: 0;
+    --z-sidebar: 10;
+    --z-dropdown: 100;
+    --z-popover: 150;
+    --z-toast: 200;
+    --z-modal: 300;
+    --z-overlay: 400;
+    --z-critical: 500;
+    --z-header: 600; /* header above everything else */
+
+    /* Z-index tokens: local (inside components) */
+    --z-top: 10;
+    --z-bottom: -10;
   }
 }
 

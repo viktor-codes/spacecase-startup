@@ -34,7 +34,7 @@ export default function FloatingCase({ imgSrc, className }: FloatingCaseProps) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative perspective-distant">
-        <div className="pointer-events-none absolute inset-0 -z-10 blur-3xl">
+        <div className="pointer-events-none absolute inset-0 z-[var(--z-bottom)] blur-3xl">
           <div
             className="h-full w-full rounded-full bg-[radial-gradient(circle_at_30%_20%,#A855F7,transparent_60%),radial-gradient(circle_at_80%_80%,#38BDF8,transparent_55%)] opacity-60"
             style={{
