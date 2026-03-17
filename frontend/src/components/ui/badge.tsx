@@ -11,7 +11,7 @@ type BadgeProps = {
 } & HTMLAttributes<HTMLSpanElement>;
 
 const baseClasses =
-  "inline-flex items-center gap-1 px-3 py-1 text-sm font-technical tracking-[0.2em] uppercase";
+  "inline-flex items-center gap-1 px-3 py-1 text-xs font-technical tracking-[0.2em] uppercase";
 
 const variantClasses: Record<BadgeVariant, string> = {
   subtle:

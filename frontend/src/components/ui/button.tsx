@@ -16,9 +16,9 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         primary:
-          "rounded-2xl border border-zinc-300 bg-[linear-gradient(#dcdcdc,#f3f3f3)] text-surface-base font-bold uppercase shadow-sm transition-transform hover:bg-[linear-gradient(#f3f3f3,#ffffff)] hover:border-brand-purple hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]",
+          "rounded-2xl border border-zinc-300 bg-[linear-gradient(#f3f3f3,#ffffff)] text-surface-base font-bold uppercase shadow-sm transition-transform hover:border-brand-purple hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]",
         secondary:
-          "rounded-2xl border border-(--border-subtle) bg-[linear-gradient(#23232a,#14141a)] text-text-secondary shadow-sm hover:bg-[linear-gradient(#2b2b33,#181820)] hover:text-text-primary",
+          "rounded-2xl border border-(--border-subtle) bg-[linear-gradient(#23232a,#14141a)] text-text-primary shadow-sm hover:bg-[linear-gradient(#2b2b33,#181820)]",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         space:
@@ -28,7 +28,7 @@ const buttonVariants = cva(
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
-        hero: "h-auto px-12 py-5 text-xl",
+        hero: "h-auto px-8 py-5 text-xl",
         icon: "h-9 w-9",
       },
     },

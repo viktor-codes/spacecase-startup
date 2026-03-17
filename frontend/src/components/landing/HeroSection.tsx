@@ -34,50 +34,55 @@ const HeroSection = () => {
       </div>
 
       <Container className="relative z-(--z-top)">
-        <div className="grid lg:grid-cols-[1.1fr_1fr] xl:grid-cols-[1fr_1.05fr] gap-10 xl:gap-20 items-center">
+        <div className="flex flex-col gap-12 items-center">
           {/* Content */}
-          <div className="flex flex-col space-y-7 text-center lg:text-left items-center lg:items-start">
+          <div className="flex flex-col space-y-7 text-center items-center">
             <Badge>Powered by NASA</Badge>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]! text-text-primary">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05]! text-text-primary">
               The sky remembers.
               <br />
               <span className="text-brand-pink bg-clip-text">Carry it.</span>
             </h1>
 
             <p className="max-w-[480px] text-lg text-text-secondary leading-relaxed">
-              Pick a date that changed your world. We find NASA&apos;s exact
-              astronomy photo from that moment and restore it with AI to
-              print-grade resolution.
-            </p>
-            <p className="max-w-[480px] text-lg text-text-secondary leading-relaxed -mt-3">
-              The result? A dual-layer phone case you&apos;ll never want to put
-              down.
+              Pick a date that changed your world. We turn its NASA sky into a
+              print‑grade, AI‑restored case you carry every day.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-5">
-              <Button asChild variant="primary" size="hero">
+            <div className="flex flex-row items-center justify-center gap-3">
+              <Button
+                asChild
+                variant="primary"
+                size="hero"
+                className="px-3 py-2 text-xs sm:px-5 sm:py-3 sm:text-sm lg:px-8 lg:py-4 lg:text-base "
+              >
                 <Link href="/configure/upload">
                   <span className="tracking-[0.16em] text-xs uppercase">
                     Discover My Sky
                   </span>
-                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                  <ArrowUpRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
 
-              <Button asChild variant="secondary" size="hero">
+              <Button
+                asChild
+                variant="secondary"
+                size="hero"
+                className="px-3 py-2 text-xs sm:px-5 sm:py-3 sm:text-sm lg:px-8 lg:py-4 lg:text-base"
+              >
                 <a href="#how-it-works">
                   <span className="text-xs tracking-[0.16em] uppercase">
                     how it works
                   </span>
-                  <ArrowDown className="ml-2 h-4 w-4" />
+                  <ArrowDown className="ml-2 h-5 w-5" />
                 </a>
               </Button>
             </div>
           </div>
 
           {/* Product */}
-          <div className="relative flex flex-col items-center lg:items-end justify-center gap-4">
+          <div className="relative flex flex-col items-center justify-center gap-4">
             <div
               className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden z-(--z-bottom)"
               aria-hidden="true"
