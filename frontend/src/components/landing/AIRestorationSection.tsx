@@ -6,6 +6,7 @@ import {
 } from "react-compare-slider";
 
 import Section from "@/components/Section";
+import { GlassCard } from "@/components/ui/glass-card";
 
 const ORIGINAL_IMAGE = "/before.png";
 const RESTORED_IMAGE = "/after.jpg";
@@ -124,34 +125,38 @@ const AIRestorationSection = () => {
           {[
             {
               step: "01",
-              title: "Archive Retrieval",
+              title: "Signal Acquisition",
               description:
                 "We fetch the original NASA APOD image — some dating back to 1995, often compressed at web-resolution.",
             },
             {
               step: "02",
-              title: "Neural Upscaling",
+              title: "Neural Synthesis",
               description:
                 "Our AI model reconstructs lost detail, sharpens edges, and restores color depth to 300+ DPI print resolution.",
             },
             {
               step: "03",
-              title: "Print Calibration",
+              title: "Chromatic Mastering",
               description:
                 "Color profiles are tuned for the ink and case material, ensuring deep blacks and vibrant nebula tones.",
             },
           ].map((item) => (
-            <div key={item.step} className="text-center sm:text-left">
+            <GlassCard
+              key={item.step}
+              variant="interactive"
+              className="p-4 text-center sm:text-left"
+            >
               <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-brand-pink">
                 {item.step}
               </p>
-              <h3 className="mt-1 text-sm font-semibold text-text-primary">
+              <h3 className="mt-2 text-sm font-semibold text-text-primary">
                 {item.title}
               </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-text-tertiary">
+              <p className="mt-2 text-xs leading-relaxed text-text-tertiary">
                 {item.description}
               </p>
-            </div>
+            </GlassCard>
           ))}
         </div>
       </div>

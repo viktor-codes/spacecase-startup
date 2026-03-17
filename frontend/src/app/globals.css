@@ -169,7 +169,7 @@
 
     /* Text (from Polar White #FFFFFF) */
     --text-primary: #f3f3f3;
-    --text-secondary: #8a8a9a;
+    --text-secondary: rgba(243, 243, 243, 0.8);
     --text-tertiary: #5c5c6e;
 
     /* Borders */
