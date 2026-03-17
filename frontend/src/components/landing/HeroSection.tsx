@@ -103,7 +103,7 @@ const HeroSection = () => {
             />
 
             {/* Tech grid under the product */}
-            <div
+            {/* <div
               className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[120%] h-[120%] pointer-events-none"
               style={{
                 perspective: "1000px", // Создает точку схода
@@ -123,9 +123,30 @@ const HeroSection = () => {
                     "radial-gradient(ellipse at center, black 20%, transparent 80%)", // Смягчаем края
                 }}
               />
+            </div> */}
+
+            {/* Сферическая сетка "Рыбий глаз" за продуктом */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none">
+              <div
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `
+        repeating-radial-gradient(
+          circle at center,
+          rgba(77, 48, 255, 0.2) 0px,
+          rgba(77, 48, 255, 0.2) 1px,
+          transparent 1px,
+          transparent 40px
+        )
+      `,
+                  WebkitMaskImage:
+                    "radial-gradient(circle at center, black 10%, transparent 70%)",
+                  animation: "radar-pulse 14s linear infinite",
+                }}
+              />
             </div>
 
-            <div className="relative group">
+            <div className="relative">
               <Image
                 src="/hero-phone.png"
                 alt="SpaceCase — premium phone case with NASA nebula print"
@@ -133,7 +154,7 @@ const HeroSection = () => {
                 height={1024}
                 priority
                 quality={85}
-                className="relative z-10 w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                className="relative z-10 w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto"
               />
             </div>
           </div>

@@ -10,14 +10,26 @@ type UseApodDateArgs = {
 };
 
 export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
-  const minDate = useMemo(() => new Date(APOD_MIN_DATE).getTime(), []);
-  const maxDate = useMemo(() => new Date().getTime(), []);
+  // Всё считаем в UTC (00:00 UTC), чтобы дата не "прыгала" из-за локальной таймзоны
+  const minDate = useMemo(() => {
+    const [y, m, d] = APOD_MIN_DATE.split("-").map(Number);
+    return Date.UTC(y, m - 1, d);
+  }, []);
+
+  const maxDate = useMemo(() => {
+    const now = new Date();
+    return Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+    );
+  }, []);
 
   const initialTimestamp = useMemo(() => {
     if (value) {
-      const parsed = new Date(value);
-      if (!Number.isNaN(parsed.getTime())) {
-        const ts = parsed.getTime();
+      const [y, m, d] = value.split("-").map(Number);
+      if (!Number.isNaN(y) && !Number.isNaN(m) && !Number.isNaN(d)) {
+        const ts = Date.UTC(y, m - 1, d);
         return Math.min(Math.max(ts, minDate), maxDate);
       }
     }
@@ -34,7 +46,10 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
 
   const dateString = useMemo(() => {
     const d = new Date(timestamp);
-    return d.toISOString().split("T")[0];
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }, [timestamp]);
 
   useEffect(() => {
@@ -46,20 +61,22 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
   const displayDate = useMemo(() => {
     const d = new Date(timestamp);
     return {
-      day: String(d.getDate()).padStart(2, "0"),
-      month: String(d.getMonth() + 1).padStart(2, "0"),
-      year: d.getFullYear(),
+      day: String(d.getUTCDate()).padStart(2, "0"),
+      month: String(d.getUTCMonth() + 1).padStart(2, "0"),
+      year: d.getUTCFullYear(),
     };
   }, [timestamp]);
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(e.target.value);
-    const clamped = Math.min(Math.max(next, minDate), maxDate);
+  const handleSliderChange = (value: number) => {
+    const clamped = Math.min(Math.max(value, minDate), maxDate);
     setSliderValue(clamped);
   };
 
-  const commitSliderValue = () => {
-    setTimestamp(sliderValue);
+  const commitSliderValue = (value?: number) => {
+    const next = typeof value === "number" ? value : sliderValue;
+    const clamped = Math.min(Math.max(next, minDate), maxDate);
+    setTimestamp(clamped);
+    setSliderValue(clamped);
   };
 
   return {

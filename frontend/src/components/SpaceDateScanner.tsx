@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
+import { CalendarDate } from "@internationalized/date";
 
 import { cn } from "@/lib/utils";
 import { useApodDate } from "@/hooks/useApodDate";
@@ -37,74 +38,53 @@ const SpaceDateScanner = ({
   const {
     minDate,
     maxDate,
+    timestamp,
     setTimestamp,
     sliderValue,
     setSliderValue,
     dateString,
-    displayDate,
     handleSliderChange,
     commitSliderValue,
   } = useApodDate({ value, onChange });
-  const [isEditing, setIsEditing] = useState(false);
-  const [manualDay, setManualDay] = useState<string | null>(null);
-  const [manualMonth, setManualMonth] = useState<string | null>(null);
-  const [manualYear, setManualYear] = useState<string | null>(null);
-  const [hasError, setHasError] = useState(false);
+  const hasError = useMemo(() => {
+    return timestamp < minDate || timestamp > maxDate;
+  }, [timestamp, minDate, maxDate]);
 
-  const commitManualInput = (options?: { submit?: boolean }) => {
-    const dayString = manualDay ?? displayDate.day;
-    const monthString = manualMonth ?? displayDate.month;
-    const yearString = manualYear ?? String(displayDate.year);
+  const calendarValue = useMemo(() => {
+    const d = new Date(timestamp);
+    return new CalendarDate(
+      d.getUTCFullYear(),
+      d.getUTCMonth() + 1,
+      d.getUTCDate(),
+    );
+  }, [timestamp]);
 
-    if (!dayString || !monthString || !yearString) {
-      setHasError(true);
-      return;
-    }
+  const minCalendarDate = useMemo(() => {
+    const d = new Date(minDate);
+    return new CalendarDate(
+      d.getUTCFullYear(),
+      d.getUTCMonth() + 1,
+      d.getUTCDate(),
+    );
+  }, [minDate]);
 
-    const day = Number(dayString);
-    const month = Number(monthString);
-    const year = Number(yearString);
+  const maxCalendarDate = useMemo(() => {
+    const d = new Date(maxDate);
+    return new CalendarDate(
+      d.getUTCFullYear(),
+      d.getUTCMonth() + 1,
+      d.getUTCDate(),
+    );
+  }, [maxDate]);
 
-    if (
-      Number.isNaN(day) ||
-      Number.isNaN(month) ||
-      Number.isNaN(year) ||
-      day < 1 ||
-      month < 1 ||
-      month > 12
-    ) {
-      setHasError(true);
-      return;
-    }
-
-    const candidate = new Date(year, month - 1, day);
-
-    if (
-      candidate.getFullYear() !== year ||
-      candidate.getMonth() !== month - 1 ||
-      candidate.getDate() !== day
-    ) {
-      setHasError(true);
-      return;
-    }
-
-    const ts = candidate.getTime();
+  const handleDateFieldChange = (value: { year: number; month: number; day: number }) => {
+    const ts = Date.UTC(value.year, value.month - 1, value.day);
     if (ts < minDate || ts > maxDate) {
-      setHasError(true);
       return;
     }
 
     setTimestamp(ts);
     setSliderValue(ts);
-    setManualDay(null);
-    setManualMonth(null);
-    setManualYear(null);
-    setHasError(false);
-
-    if (options?.submit && onSubmit) {
-      const iso = new Date(ts).toISOString().split("T")[0];
-      onSubmit(iso);
-    }
   };
 
   const handleSubmitClick = () => {
@@ -128,21 +108,15 @@ const SpaceDateScanner = ({
     >
       {/* 1. ГИГАНТСКИЕ ЦИФРЫ (РУЧНОЙ ВВОД) */}
       <SpaceDateScannerDateDigits
-        displayDate={displayDate}
-        manualDay={manualDay}
-        manualMonth={manualMonth}
-        manualYear={manualYear}
+        value={calendarValue}
+        minDate={minCalendarDate}
+        maxDate={maxCalendarDate}
         size={size}
         helperVariant={helperVariant}
         helperTextOverride={helperTextOverride}
-        isEditing={isEditing}
         hasError={hasError}
-        setManualDay={setManualDay}
-        setManualMonth={setManualMonth}
-        setManualYear={setManualYear}
-        setIsEditing={setIsEditing}
-        setHasError={setHasError}
-        onCommit={commitManualInput}
+        onChange={handleDateFieldChange}
+        onSubmit={showPrimaryButton ? handleSubmitClick : undefined}
       />
 
       {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
@@ -155,11 +129,8 @@ const SpaceDateScanner = ({
           onChange={handleSliderChange}
           onCommit={commitSliderValue}
           onInteractStart={() => {
-            setManualDay(null);
-            setManualMonth(null);
-            setManualYear(null);
-            setIsEditing(false);
-            setHasError(false);
+            // взаимодействие со слайдером не сбрасывает состояние даты,
+            // React Aria DateField синхронизируется через timestamp
           }}
         />
       )}

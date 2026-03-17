@@ -145,6 +145,15 @@
   }
 }
 
+@keyframes radar-pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.4);
+  }
+}
+
 @layer base {
   :root {
     /* Surfaces (from Space Black #020207) */
