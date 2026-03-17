@@ -39,7 +39,7 @@ const HeroSection = () => {
           <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center lg:text-left lg:items-start max-w-xl">
             <Badge className="mb-4">Powered by NASA</Badge>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-text-primary max-w-[12ch] mx-auto lg:mx-0">
+            <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-text-primary max-w-[12ch] mx-auto lg:mx-0">
               The sky remembers.
               <br />
               <span className="text-brand-pink bg-clip-text font-semibold">
