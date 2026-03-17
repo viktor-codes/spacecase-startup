@@ -26,6 +26,33 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <body className={`${recursive.variable} antialiased`}>
+        {/* Фиксированный фон для iOS и десктопа */}
+        <div
+          className="fixed inset-0 -z-10 h-[120svh] overflow-hidden pointer-events-none"
+          style={{
+            WebkitTransform: "translate3d(0,0,0)",
+            backfaceVisibility: "hidden",
+          }}
+        >
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{
+              background: `
+        radial-gradient(
+          circle at 20% -10%,
+          rgba(77, 48, 255, 0.22),
+          transparent 60%
+        ),
+        radial-gradient(
+          circle at 85% 110%,
+          rgba(203, 124, 253, 0.18),
+          transparent 60%
+        )
+      `,
+              backgroundSize: "cover",
+            }}
+          />
+        </div>
         <div className="relative min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>

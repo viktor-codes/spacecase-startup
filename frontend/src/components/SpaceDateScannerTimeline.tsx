@@ -24,7 +24,7 @@ const SpaceDateScannerTimeline = ({
 }: SpaceDateScannerTimelineProps) => {
   return (
     <div
-      className="relative w-full max-w-2xl px-4 touch-none"
+      className="relative w-full max-w-2xl px-4 touch-none overflow-hidden"
       onMouseDown={onInteractStart}
       onTouchStart={onInteractStart}
     >

@@ -168,7 +168,7 @@
     --brand-subtle: #1a1030;
 
     /* Text (from Polar White #FFFFFF) */
-    --text-primary: #ffffff;
+    --text-primary: #f3f3f3;
     --text-secondary: #8a8a9a;
     --text-tertiary: #5c5c6e;
 
@@ -202,30 +202,8 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
-    @apply bg-background text-foreground font-sans;
-
-    /* Минималистичный космический фон: мягкая туманность без полос */
-    background-color: #020207;
-    background-image:
-      radial-gradient(
-        circle at 20% -10%,
-        rgba(77, 48, 255, 0.22),
-        transparent 60%
-      ),
-      radial-gradient(
-        circle at 85% 110%,
-        rgba(203, 124, 253, 0.18),
-        transparent 60%
-      );
-    background-attachment: fixed;
-    background-size:
-      120% 120%,
-      140% 140%;
-    background-position: center, center;
+    @apply bg-[#020207] text-foreground font-sans;
   }
 }
 
