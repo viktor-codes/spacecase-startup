@@ -36,6 +36,8 @@ class NasaApodClient(ApodProvider):
 
         data = response.json()
 
+        print("NASA APOD URL:", data.get("hdurl") or data.get("url", ""))
+
         return ApodImage(
             date=target_date,
             title=data.get("title", ""),

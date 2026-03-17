@@ -1,14 +1,19 @@
 "use client";
-
-import Image from "next/image";
-import { Sparkles } from "lucide-react";
-import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slider";
+import { useState } from "react";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 import Section from "@/components/Section";
 
-const COMPARISON_IMAGE = "/rosette-cone.jpg";
+const ORIGINAL_IMAGE = "/before.png";
+const RESTORED_IMAGE = "/after.jpg";
 
 const AIRestorationSection = () => {
+  const [position, setPosition] = useState(50);
+  const [isInteracting, setIsInteracting] = useState(false);
+
   return (
     <Section className="overflow-hidden">
       <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
@@ -27,42 +32,87 @@ const AIRestorationSection = () => {
 
       <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
         {/* Interactive slider comparison (react-compare-slider) */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
+        <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
           <ReactCompareSlider
             itemOne={
               <ReactCompareSliderImage
-                src={COMPARISON_IMAGE}
+                src={ORIGINAL_IMAGE}
                 alt="Original NASA archive image"
-                className="object-cover blur-[2px] brightness-75 saturate-50 contrast-75"
+                className="object-cover"
               />
             }
             itemTwo={
               <ReactCompareSliderImage
-                src={COMPARISON_IMAGE}
+                src={RESTORED_IMAGE}
                 alt="AI-restored NASA image"
                 className="object-cover"
               />
             }
             className="h-full w-full cursor-ew-resize"
             boundsPadding={0}
-            position={50}
+            position={position}
+            onPositionChange={setPosition}
+            onPointerDown={() => setIsInteracting(true)}
+            onPointerUp={() => setIsInteracting(false)}
+            onPointerLeave={() => setIsInteracting(false)}
+            handle={
+              <div
+                className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-surface-overlay/90 backdrop-blur-md shadow-lg transition-all duration-200 group-hover:w-32 ${
+                  isInteracting ? "w-32" : ""
+                }`}
+              >
+                {/* Arrows (always visible) */}
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-1 text-white">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="text-white"
+                  >
+                    <path
+                      d="M6 3L3 8L6 13"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="text-white"
+                  >
+                    <path
+                      d="M10 3L13 8L10 13"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* Labels (hover/touch state, appear around arrows) */}
+                <div
+                  className={`pointer-events-none flex w-full items-center justify-between px-2 text-[8px] font-technical uppercase tracking-[0.2em] text-white/80 opacity-0 group-hover:opacity-100 ${
+                    isInteracting ? "opacity-100" : ""
+                  }`}
+                >
+                  <span className="pe-2">Before</span>
+                  <span>After</span>
+                </div>
+              </div>
+            }
           />
 
-          {/* Grain overlay for "old archive" side */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-[url('/grain.png')] opacity-40 mix-blend-overlay" />
-
-          {/* Labels */}
-          <div className="pointer-events-none absolute left-4 top-4 z-[var(--z-top)] rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
-            <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-secondary">
-              Original Archive
-            </p>
-          </div>
-          <div className="pointer-events-none absolute right-4 top-4 z-[var(--z-top)] flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 backdrop-blur-sm">
-            <Sparkles className="h-3 w-3 text-brand-pink" />
-            <p className="font-technical text-[10px] uppercase tracking-[0.2em] text-text-primary">
-              AI-Restored · 300+ DPI
-            </p>
-          </div>
+          {/* Vertical divider line following handle */}
+          <div
+            className="pointer-events-none absolute inset-y-0 z-10 w-px bg-white/80 shadow-[0_0_12px_rgba(255,255,255,0.45)]"
+            style={{ left: `${position}%`, transform: "translateX(-50%)" }}
+          />
         </div>
 
         <p className="mt-4 text-center font-technical text-xs text-text-tertiary">
