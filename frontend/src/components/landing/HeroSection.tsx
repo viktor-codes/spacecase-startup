@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 import Container from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
@@ -21,7 +20,7 @@ const HeroSection = () => {
     >
       {/* Star dots near light source */}
       <div
-        className="pointer-events-none absolute inset-0 right-0 z-[var(--z-bottom)]"
+        className="pointer-events-none absolute inset-0 right-0 z-(--z-bottom)"
         aria-hidden="true"
       >
         <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_var(--glow-pink)]" />
@@ -57,42 +56,30 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-5">
-              <Link
-                href="/configure/upload"
-                className={cn(
-                  buttonVariants({ variant: "space", size: "lg" }),
-                  "h-13 px-10 text-sm",
-                )}
-              >
-                Discover My Sky
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              <Button asChild variant="primary" size="hero">
+                <Link href="/configure/upload">
+                  <span className="tracking-[0.16em] text-xs uppercase">
+                    Discover My Sky
+                  </span>
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
 
-              <a
-                href="#how-it-works"
-                className="text-sm font-medium text-text-tertiary hover:text-text-primary transition-colors"
-              >
-                See how it works
-              </a>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 -mt-2">
-              {[
-                "Dual-layer protection",
-                "300+ DPI print",
-                "UV-resistant ink",
-              ].map((label) => (
-                <Badge key={label} variant="outline" className="tracking-wide">
-                  {label}
-                </Badge>
-              ))}
+              <Button asChild variant="secondary" size="hero">
+                <a href="#how-it-works">
+                  <span className="text-xs tracking-[0.16em] uppercase">
+                    how it works
+                  </span>
+                  <ArrowDown className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
             </div>
           </div>
 
           {/* Product */}
-          <div className="relative flex justify-center lg:justify-end">
+          <div className="relative flex flex-col items-center lg:items-end justify-center gap-4">
             <div
-              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden z-[var(--z-bottom)]"
+              className="pointer-events-none absolute -top-[30%] -right-[20%] w-[70%] h-[60%] rounded-full bg-brand-pink/15 blur-3xl lg:hidden z-(--z-bottom)"
               aria-hidden="true"
             />
 
@@ -120,7 +107,7 @@ const HeroSection = () => {
             </div> */}
 
             {/* Сферическая сетка "Рыбий глаз" за продуктом */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none z-[var(--z-bottom)]">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none z-(--z-bottom)">
               <div
                 className="w-full h-full"
                 style={{
@@ -148,9 +135,21 @@ const HeroSection = () => {
                 height={1024}
                 priority
                 quality={85}
-                className="relative z-[var(--z-top)] w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto"
+                className="relative z-(--z-top) w-96 sm:w-80 md:w-96 lg:w-[420px] xl:w-[600px] h-auto"
               />
             </div>
+
+            {/* <div className="flex flex-wrap items-center justify-center lg:justify-end gap-2">
+              {[
+                "Dual-layer protection",
+                "300+ DPI print",
+                "UV-resistant ink",
+              ].map((label) => (
+                <Badge key={label} variant="outline">
+                  {label}
+                </Badge>
+              ))}
+            </div> */}
           </div>
         </div>
       </Container>

@@ -16,7 +16,7 @@ const LandingPage = () => {
       <HeroSection />
       <HowItWorksSection />
       <TechnicalExcellenceSection />
-      <AIRestorationSection />
+      {/* <AIRestorationSection /> */}
       <StoriesSection />
       <TryNowSection />
       <GuaranteesSection />

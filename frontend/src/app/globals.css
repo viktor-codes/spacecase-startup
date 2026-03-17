@@ -46,7 +46,7 @@
   /* Legacy aliases */
   --color-brand: var(--brand-pink);
   --color-brand-light: #1a1030;
-  --color-brand-foreground: #ffffff;
+  --color-brand-foreground: #f3f3f3;
 
   /* ═══ FONTS ═══ */
   --font-sans: var(--font-recursive), ui-sans-serif, system-ui;

@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+
 import Link from "next/link";
 
 import Container from "@/components/Container";
@@ -50,8 +51,7 @@ export default function Header() {
               className={buttonVariants({
                 variant: "space",
                 size: "sm",
-                className:
-                  "hidden sm:flex items-center gap-1",
+                className: "hidden sm:flex items-center gap-1",
               })}
             >
               Create Your SpaceCase
