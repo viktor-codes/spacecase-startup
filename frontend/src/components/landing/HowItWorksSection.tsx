@@ -19,28 +19,28 @@ const steps = [
     icon: CalendarHeart,
     title: "Pick your date",
     description:
-      "Enter a birthday, anniversary, or any date that shifted your orbit. We'll find the exact NASA Astronomy Picture of the Day from that moment.",
+      "Enter a date that mattered. We pull NASA's Astronomy Picture of the Day from that day (or the closest match).",
   },
   {
     number: "02",
     icon: Sparkles,
-    title: "AI restores every pixel",
+    title: "AI enhances the image",
     description:
-      "Our neural network reconstructs the archive image to 300+ DPI — recovering detail, sharpening edges, and calibrating color depth for print.",
+      "Our AI enhances detail for print-ready clarity—sharper edges and richer color.",
   },
   {
     number: "03",
     icon: Printer,
     title: "Printed edge-to-edge",
     description:
-      "UV-cured ink on a dual-layer Tough case. Colors are tuned for the exact material, so deep blacks stay deep and nebulas stay vivid.",
+      "Edge-to-edge printing on a premium dual-layer Tough case for long-lasting color.",
   },
   {
     number: "04",
     icon: Package,
     title: "Shipped with tracking",
     description:
-      "Production takes 3–5 business days. Every SpaceCase ships with full tracking so you know exactly when the cosmos arrives.",
+      "Typical production is 2-3 business days, then your SpaceCase ships with tracking.",
   },
 ];
 
@@ -57,7 +57,7 @@ const HowItWorksSection = () => {
         kicker="How it works"
         title={
           <>
-            From a date to your hands —{" "}
+            From date to SpaceCase{" "}
             <span className="bg-brand-subtle px-2 text-brand-pink">
               in 4 steps
             </span>
@@ -128,7 +128,7 @@ const HowItWorksSection = () => {
           })}
           href="/configure/upload"
         >
-          Find Your Sky <ArrowRight className="h-4 w-4 ml-1.5" />
+          Start your SpaceCase <ArrowRight className="h-4 w-4 ml-1.5" />
         </Link>
       </div>
     </Section>

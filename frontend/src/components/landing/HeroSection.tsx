@@ -9,12 +9,15 @@ import SectionHeading from "@/components/landing/SectionHeading";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full overflow-hidden pt-16 pb-16 lg:pt-28 lg:pb-24">
+    <section
+      id="home"
+      className="relative w-full overflow-hidden scroll-mt-16 pt-16 pb-16 lg:pt-28 lg:pb-24"
+    >
       <Container className="relative z-(--z-top)">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
           {/* Content */}
           <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center lg:text-left lg:items-start max-w-xl">
-            <Badge className="mb-4">Powered by NASA</Badge>
+            <Badge className="mb-4">From NASA APOD</Badge>
 
             <SectionHeading
               className="px-0 lg:px-0 text-center lg:text-left"
@@ -25,19 +28,19 @@ const HeroSection = () => {
                 <>
                   The sky remembers.
                   <br />
-                  <span className="text-brand-pink bg-clip-text font-bold">
+                  <span className="text-brand-pink bg-clip-text">
                     Carry it.
                   </span>
                 </>
               }
-              titleClassName="mt-0 text-6xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] max-w-[12ch] mx-auto lg:mx-0"
+              titleClassName="mt-0 text-6xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] max-w-[12ch] mx-auto lg:mx-0"
               subtitle={
                 <>
-                  Pick a date that changed your world. We turn its NASA sky into
-                  a print‑grade, AI‑restored case you carry every day.
+                  Pick a date. We fetch NASA&apos;s Astronomy Picture of the Day
+                  and AI-enhance it for print-ready detail.
                 </>
               }
-              subtitleClassName="max-w-[480px] leading-relaxed md:leading-loose mx-auto lg:mx-0"
+              subtitleClassName="max-w-[480px] leading-relaxed md:leading-loose mx-auto lg:mx-0 text-pretty"
             />
 
             <div className="flex flex-row items-center justify-center gap-3">
@@ -47,9 +50,9 @@ const HeroSection = () => {
                 size="hero"
                 className="px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8 lg:py-4"
               >
-                <Link href="/configure/upload">
+                <Link href="#try-now">
                   <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
-                    Discover My Sky
+                    Preview My Sky
                   </span>
                   <ArrowUpRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -63,7 +66,7 @@ const HeroSection = () => {
               >
                 <a href="#how-it-works">
                   <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
-                    how it works
+                    How it works
                   </span>
                   <ArrowDown className="ml-2 h-5 w-5" />
                 </a>

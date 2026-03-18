@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import type { MouseEvent } from "react";
 import Link from "next/link";
 
 import Container from "@/components/Container";
@@ -46,11 +47,32 @@ export default function Header() {
     [],
   );
 
+  const handleLogoClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+    // Важно: якорь вида /#home иногда не триггерит скролл повторно,
+    // если URL/хэш не меняются — принудительно делаем scrollIntoView.
+    if (window.location.pathname !== "/") return;
+
+    e.preventDefault();
+    window.history.replaceState(null, "", "/#home");
+
+    const element = document.getElementById("home");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <header className="sticky top-0 inset-x-0 z-(--z-header) bg-transparent backdrop-blur-lg">
       <Container className="relative">
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 z-(--z-top)">
+          <Link
+            href="/#home"
+            className="flex items-center gap-2 z-(--z-top)"
+            onClick={handleLogoClick}
+          >
             <Logo />
           </Link>
 

@@ -206,6 +206,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   body {
     @apply bg-[#020207] text-foreground font-sans;

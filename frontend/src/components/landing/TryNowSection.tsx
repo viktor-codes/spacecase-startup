@@ -52,15 +52,15 @@ const TryNowSection = () => {
 
   return (
     <Section>
+      <div id="try-now" className="absolute -top-24" />
       <SectionHeading
         containerClassName="max-w-3xl"
         kicker="Try it now"
-        title="See what the universe looked like on your day"
+        title="See NASA's sky on your date"
         subtitle={
           <>
-            Type any date and instantly preview the NASA Astronomy Picture of
-            the Day from that moment. This is the exact image we&apos;ll restore
-            with AI and print on your SpaceCase.
+            Enter a date to preview NASA&apos;s Astronomy Picture of the Day.
+            We&apos;ll AI-enhance it for a print-ready SpaceCase.
           </>
         }
       />
@@ -91,8 +91,7 @@ const TryNowSection = () => {
                 </h3>
 
                 <p className="mt-1 text-xs text-text-secondary">
-                  Preview of the NASA Astronomy Picture of the Day for your
-                  selected date.
+                  NASA APOD preview for your selected date.
                 </p>
               </div>
 
@@ -129,7 +128,7 @@ const TryNowSection = () => {
                     className: "text-xs",
                   })}
                 >
-                  Make This My SpaceCase
+                  Continue to my SpaceCase
                 </a>
               </div>
             </div>

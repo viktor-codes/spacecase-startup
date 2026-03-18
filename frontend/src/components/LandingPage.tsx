@@ -14,11 +14,11 @@ const LandingPage = () => {
   return (
     <div>
       <HeroSection />
+      <TryNowSection />
       <HowItWorksSection />
       <TechnicalExcellenceSection />
       <AIRestorationSection />
       <StoriesSection />
-      <TryNowSection />
       <GuaranteesSection />
       <FAQSection />
       <FinalCTASection />
