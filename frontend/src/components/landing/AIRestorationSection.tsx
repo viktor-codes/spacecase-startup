@@ -7,6 +7,7 @@ import {
 
 import Section from "@/components/Section";
 import { GlassCard } from "@/components/ui/glass-card";
+import SectionHeading from "@/components/landing/SectionHeading";
 
 const ORIGINAL_IMAGE = "/before.png";
 const RESTORED_IMAGE = "/after.jpg";
@@ -17,19 +18,18 @@ const AIRestorationSection = () => {
 
   return (
     <Section className="overflow-hidden">
-      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          AI restoration
-        </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          From archive to artwork
-        </h2>
-        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
-          Many NASA images date back decades. Our neural network reconstructs
-          every pixel to 300+ DPI — turning a compressed archive file into a
-          print-ready masterpiece.
-        </p>
-      </div>
+      <SectionHeading
+        kicker="AI restoration"
+        title="From archive to artwork"
+        subtitle={
+          <>
+            Many NASA images date back decades. Our neural network reconstructs
+            every pixel to 300+ DPI — turning a compressed archive file into a
+            print-ready masterpiece.
+          </>
+        }
+        subtitleClassName="max-w-2xl mx-auto"
+      />
 
       <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
         {/* Interactive slider comparison (react-compare-slider) */}

@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 import Link from "next/link";
 
@@ -7,30 +8,21 @@ import { buttonVariants } from "@/components/ui/button";
 
 function Logo() {
   return (
-    <span className="flex items-center gap-1.5 select-none">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        className="text-brand-pink"
-        aria-hidden="true"
-      >
-        <circle
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-        <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.3" />
-        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-        <circle cx="18" cy="7" r="0.8" fill="currentColor" opacity="0.5" />
-        <circle cx="7" cy="17" r="0.6" fill="currentColor" opacity="0.4" />
-        <circle cx="16" cy="16" r="0.5" fill="currentColor" opacity="0.3" />
-      </svg>
-      <span className="text-base font-bold tracking-tight text-text-primary uppercase">
-        Space<span className="text-brand-pink">Case</span>
+    <span className="select-none flex items-center justify-center">
+      {/* Добавляем flex и items-center для главной строки текста */}
+      <span className="font-display text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center">
+        Space
+        {/* Контейнер для иконки и хвоста слова тоже делаем flex items-center */}
+        <span className="text-brand-pink flex items-center">
+          <Image
+            src="/spacecasenewlogo.png"
+            alt="C"
+            width={56}
+            height={56}
+            className="inline-block w-12 h-12 rotate-50 shrink-0 -ms-1 -me-3"
+          />
+          ase
+        </span>
       </span>
     </span>
   );

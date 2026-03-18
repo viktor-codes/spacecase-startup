@@ -52,6 +52,7 @@
   --font-sans: var(--font-recursive), ui-sans-serif, system-ui;
   --font-mono:
     var(--font-recursive), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui;
 
   /* ═══ ANIMATIONS ═══ */
   --animate-accordion-down: accordion-down 200ms ease-out;
@@ -61,6 +62,10 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
   }
 
   .animate-float {
@@ -204,6 +209,15 @@
 @layer base {
   body {
     @apply bg-[#020207] text-foreground font-sans;
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
   }
 }
 

@@ -2,6 +2,7 @@ import { Clock, Truck, ShieldCheck, Lock } from "lucide-react";
 
 import Section from "@/components/Section";
 import { GlassCard } from "@/components/ui/glass-card";
+import SectionHeading from "@/components/landing/SectionHeading";
 
 const guarantees = [
   {
@@ -36,19 +37,18 @@ const deliveryNote =
 const GuaranteesSection = () => {
   return (
     <Section>
-      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          Guarantees & delivery
-        </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          Safe purchase, predictable delivery
-        </h2>
-        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
-          We want your SpaceCase to feel exciting, not stressful. That is why we
-          keep our production, shipping, and guarantees as transparent as
-          possible.
-        </p>
-      </div>
+      <SectionHeading
+        kicker="Guarantees & delivery"
+        title="Safe purchase, predictable delivery"
+        subtitle={
+          <>
+            We want your SpaceCase to feel exciting, not stressful. That is why
+            we keep our production, shipping, and guarantees as transparent as
+            possible.
+          </>
+        }
+        subtitleClassName="max-w-2xl mx-auto"
+      />
 
       <div className="mt-12 px-6 lg:px-8 mx-auto max-w-6xl grid gap-8 md:grid-cols-2">
         {guarantees.map((item) => (

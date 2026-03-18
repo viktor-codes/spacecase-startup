@@ -1,142 +1,182 @@
-import {
-  Cpu,
-  Fingerprint,
-  Layers,
-  Maximize,
-  ScanEye,
-  Shield,
-} from "lucide-react";
-
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Section from "@/components/Section";
 import { GlassCard } from "@/components/ui/glass-card";
+import SectionHeading from "@/components/landing/SectionHeading";
 
-const layers = [
+const featureBullets = [
   {
-    label: "Fade-Resistant UV Ink",
-    color: "bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-400",
-    height: "h-3",
+    id: "durability",
+    label: "Long-lasting durability",
+    description: "Dual-layer Tough construction absorbs cosmic-level impacts.",
+    position: { top: "14%", left: "28%" },
   },
   {
-    label: "AI-Enhanced Print · 300+ DPI",
-    color: "bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800",
-    height: "h-5",
+    id: "finish",
+    label: "Polished finish",
+    description: "Premium glossy coating with glass-like reflections.",
+    position: { top: "40%", left: "18%" },
   },
   {
-    label: "Polycarbonate Outer Shell",
-    color: "bg-gradient-to-r from-slate-300 via-slate-200 to-slate-300",
-    height: "h-8",
-  },
-  {
-    label: "TPU Inner Liner",
-    color: "bg-gradient-to-r from-slate-500 via-slate-400 to-slate-500",
-    height: "h-6",
-  },
-];
-
-const specs = [
-  {
-    icon: Cpu,
-    title: "AI-Enhanced Detail",
+    id: "prints",
+    label: "Vibrant non-fade prints",
     description:
-      "Every NASA archive image is reconstructed by a neural network to 300+ DPI — sharp enough for edge-to-edge print.",
+      "UV-cured pigments keep every nebula and galaxy sharp for years.",
+    position: { top: "68%", left: "26%" },
   },
   {
-    icon: Layers,
-    title: "Dual-Layer Protection",
-    description:
-      "Impact-resistant polycarbonate outer shell fused with a flexible TPU inner liner. Built for daily drops and bumps.",
+    id: "protection",
+    label: "Dual-layer protection",
+    description: "Rigid polycarbonate shell + TPU inner liner.",
+    position: { top: "18%", left: "72%" },
   },
   {
-    icon: Maximize,
-    title: "3D Full Wrap Print",
-    description:
-      "The image extends to every edge and corner — no white borders, no blank spots. The cosmos covers every surface.",
+    id: "materials",
+    label: "Top-grade materials",
+    description: "Aerospace-inspired polymers selected for impact resistance.",
+    position: { top: "44%", left: "82%" },
   },
   {
-    icon: Fingerprint,
-    title: "Fade-Resistant Ink",
+    id: "weight",
+    label: "Lightweight strength",
     description:
-      "UV-cured ink technology preserves deep blacks and vibrant nebulas. No peeling, no yellowing — even after months of use.",
-  },
-  {
-    icon: ScanEye,
-    title: "Optical Precision",
-    description:
-      "Raised camera bezel protection and precise port cutouts engineered to sub-millimeter accuracy for every device model.",
-  },
-  {
-    icon: Shield,
-    title: "Reinforced Corners",
-    description:
-      "Internal shock-absorbing structure at every corner distributes impact energy away from your device.",
+      "Slim profile keeps pocket weight minimal without losing protection.",
+    position: { top: "70%", left: "74%" },
   },
 ];
 
 const TechnicalExcellenceSection = () => {
-  return (
-    <Section className="overflow-x-hidden">
-      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          Anatomy of a SpaceCase
-        </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          Engineered for the cosmos. Built for your pocket.
-        </h2>
-        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
-          Every SpaceCase is a dual-layer Tough case with AI-restored NASA
-          imagery printed at 300+ DPI. Here&apos;s what&apos;s inside.
-        </p>
-      </div>
+  const [activeId, setActiveId] = useState<string>(featureBullets[0].id);
+  const activeFeature =
+    featureBullets.find((f) => f.id === activeId) ?? featureBullets[0];
 
-      <div className="mt-16 px-6 lg:px-8 mx-auto max-w-6xl grid gap-12 lg:grid-cols-[1fr_1.4fr] items-center">
-        {/* Exploded view */}
-        <div className="flex justify-center">
-          <div
-            className="relative w-56 sm:w-64"
-            style={{ perspective: "600px" }}
-          >
-            <div className="flex flex-col items-center gap-5">
-              {layers.map((layer, i) => (
-                <div key={layer.label} className="relative w-full group">
-                  <div
-                    className={`${layer.color} ${layer.height} w-full rounded-2xl shadow-lg ring-1 ring-(--border-default) transition-transform duration-300 hover:scale-105`}
-                    style={{
-                      transform: `rotateX(8deg) rotateY(-4deg) translateZ(${(layers.length - i) * 12}px)`,
-                    }}
-                  />
-                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 flex items-center gap-2 whitespace-nowrap">
-                    <div className="h-px w-6 bg-(--border-default)" />
-                    <span className="font-technical text-[10px] uppercase tracking-[0.15em] text-text-secondary">
-                      {layer.label}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+  return (
+    <Section className="overflow-visible">
+      <SectionHeading
+        className="mb-12"
+        kicker="Anatomy of a SpaceCase"
+        title="Engineered for orbit."
+      />
+
+      {/* Мобильный лэйаут: чехол + свайп карточек */}
+      <div className="mx-auto w-full max-w-md flex flex-col gap-6 md:hidden">
+        <div className="relative mx-auto w-96">
+          <motion.img
+            src="/excelence-2.png"
+            alt="SpaceCase"
+            className="w-full"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          />
         </div>
 
-        {/* Specs grid */}
-        <div className="grid gap-5 sm:grid-cols-2">
-          {specs.map((spec) => (
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-6 px-6">
+          {featureBullets.map((f) => (
             <GlassCard
-              key={spec.title}
-              variant="interactive"
-              className="p-5 text-left"
+              key={f.id}
+              className="min-w-[82%] snap-center p-4 shrink-0"
+              onClick={() => setActiveId(f.id)}
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-subtle">
-                  <spec.icon className="h-4 w-4 text-brand-pink" />
-                </div>
-                <h3 className="text-sm font-semibold text-text-primary">
-                  {spec.title}
-                </h3>
-              </div>
-              <p className="text-xs leading-relaxed text-text-secondary">
-                {spec.description}
+              <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                {f.label}
+              </p>
+              <p className="text-sm leading-relaxed text-text-secondary">
+                {f.description}
               </p>
             </GlassCard>
           ))}
+        </div>
+      </div>
+
+      {/* Планшет и десктоп */}
+      <div
+        className="hidden md:grid mx-auto w-full max-w-6xl
+             md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)]
+             lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)]
+             gap-8 lg:gap-12 items-start"
+      >
+        {/* Левая колонка с фичами (только десктоп) */}
+        <div className="hidden lg:flex flex-col gap-4">
+          {featureBullets.slice(0, 3).map((f) => (
+            <GlassCard
+              key={f.id}
+              className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+              onClick={() => setActiveId(f.id)}
+            >
+              <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                {f.label}
+              </p>
+              <p className="text-sm leading-relaxed text-text-secondary">
+                {f.description}
+              </p>
+            </GlassCard>
+          ))}
+        </div>
+
+        {/* Центральный чехол с точками (планшет и десктоп) */}
+        <div className="relative flex justify-center">
+          <div className="relative w-full">
+            <motion.img
+              src="/excelence-2.png"
+              alt="SpaceCase"
+              className="w-full"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </div>
+        </div>
+
+        {/* Правая колонка: на планшете — весь стек фич, на десктопе — вторая половина */}
+        <div className="flex flex-col gap-4">
+          {/* Планшеты (md–lg): показываем все фичи одной колонкой */}
+          <div className="flex flex-col gap-4 lg:hidden">
+            {featureBullets.map((f) => (
+              <GlassCard
+                key={f.id}
+                className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+                onClick={() => setActiveId(f.id)}
+              >
+                <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                  {f.label}
+                </p>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  {f.description}
+                </p>
+              </GlassCard>
+            ))}
+          </div>
+
+          {/* Десктоп (lg+): во второй колонке только вторая половина фич */}
+          <div className="hidden lg:flex flex-col gap-4">
+            {featureBullets.slice(3).map((f) => (
+              <GlassCard
+                key={f.id}
+                className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+                onClick={() => setActiveId(f.id)}
+              >
+                <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                  {f.label}
+                </p>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  {f.description}
+                </p>
+              </GlassCard>
+            ))}
+          </div>
+
+          {/* Активная фича как краткое резюме */}
+          <GlassCard className="mt-2 p-4">
+            <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+              {activeFeature.label}
+            </p>
+            <p className="text-sm leading-relaxed text-text-secondary">
+              {activeFeature.description}
+            </p>
+          </GlassCard>
         </div>
       </div>
     </Section>

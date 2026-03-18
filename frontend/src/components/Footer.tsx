@@ -10,7 +10,7 @@ const Footer = () => {
       <Container>
         <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2 text-sm">
-            <p className="font-bold tracking-tight text-text-primary">
+            <p className="font-display font-bold tracking-tight text-text-primary">
               Space<span className="text-brand-pink">Case</span>
             </p>
             <p className="max-w-md text-xs md:text-sm text-text-tertiary">

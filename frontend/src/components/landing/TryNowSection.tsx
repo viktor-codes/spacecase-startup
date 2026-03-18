@@ -5,6 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 import Section from "@/components/Section";
+import SectionHeading from "@/components/landing/SectionHeading";
 
 import { buttonVariants } from "@/components/ui/button";
 import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
@@ -51,21 +52,18 @@ const TryNowSection = () => {
 
   return (
     <Section>
-      <div className="px-6 lg:px-8 mx-auto max-w-3xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          Try it now
-        </p>
-
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          See what the universe looked like on your day
-        </h2>
-
-        <p className="mt-4 text-base md:text-lg text-text-secondary">
-          Type any date and instantly preview the NASA Astronomy Picture of the
-          Day from that moment. This is the exact image we&apos;ll restore with
-          AI and print on your SpaceCase.
-        </p>
-      </div>
+      <SectionHeading
+        containerClassName="max-w-3xl"
+        kicker="Try it now"
+        title="See what the universe looked like on your day"
+        subtitle={
+          <>
+            Type any date and instantly preview the NASA Astronomy Picture of
+            the Day from that moment. This is the exact image we&apos;ll restore
+            with AI and print on your SpaceCase.
+          </>
+        }
+      />
       <SpaceDateScanner
         value={date}
         onChange={setDate}
@@ -75,7 +73,7 @@ const TryNowSection = () => {
       />
 
       {isModalOpen && apod && (
-        <div className="fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center bg-black/70 px-4">
+        <div className="fixed inset-0 z-(--z-overlay) flex items-center justify-center bg-black/70 px-4">
           <div className="relative w-full max-w-2xl rounded-2xl bg-surface-overlay border border-(--border-default) p-5 shadow-xl">
             <button
               type="button"

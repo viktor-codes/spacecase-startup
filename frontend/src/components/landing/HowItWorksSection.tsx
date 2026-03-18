@@ -10,6 +10,7 @@ import Link from "next/link";
 
 import Section from "@/components/Section";
 import Phone from "@/components/Phone";
+import SectionHeading from "@/components/landing/SectionHeading";
 import { buttonVariants } from "@/components/ui/button";
 
 const steps = [
@@ -52,17 +53,17 @@ const HowItWorksSection = () => {
     >
       <div id="how-it-works" className="absolute -top-24" />
 
-      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          How it works
-        </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          From a date to your hands —{" "}
-          <span className="bg-brand-subtle px-2 text-brand-pink">
-            in 4 steps
-          </span>
-        </h2>
-      </div>
+      <SectionHeading
+        kicker="How it works"
+        title={
+          <>
+            From a date to your hands —{" "}
+            <span className="bg-brand-subtle px-2 text-brand-pink">
+              in 4 steps
+            </span>
+          </>
+        }
+      />
 
       <div className="mt-16 mx-auto max-w-6xl px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center">
@@ -97,7 +98,7 @@ const HowItWorksSection = () => {
             <div className="space-y-8">
               {steps.map((step) => (
                 <div key={step.number} className="relative flex gap-5">
-                  <div className="relative z-[var(--z-top)] flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand-pink">
+                  <div className="relative z-(--z-top) flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand-pink">
                     <step.icon className="h-4 w-4" />
                   </div>
                   <div className="pt-1">

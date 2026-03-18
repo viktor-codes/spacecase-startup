@@ -8,46 +8,22 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
-    <section
-      className="relative w-full overflow-hidden pt-16 pb-16 lg:pt-28 lg:pb-24"
-      // style={{
-      //   backgroundImage: [
-      //     "radial-gradient(ellipse 70% 50% at 88% 10%, var(--glow-pink) 0%, transparent 70%)",
-      //     "radial-gradient(ellipse 40% 40% at 92% 5%, rgba(255,255,255,0.06) 0%, transparent 50%)",
-      //     "radial-gradient(ellipse 50% 50% at 78% 15%, var(--glow-purple) 0%, transparent 60%)",
-      //   ].join(", "),
-      // }}
-    >
-      {/* Star dots near light source */}
-      {/* <div
-        className="pointer-events-none absolute inset-0 right-0 z-(--z-bottom)"
-        aria-hidden="true"
-      >
-        <div className="absolute top-[6%] right-[14%] h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_6px_2px_var(--glow-pink)]" />
-        <div className="absolute top-[4%] right-[22%] h-1 w-1 rounded-full bg:white/60 shadow-[0_0_4px_1px_var(--glow-purple)]" />
-        <div className="absolute top:[10%] right-[8%] h-[5px] w-[5px] rounded-full bg-brand-pink/50 shadow-[0_0_4px_1px_var(--glow-pink)]" />
-        <div className="absolute top:[14%] right:[30%] h-1 w-1 rounded-full bg-brand-pink/40 shadow-[0_0_3px_1px_var(--glow-purple)]" />
-        <div className="absolute top:[20%] right:[5%] h-[3px] w-[3px] rounded-full bg-white/50 shadow-[0_0_3px_1px_var(--glow-purple)]" />
-        <div className="absolute top:[8%] right:[38%] h-[3px] w-[3px] rounded-full bg-brand-pink/40 shadow-[0_0_2px_1px_var(--glow-purple)]" />
-        <div className="absolute top:[25%] right:[12%] h-0.5 w-0.5 rounded-full bg-white/40" />
-        <div className="absolute top:[18%] right:[26%] h-0.5 w-0.5 rounded-full bg-brand-pink/35" />
-      </div> */}
-
+    <section className="relative w-full overflow-hidden pt-16 pb-16 lg:pt-28 lg:pb-24">
       <Container className="relative z-(--z-top)">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
           {/* Content */}
           <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center lg:text-left lg:items-start max-w-xl">
             <Badge className="mb-4">Powered by NASA</Badge>
 
-            <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-text-primary max-w-[12ch] mx-auto lg:mx-0">
+            <h1 className="font-display text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight leading-[1.1] text-text-primary max-w-[12ch] mx-auto lg:mx-0">
               The sky remembers.
               <br />
-              <span className="text-brand-pink bg-clip-text font-semibold">
+              <span className="text-brand-pink bg-clip-text font-bold">
                 Carry it.
               </span>
             </h1>
 
-            <p className="max-w-[480px] text-base md:text-lg text-text-secondary leading-relaxed md:leading-loose">
+            <p className="font-display max-w-[480px] text-base md:text-lg text-text-secondary leading-relaxed md:leading-loose">
               Pick a date that changed your world. We turn its NASA sky into a
               print‑grade, AI‑restored case you carry every day.
             </p>

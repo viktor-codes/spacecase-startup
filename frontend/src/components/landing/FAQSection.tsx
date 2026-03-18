@@ -1,4 +1,5 @@
 import Section from "@/components/Section";
+import SectionHeading from "@/components/landing/SectionHeading";
 import {
   Accordion,
   AccordionContent,
@@ -42,18 +43,17 @@ const faqs = [
 const FAQSection = () => {
   return (
     <Section>
-      <div className="px-6 lg:px-8 mx-auto max-w-4xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary font-technical">
-          FAQ
-        </p>
-        <h2 className="mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary">
-          Answers before you launch your SpaceCase
-        </h2>
-        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
-          If you are wondering about how we use NASA imagery, shipping, or
-          customization, you will probably find your answer below.
-        </p>
-      </div>
+      <SectionHeading
+        kicker="FAQ"
+        title="Answers before you launch your SpaceCase"
+        subtitle={
+          <>
+            If you are wondering about how we use NASA imagery, shipping, or
+            customization, you will probably find your answer below.
+          </>
+        }
+        subtitleClassName="max-w-2xl mx-auto"
+      />
 
       <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
         <Accordion type="single" collapsible>

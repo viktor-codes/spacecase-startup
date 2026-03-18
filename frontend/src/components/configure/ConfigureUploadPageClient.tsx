@@ -107,6 +107,7 @@ const PHONE_MODELS: string[] = [
 export default function ConfigureUploadPageClient({
   initialDate,
 }: ConfigureUploadPageClientProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const [selectedDate, setSelectedDate] = useState(initialDate ?? "");
   const [apod, setApod] = useState<ApodResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -116,17 +117,21 @@ export default function ConfigureUploadPageClient({
 
   const hasImage = apod && apod.media_type === "image" && apod.url;
 
-  const euroFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "EUR",
-      }),
-    [],
-  );
-
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
-  const formattedPrice = euroFormatter.format(totalPrice);
+  const formatEur = useMemo(() => {
+    if (!isMounted) return (price: number) => `€${price}`;
+    const formatter = new Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency: "EUR",
+    });
+    return (price: number) => formatter.format(price);
+  }, [isMounted]);
+
+  const formattedPrice = formatEur(totalPrice);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!initialDate) return;
@@ -417,7 +422,7 @@ export default function ConfigureUploadPageClient({
                           {option.label}
                         </p>
                         <p className="font-mono text-sm font-semibold text-slate-900">
-                          {euroFormatter.format(option.price)}
+                          {formatEur(option.price)}
                         </p>
                       </div>
                       <p className="mt-0.5 font-mono text-[11px] text-slate-500">
