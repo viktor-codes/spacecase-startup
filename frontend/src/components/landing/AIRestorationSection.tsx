@@ -17,24 +17,25 @@ const AIRestorationSection = () => {
   const [isInteracting, setIsInteracting] = useState(false);
 
   return (
-    <Section className="overflow-hidden">
-      <SectionHeading
-        kicker="AI restoration"
-        title="From archive to artwork"
-        subtitle={
-          <>
-            Many NASA images date back decades. Our neural network reconstructs
-            every pixel to 300+ DPI — turning a compressed archive file into a
-            print-ready masterpiece.
-          </>
-        }
-        subtitleClassName="max-w-2xl mx-auto"
-      />
+    <div id="restoration">
+      <Section className="overflow-hidden">
+        <SectionHeading
+          kicker="AI restoration"
+          title="From archive to artwork"
+          subtitle={
+            <>
+              Many NASA images date back decades. Our neural network
+              reconstructs every pixel to 300+ DPI — turning a compressed
+              archive file into a print-ready masterpiece.
+            </>
+          }
+          subtitleClassName="max-w-2xl mx-auto"
+        />
 
-      <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
-        {/* Interactive slider comparison (react-compare-slider) */}
-        <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
-          <ReactCompareSlider
+        <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
+          {/* Interactive slider comparison (react-compare-slider) */}
+          <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
+            <ReactCompareSlider
             itemOne={
               <ReactCompareSliderImage
                 src={ORIGINAL_IMAGE}
@@ -107,60 +108,61 @@ const AIRestorationSection = () => {
                 </div>
               </div>
             }
-          />
+            />
 
-          {/* Vertical divider line following handle */}
-          <div
-            className="pointer-events-none absolute inset-y-0 z-10 w-px bg-white/80 shadow-[0_0_12px_rgba(255,255,255,0.45)]"
-            style={{ left: `${position}%`, transform: "translateX(-50%)" }}
-          />
+            {/* Vertical divider line following handle */}
+            <div
+              className="pointer-events-none absolute inset-y-0 z-10 w-px bg-white/80 shadow-[0_0_12px_rgba(255,255,255,0.45)]"
+              style={{ left: `${position}%`, transform: "translateX(-50%)" }}
+            />
+          </div>
+
+          <p className="mt-4 text-center font-technical text-xs text-text-tertiary">
+            Drag the slider to compare
+          </p>
+
+          {/* Process steps */}
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                step: "01",
+                title: "Signal Acquisition",
+                description:
+                  "We fetch the original NASA APOD image — some dating back to 1995, often compressed at web-resolution.",
+              },
+              {
+                step: "02",
+                title: "Neural Synthesis",
+                description:
+                  "Our AI model reconstructs lost detail, sharpens edges, and restores color depth to 300+ DPI print resolution.",
+              },
+              {
+                step: "03",
+                title: "Chromatic Mastering",
+                description:
+                  "Color profiles are tuned for the ink and case material, ensuring deep blacks and vibrant nebula tones.",
+              },
+            ].map((item) => (
+              <GlassCard
+                key={item.step}
+                variant="interactive"
+                className="p-4 text-center sm:text-left"
+              >
+                <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-brand-pink">
+                  {item.step}
+                </p>
+                <h3 className="mt-2 text-sm font-semibold text-text-primary">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-text-tertiary">
+                  {item.description}
+                </p>
+              </GlassCard>
+            ))}
+          </div>
         </div>
-
-        <p className="mt-4 text-center font-technical text-xs text-text-tertiary">
-          Drag the slider to compare
-        </p>
-
-        {/* Process steps */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
-          {[
-            {
-              step: "01",
-              title: "Signal Acquisition",
-              description:
-                "We fetch the original NASA APOD image — some dating back to 1995, often compressed at web-resolution.",
-            },
-            {
-              step: "02",
-              title: "Neural Synthesis",
-              description:
-                "Our AI model reconstructs lost detail, sharpens edges, and restores color depth to 300+ DPI print resolution.",
-            },
-            {
-              step: "03",
-              title: "Chromatic Mastering",
-              description:
-                "Color profiles are tuned for the ink and case material, ensuring deep blacks and vibrant nebula tones.",
-            },
-          ].map((item) => (
-            <GlassCard
-              key={item.step}
-              variant="interactive"
-              className="p-4 text-center sm:text-left"
-            >
-              <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-brand-pink">
-                {item.step}
-              </p>
-              <h3 className="mt-2 text-sm font-semibold text-text-primary">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-xs leading-relaxed text-text-tertiary">
-                {item.description}
-              </p>
-            </GlassCard>
-          ))}
-        </div>
-      </div>
-    </Section>
+      </Section>
+    </div>
   );
 };
 

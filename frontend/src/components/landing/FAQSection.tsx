@@ -42,7 +42,8 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <Section>
+    <div id="faq">
+      <Section>
       <SectionHeading
         kicker="FAQ"
         title="Answers before you launch your SpaceCase"
@@ -70,6 +71,7 @@ const FAQSection = () => {
         </Accordion>
       </div>
     </Section>
+    </div>
   );
 };
 

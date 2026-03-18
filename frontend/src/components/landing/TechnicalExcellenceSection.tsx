@@ -51,7 +51,8 @@ const TechnicalExcellenceSection = () => {
     featureBullets.find((f) => f.id === activeId) ?? featureBullets[0];
 
   return (
-    <Section className="overflow-visible">
+    <div id="case-anatomy">
+      <Section className="overflow-visible">
       <SectionHeading
         className="mb-12"
         kicker="Anatomy of a SpaceCase"
@@ -179,7 +180,8 @@ const TechnicalExcellenceSection = () => {
           </GlassCard>
         </div>
       </div>
-    </Section>
+      </Section>
+    </div>
   );
 };
 

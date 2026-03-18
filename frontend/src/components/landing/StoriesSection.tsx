@@ -49,7 +49,8 @@ const stories = [
 
 const StoriesSection = () => {
   return (
-    <Section>
+    <div id="gallery">
+      <Section>
       <SectionHeading
         containerClassName="max-w-5xl"
         kicker="Stories from the universe"
@@ -92,6 +93,7 @@ const StoriesSection = () => {
         </div>
       </div>
     </Section>
+    </div>
   );
 };
 
