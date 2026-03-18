@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { buttonVariants } from "@/components/ui/button";
 
@@ -15,6 +16,37 @@ type MobileNavMenuProps = {
   onNavigate: (id: string) => void;
   ctaHref: string;
   ctaLabel: string;
+};
+
+// Константы для анимации
+const menuVariants = {
+  closed: {
+    opacity: 0,
+    scale: 0.95,
+    y: -10,
+    transition: {
+      when: "afterChildren",
+      staggerChildren: 0.05,
+      staggerDirection: -1,
+    },
+  },
+  open: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.08,
+      duration: 0.3,
+      // Типы Framer Motion немного капризные к типу easing.
+      ease: [0.23, 1, 0.32, 1] as const,
+    },
+  },
+};
+
+const itemVariants = {
+  closed: { opacity: 0, x: -10 },
+  open: { opacity: 1, x: 0 },
 };
 
 export default function MobileNavMenu({
@@ -32,7 +64,7 @@ export default function MobileNavMenu({
     triggerRef.current?.focus();
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isOpen) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -43,7 +75,7 @@ export default function MobileNavMenu({
     };
   }, [isOpen]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isOpen) return;
 
     function handleClickOutside(event: MouseEvent | TouchEvent) {
@@ -78,68 +110,106 @@ export default function MobileNavMenu({
     };
   }, [closeMenu, isOpen]);
 
-  const handleItemClick = useCallback(
-    (id: string) => {
-      onNavigate(id);
-      closeMenu();
-    },
-    [closeMenu, onNavigate],
-  );
-
   return (
-    <>
+    <div className="relative">
       <button
         ref={triggerRef}
         type="button"
+        onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Закрыть навигацию" : "Открыть навигацию"}
         aria-expanded={isOpen}
         aria-controls="main-nav-dropdown"
-        className="flex items-center justify-center rounded-full p-2 text-text-secondary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-ring) sm:hidden"
-        onClick={() => setIsOpen((prev) => !prev)}
+        className="relative z-(--z-dropdown) flex h-10 w-10 items-center justify-center rounded-xl bg-surface-raised/50 border border-white/10 text-text-secondary active:scale-90 transition-transform sm:hidden"
       >
-        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        <AnimatePresence mode="wait">
+          {isOpen ? (
+            <motion.div
+              key="x"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+            >
+              <X className="h-5 w-5 text-brand-pink" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="menu"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+            >
+              <Menu className="h-5 w-5" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </button>
 
-      {isOpen && (
-        <div
-          id="main-nav-dropdown"
-          ref={menuRef}
-          className="sm:hidden absolute top-full right-0 left-0 mt-2 rounded-2xl border border-(--border-subtle) bg-surface-overlay/95 shadow-lg px-3 py-2 z-(--z-top)"
-        >
-          <div className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleItemClick(item.id)}
-                className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface-raised transition-colors"
-              >
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-3 border-t border-(--border-subtle) pt-3">
-            <button
-              type="button"
-              onClick={() => {
-                window.location.href = ctaHref;
-                closeMenu();
-              }}
-              className={buttonVariants({
-                variant: "space",
-                size: "sm",
-                className:
-                  "w-full justify-center items-center gap-1.5 shadow-[0_0_24px_rgba(140,86,253,0.45)]",
-              })}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              ref={menuRef}
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="absolute top-[calc(100%+12px)] right-0 w-[calc(100vw-32px)] origin-top-right overflow-hidden rounded-2xl border border-white/10 bg-slate-950 p-2 shadow-[0_20px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl z-(--z-dropdown)"
             >
-              {ctaLabel}
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+              <div className="flex flex-col gap-1 p-2">
+                {navItems.map((item, index) => (
+                  <motion.button
+                    key={item.id}
+                    variants={itemVariants}
+                    onClick={() => {
+                      onNavigate(item.id);
+                      setIsOpen(false);
+                    }}
+                    className="group relative flex items-center justify-between rounded-xl px-4 py-4 text-left transition-colors hover:bg-white/5"
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Номер пункта в стиле HUD */}
+                      <span className="font-technical text-[10px] text-brand-pink/50">
+                        0{index + 1}
+                      </span>
+                      <span className="font-technical text-xs uppercase tracking-widest text-text-secondary group-hover:text-text-primary">
+                        {item.label}
+                      </span>
+                    </div>
+                    <ArrowRight className="h-3 w-3 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-pink" />
+
+                    {/* Тонкая линия-разделитель снизу */}
+                    <div className="absolute bottom-0 left-4 right-4 h-[1px] bg-white/5" />
+                  </motion.button>
+                ))}
+              </div>
+
+              <motion.div variants={itemVariants} className="mt-2 p-2 pt-0">
+                <button
+                  onClick={() => {
+                    window.location.href = ctaHref;
+                    setIsOpen(false);
+                  }}
+                  className={buttonVariants({
+                    variant: "space",
+                    className:
+                      "w-full h-14 justify-center gap-2 rounded-xl text-xs font-bold tracking-widest uppercase shadow-[0_0_30px_rgba(140,86,253,0.3)]",
+                  })}
+                >
+                  {ctaLabel}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                {/* Техническая приписка внизу */}
+                <div className="mt-4 text-center">
+                  <span className="font-technical text-[8px] uppercase tracking-[0.2em] text-text-tertiary/40">
+                    System Status: Connected // Node: Orbit-1
+                  </span>
+                </div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
-
