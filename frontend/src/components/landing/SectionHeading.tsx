@@ -1,30 +1,32 @@
-import { type ReactNode } from "react"
+import { type ElementType, type ReactNode } from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-type SectionHeadingAlign = "center" | "left"
+type SectionHeadingAlign = "center" | "left";
 
 type SectionHeadingProps = {
-  kicker?: ReactNode
-  title: ReactNode
-  subtitle?: ReactNode
-  align?: SectionHeadingAlign
-  className?: string
-  titleClassName?: string
-  subtitleClassName?: string
-  kickerClassName?: string
-  containerClassName?: string
-}
+  kicker?: ReactNode;
+  title: ReactNode;
+  subtitle?: ReactNode;
+  titleAs?: ElementType;
+  align?: SectionHeadingAlign;
+  className?: string;
+  titleClassName?: string;
+  subtitleClassName?: string;
+  kickerClassName?: string;
+  containerClassName?: string;
+};
 
 const alignClassName: Record<SectionHeadingAlign, string> = {
   center: "text-center mx-auto",
   left: "text-left",
-}
+};
 
 export default function SectionHeading({
   kicker,
   title,
   subtitle,
+  titleAs,
   align = "center",
   className,
   titleClassName,
@@ -32,7 +34,8 @@ export default function SectionHeading({
   kickerClassName,
   containerClassName,
 }: SectionHeadingProps) {
-  const alignClasses = alignClassName[align]
+  const alignClasses = alignClassName[align];
+  const TitleTag = titleAs ?? "h2";
 
   return (
     <div
@@ -55,14 +58,14 @@ export default function SectionHeading({
         </p>
       ) : null}
 
-      <h2
+      <TitleTag
         className={cn(
-          "mt-4 tracking-tight text-balance leading-tight! font-bold text-4xl md:text-5xl text-text-primary font-display",
+          "mt-4 tracking-tight text-balance leading-tight! font-bold text-5xl md:text-6xl text-text-primary font-display",
           titleClassName,
         )}
       >
         {title}
-      </h2>
+      </TitleTag>
 
       {subtitle ? (
         <p
@@ -75,6 +78,5 @@ export default function SectionHeading({
         </p>
       ) : null}
     </div>
-  )
+  );
 }
-

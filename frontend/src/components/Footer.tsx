@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import Container from "@/components/Container";
+import Logo from "@/components/Logo";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -10,9 +11,9 @@ const Footer = () => {
       <Container>
         <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2 text-sm">
-            <p className="font-display font-bold tracking-tight text-text-primary">
-              Space<span className="text-brand-pink">Case</span>
-            </p>
+            <Link href="/" className="inline-flex">
+              <Logo iconSize={48} />
+            </Link>
             <p className="max-w-md text-xs md:text-sm text-text-tertiary">
               The sky from your most important date — AI-restored and printed on
               a premium dual-layer phone case.

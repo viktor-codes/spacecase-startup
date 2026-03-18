@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import Container from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import SectionHeading from "@/components/landing/SectionHeading";
 
 const HeroSection = () => {
   return (
@@ -15,18 +16,29 @@ const HeroSection = () => {
           <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center lg:text-left lg:items-start max-w-xl">
             <Badge className="mb-4">Powered by NASA</Badge>
 
-            <h1 className="font-display text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight leading-[1.1] text-text-primary max-w-[12ch] mx-auto lg:mx-0">
-              The sky remembers.
-              <br />
-              <span className="text-brand-pink bg-clip-text font-bold">
-                Carry it.
-              </span>
-            </h1>
-
-            <p className="font-display max-w-[480px] text-base md:text-lg text-text-secondary leading-relaxed md:leading-loose">
-              Pick a date that changed your world. We turn its NASA sky into a
-              print‑grade, AI‑restored case you carry every day.
-            </p>
+            <SectionHeading
+              className="px-0 lg:px-0 text-center lg:text-left"
+              containerClassName="max-w-none"
+              align="left"
+              titleAs="h1"
+              title={
+                <>
+                  The sky remembers.
+                  <br />
+                  <span className="text-brand-pink bg-clip-text font-bold">
+                    Carry it.
+                  </span>
+                </>
+              }
+              titleClassName="mt-0 text-6xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] max-w-[12ch] mx-auto lg:mx-0"
+              subtitle={
+                <>
+                  Pick a date that changed your world. We turn its NASA sky into
+                  a print‑grade, AI‑restored case you carry every day.
+                </>
+              }
+              subtitleClassName="max-w-[480px] leading-relaxed md:leading-loose mx-auto lg:mx-0"
+            />
 
             <div className="flex flex-row items-center justify-center gap-3">
               <Button
