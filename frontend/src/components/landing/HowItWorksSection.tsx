@@ -128,7 +128,7 @@ const HowItWorksSection = () => {
           })}
           href="/configure/upload"
         >
-          Start your SpaceCase <ArrowRight className="h-4 w-4 ml-1.5" />
+          Get Started <ArrowRight className="h-4 w-4 ml-1.5" />
         </Link>
       </div>
     </Section>

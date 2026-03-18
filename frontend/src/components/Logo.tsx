@@ -13,7 +13,7 @@ export default function Logo({
   className,
   textClassName,
   iconClassName,
-  iconSize = 64,
+  iconSize = 60,
 }: LogoProps) {
   return (
     <span className={cn("select-none flex items-center gap-2", className)}>

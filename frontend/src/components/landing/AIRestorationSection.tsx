@@ -24,9 +24,8 @@ const AIRestorationSection = () => {
           title="From archive to artwork"
           subtitle={
             <>
-              Many NASA images date back decades. Our neural network
-              reconstructs every pixel to 300+ DPI — turning a compressed
-              archive file into a print-ready masterpiece.
+              Many NASA images date back decades. Our AI-enhancement upgrades
+              detail for print-ready clarity.
             </>
           }
           subtitleClassName="max-w-2xl mx-auto"
@@ -36,78 +35,78 @@ const AIRestorationSection = () => {
           {/* Interactive slider comparison (react-compare-slider) */}
           <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
             <ReactCompareSlider
-            itemOne={
-              <ReactCompareSliderImage
-                src={ORIGINAL_IMAGE}
-                alt="Original NASA archive image"
-                className="object-cover"
-              />
-            }
-            itemTwo={
-              <ReactCompareSliderImage
-                src={RESTORED_IMAGE}
-                alt="AI-restored NASA image"
-                className="object-cover"
-              />
-            }
-            className="h-full w-full cursor-ew-resize"
-            boundsPadding={0}
-            position={position}
-            onPositionChange={setPosition}
-            onPointerDown={() => setIsInteracting(true)}
-            onPointerUp={() => setIsInteracting(false)}
-            onPointerLeave={() => setIsInteracting(false)}
-            handle={
-              <div
-                className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-surface-overlay/90 backdrop-blur-md shadow-lg transition-all duration-200 group-hover:w-32 ${
-                  isInteracting ? "w-32" : ""
-                }`}
-              >
-                {/* Arrows (always visible) */}
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-1 text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="text-white"
-                  >
-                    <path
-                      d="M6 3L3 8L6 13"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="text-white"
-                  >
-                    <path
-                      d="M10 3L13 8L10 13"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-
-                {/* Labels (hover/touch state, appear around arrows) */}
+              itemOne={
+                <ReactCompareSliderImage
+                  src={ORIGINAL_IMAGE}
+                  alt="Original NASA archive image"
+                  className="object-cover"
+                />
+              }
+              itemTwo={
+                <ReactCompareSliderImage
+                  src={RESTORED_IMAGE}
+                  alt="AI-restored NASA image"
+                  className="object-cover"
+                />
+              }
+              className="h-full w-full cursor-ew-resize"
+              boundsPadding={0}
+              position={position}
+              onPositionChange={setPosition}
+              onPointerDown={() => setIsInteracting(true)}
+              onPointerUp={() => setIsInteracting(false)}
+              onPointerLeave={() => setIsInteracting(false)}
+              handle={
                 <div
-                  className={`pointer-events-none flex w-full items-center justify-between px-2 text-[8px] font-technical uppercase tracking-[0.2em] text-white/80 opacity-0 group-hover:opacity-100 ${
-                    isInteracting ? "opacity-100" : ""
+                  className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-surface-overlay/90 backdrop-blur-md shadow-lg transition-all duration-200 group-hover:w-32 ${
+                    isInteracting ? "w-32" : ""
                   }`}
                 >
-                  <span className="pe-2">Before</span>
-                  <span>After</span>
+                  {/* Arrows (always visible) */}
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-1 text-white">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="text-white"
+                    >
+                      <path
+                        d="M6 3L3 8L6 13"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="text-white"
+                    >
+                      <path
+                        d="M10 3L13 8L10 13"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Labels (hover/touch state, appear around arrows) */}
+                  <div
+                    className={`pointer-events-none flex w-full items-center justify-between px-2 text-[8px] font-technical uppercase tracking-[0.2em] text-white/80 opacity-0 group-hover:opacity-100 ${
+                      isInteracting ? "opacity-100" : ""
+                    }`}
+                  >
+                    <span className="pe-2">Before</span>
+                    <span>After</span>
+                  </div>
                 </div>
-              </div>
-            }
+              }
             />
 
             {/* Vertical divider line following handle */}
@@ -117,8 +116,8 @@ const AIRestorationSection = () => {
             />
           </div>
 
-          <p className="mt-4 text-center font-technical text-xs text-text-tertiary">
-            Drag the slider to compare
+          <p className="mt-4 text-center font-technical text-xs text-text-tertiary uppercase">
+            Drag to compare
           </p>
 
           {/* Process steps */}
@@ -126,13 +125,13 @@ const AIRestorationSection = () => {
             {[
               {
                 step: "01",
-                title: "Signal Acquisition",
+                title: "NASA input",
                 description:
-                  "We fetch the original NASA APOD image — some dating back to 1995, often compressed at web-resolution.",
+                  "We fetch NASA’s Astronomy Picture of the Day image for your selected date (archive resolution).",
               },
               {
                 step: "02",
-                title: "Neural Synthesis",
+                title: "AI enhancement",
                 description:
                   "Our AI model reconstructs lost detail, sharpens edges, and restores color depth to 300+ DPI print resolution.",
               },

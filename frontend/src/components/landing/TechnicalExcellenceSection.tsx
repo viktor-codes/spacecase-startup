@@ -7,40 +7,38 @@ import SectionHeading from "@/components/landing/SectionHeading";
 const featureBullets = [
   {
     id: "durability",
-    label: "Long-lasting durability",
-    description: "Dual-layer Tough construction absorbs cosmic-level impacts.",
+    label: "Built to last",
+    description: "Dual-layer Tough absorbs everyday impacts.",
     position: { top: "14%", left: "28%" },
   },
   {
     id: "finish",
-    label: "Polished finish",
-    description: "Premium glossy coating with glass-like reflections.",
+    label: "Glossy finish",
+    description: "Premium coating for glass-like reflections.",
     position: { top: "40%", left: "18%" },
   },
   {
     id: "prints",
-    label: "Vibrant non-fade prints",
-    description:
-      "UV-cured pigments keep every nebula and galaxy sharp for years.",
+    label: "Fade-resistant prints",
+    description: "UV-cured color stays crisp for years.",
     position: { top: "68%", left: "26%" },
   },
   {
     id: "protection",
     label: "Dual-layer protection",
-    description: "Rigid polycarbonate shell + TPU inner liner.",
+    description: "PC shell + TPU inner liner.",
     position: { top: "18%", left: "72%" },
   },
   {
     id: "materials",
-    label: "Top-grade materials",
-    description: "Aerospace-inspired polymers selected for impact resistance.",
+    label: "Impact-ready materials",
+    description: "Aerospace-inspired polymers for strength.",
     position: { top: "44%", left: "82%" },
   },
   {
     id: "weight",
-    label: "Lightweight strength",
-    description:
-      "Slim profile keeps pocket weight minimal without losing protection.",
+    label: "Slim, strong feel",
+    description: "Pocket-friendly profile without losing protection.",
     position: { top: "70%", left: "74%" },
   },
 ];
@@ -55,8 +53,8 @@ const TechnicalExcellenceSection = () => {
       <Section className="overflow-visible">
         <SectionHeading
           className="mb-12"
-          kicker="Anatomy of a SpaceCase"
-          title="Engineered for orbit."
+          kicker="Case highlights"
+          title="Engineered for everyday."
         />
 
         {/* Мобильный лэйаут: чехол + свайп карточек */}
