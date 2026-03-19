@@ -59,8 +59,8 @@ const SpaceDateScannerDateDigits = ({
         <DateInput
           className={cn(
             "flex items-center gap-4 font-mono tracking-tighter transition-all duration-500 text-foreground",
-            size === "default" && "text-5xl md:text-7xl lg:text-9xl",
-            size === "compact" && "text-xl md:text-3xl",
+            size === "default" && "text-[clamp(2.5rem,12vw,8rem)]",
+            size === "compact" && "text-[clamp(1.25rem,4vw,2.5rem)]",
           )}
         >
           {(segment) => {

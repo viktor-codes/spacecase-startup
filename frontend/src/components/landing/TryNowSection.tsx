@@ -68,7 +68,7 @@ const TryNowSection = () => {
         onChange={setDate}
         onSubmit={handleRevealUniverse}
         loading={loading}
-        className=""
+        className="mt-8"
       />
 
       <TryNowApodPreviewModal

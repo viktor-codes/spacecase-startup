@@ -36,7 +36,7 @@ const SpaceDateScannerTimeline = ({
           const [value] = values;
           onCommit(value);
         }}
-        className="relative z-(--z-base) flex h-10 w-full items-center"
+        className="relative z-(--z-base) flex h-13 w-full items-center"
       >
         {/* Трек и диапазон оставляем прозрачными, а визуал делаем через Thumb */}
         <Slider.Track className="relative h-10 w-full bg-transparent">
