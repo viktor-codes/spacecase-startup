@@ -330,6 +330,39 @@ html {
     cursor: pointer;
     opacity: 0;
   }
+
+  /* Fixed gradients background.
+   * Use dvh for iOS where svh/100vh can leave gaps while address bar changes. */
+  .app-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* fallback */
+    height: 120dvh; /* dynamic viewport height */
+    z-index: -10;
+    pointer-events: none;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+
+  .app-bg__layer {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at 20% -10%,
+        rgba(77, 48, 255, 0.22),
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 85% 110%,
+        rgba(203, 124, 253, 0.18),
+        transparent 60%
+      );
+    background-size: cover;
+  }
 }
 
 @keyframes float {

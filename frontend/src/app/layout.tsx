@@ -5,6 +5,7 @@ import { Recursive } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AppBackground from "@/components/AppBackground";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -47,33 +48,7 @@ export default function RootLayout({
       className={`${recursive.variable} ${plusJakartaSans.variable}`}
     >
       <body className="antialiased">
-        {/* Fixed background for iOS and desktop */}
-        <div
-          className="fixed inset-0 -z-10 h-[200svh] overflow-hidden pointer-events-none"
-          style={{
-            WebkitTransform: "translate3d(0,0,0)",
-            backfaceVisibility: "hidden",
-          }}
-        >
-          <div
-            className="absolute inset-0 w-full h-full"
-            style={{
-              background: `
-        radial-gradient(
-          circle at 20% -10%,
-          rgba(77, 48, 255, 0.22),
-          transparent 60%
-        ),
-        radial-gradient(
-          circle at 85% 110%,
-          rgba(203, 124, 253, 0.18),
-          transparent 60%
-        )
-      `,
-              backgroundSize: "cover",
-            }}
-          />
-        </div>
+        <AppBackground />
         <div className="relative min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>
