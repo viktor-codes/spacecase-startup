@@ -1,13 +1,11 @@
 "use client";
 
 import * as Slider from "@radix-ui/react-slider";
-import { motion } from "framer-motion";
 
 type SpaceDateScannerTimelineProps = {
   minDate: number;
   maxDate: number;
   sliderValue: number;
-  percentage: number;
   onChange: (value: number) => void;
   onCommit: (value: number) => void;
   onInteractStart: () => void;
@@ -17,7 +15,6 @@ const SpaceDateScannerTimeline = ({
   minDate,
   maxDate,
   sliderValue,
-  percentage,
   onChange,
   onCommit,
   onInteractStart,
@@ -47,27 +44,22 @@ const SpaceDateScannerTimeline = ({
         }}
         className="relative z-(--z-base) flex h-10 w-full items-center"
       >
-        {/* Трек и диапазон можно оставить невидимыми, так как бегунок кастомный */}
+        {/* Трек и диапазон оставляем прозрачными, а визуал делаем через Thumb */}
         <Slider.Track className="relative h-10 w-full bg-transparent">
           <Slider.Range className="absolute inset-y-0 bg-transparent" />
         </Slider.Track>
-        {/* Thumb оставляем невидимым — за визуал отвечает космонавт ниже */}
-        <Slider.Thumb className="h-0 w-0 outline-none" aria-label="Date" />
+        {/* Бегунок: используем стандартный Thumb от Radix */}
+        <Slider.Thumb
+          className="h-[40px] w-[100px] bg-transparent border-0 outline-none cursor-pointer"
+          aria-label="Date"
+          style={{
+            backgroundImage: 'url("/slider.svg")',
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        />
       </Slider.Root>
-
-      {/* КОСМОНАВТ = единственный визуальный бегунок */}
-      <motion.div
-        className="pointer-events-none absolute top-1/2 z-(--z-top) -translate-y-1/2"
-        style={{ left: `${percentage}%`, marginTop: "-5px" }}
-      >
-        <div className="relative w-20 h-20 -translate-x-1/2">
-          <img
-            src="/slider.svg"
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </div>
-      </motion.div>
 
       {/* Метки дат под слайдером */}
       <div className="flex justify-between mt-4 font-mono text-[10px] text-muted-foreground uppercase tracking-widest">

@@ -97,11 +97,6 @@ const SpaceDateScanner = ({
     }
   };
 
-  const percentage = useMemo(() => {
-    if (maxDate === minDate) return 0;
-    return ((sliderValue - minDate) / (maxDate - minDate)) * 100;
-  }, [sliderValue, minDate, maxDate]);
-
   return (
     <div
       suppressHydrationWarning
@@ -129,7 +124,6 @@ const SpaceDateScanner = ({
           minDate={minDate}
           maxDate={maxDate}
           sliderValue={sliderValue}
-          percentage={percentage}
           onChange={handleSliderChange}
           onCommit={commitSliderValue}
           onInteractStart={() => {
