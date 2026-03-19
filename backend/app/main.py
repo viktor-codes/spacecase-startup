@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import api_router
 from app.core.config import get_settings
+from app.infrastructure.db.init_db import init_db
 
 
 settings = get_settings()
@@ -28,6 +29,13 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+
+@app.on_event("startup")
+async def _init_startup() -> None:
+    # MVP: create tables automatically on startup.
+    # Later we can migrate to Alembic once schemas stabilize.
+    await init_db()
 
 
 @app.get("/health", tags=["meta"])

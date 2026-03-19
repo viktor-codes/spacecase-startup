@@ -19,6 +19,30 @@ class Settings(BaseSettings):
         description="Base URL for NASA APOD endpoint.",
     )
 
+    # Stripe (Checkout + Webhook)
+    stripe_secret_key: str = Field(default="", alias="STRIPE_SECRET_KEY")
+    stripe_webhook_secret: str = Field(
+        default="", alias="STRIPE_WEBHOOK_SECRET"
+    )
+
+    stripe_price_id_standard: str = Field(
+        default="", alias="STRIPE_PRICE_ID_STANDARD"
+    )
+    stripe_price_id_express: str = Field(
+        default="", alias="STRIPE_PRICE_ID_EXPRESS"
+    )
+
+    # Used to build success_url/cancel_url for Stripe Checkout
+    frontend_base_url: str = Field(
+        default="http://localhost:3000", alias="FRONTEND_BASE_URL"
+    )
+
+    # Persistence (MVP)
+    database_url: str = Field(
+        default="sqlite+aiosqlite:///./spacecase.db",
+        alias="DATABASE_URL",
+    )
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

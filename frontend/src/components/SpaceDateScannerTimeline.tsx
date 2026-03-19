@@ -45,7 +45,7 @@ const SpaceDateScannerTimeline = ({
           const [value] = values;
           onCommit(value);
         }}
-        className="relative z-[var(--z-base)] flex h-10 w-full items-center"
+        className="relative z-(--z-base) flex h-10 w-full items-center"
       >
         {/* Трек и диапазон можно оставить невидимыми, так как бегунок кастомный */}
         <Slider.Track className="relative h-10 w-full bg-transparent">
@@ -57,7 +57,7 @@ const SpaceDateScannerTimeline = ({
 
       {/* КОСМОНАВТ = единственный визуальный бегунок */}
       <motion.div
-        className="pointer-events-none absolute top-1/2 z-[var(--z-top)] -translate-y-1/2"
+        className="pointer-events-none absolute top-1/2 z-(--z-top) -translate-y-1/2"
         style={{ left: `${percentage}%`, marginTop: "-5px" }}
       >
         <div className="relative w-20 h-20 -translate-x-1/2">

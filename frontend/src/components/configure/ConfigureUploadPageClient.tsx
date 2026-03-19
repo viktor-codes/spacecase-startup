@@ -10,6 +10,10 @@ import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
+import {
+  createStripeCheckoutSession,
+  type CreateStripeCheckoutSessionPayload,
+} from "@/lib/api/ordersClient";
 
 type ConfigureUploadPageClientProps = {
   initialDate?: string;
@@ -111,11 +115,54 @@ export default function ConfigureUploadPageClient({
   const [selectedDate, setSelectedDate] = useState(initialDate ?? "");
   const [apod, setApod] = useState<ApodResponse | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [line1, setLine1] = useState("");
+  const [line2, setLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [eirCode, setEirCode] = useState("");
 
   const hasImage = apod && apod.media_type === "image" && apod.url;
+  const isEmailValid = useMemo(() => {
+    if (!email) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }, [email]);
+
+  const isShippingValid = useMemo(() => {
+    return shipping === "standard" || shipping === "express";
+  }, [shipping]);
+
+  const isCheckoutFormValid = useMemo(() => {
+    return (
+      Boolean(selectedDate) &&
+      Boolean(hasImage) &&
+      Boolean(deviceModel) &&
+      isShippingValid &&
+      isEmailValid &&
+      fullName.trim().length >= 2 &&
+      phone.trim().length >= 5 &&
+      line1.trim().length >= 2 &&
+      city.trim().length >= 2 &&
+      eirCode.trim().length >= 3
+    );
+  }, [
+    selectedDate,
+    hasImage,
+    deviceModel,
+    isShippingValid,
+    isEmailValid,
+    fullName,
+    phone,
+    line1,
+    city,
+    eirCode,
+  ]);
 
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
   const formatEur = useMemo(() => {
@@ -174,15 +221,44 @@ export default function ConfigureUploadPageClient({
     }
   };
 
-  const handleAddToCart = () => {
-    // TODO: cart integration
-    console.log("Add to cart", {
-      date: selectedDate,
+  const handleLaunch = async () => {
+    if (!isCheckoutFormValid) return;
+    if (!hasImage) {
+      setSubmitError("NASA image for this date is not available. Please try another date.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const payload: CreateStripeCheckoutSessionPayload = {
+      apodDate: selectedDate,
       deviceModel,
-      shipping,
-      totalPrice,
-      apod,
-    });
+      shippingOption: shipping,
+      contact: {
+        email,
+        fullName,
+        phone,
+      },
+      shippingAddress: {
+        line1,
+        line2: line2.trim() ? line2 : null,
+        city,
+        eirCode,
+      },
+    };
+
+    try {
+      const { checkoutUrl } =
+        await createStripeCheckoutSession(payload);
+      window.location.href = checkoutUrl;
+    } catch (e) {
+      const msg =
+        e instanceof Error ? e.message : "Failed to start payment. Please try again.";
+      setSubmitError(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -437,12 +513,151 @@ export default function ConfigureUploadPageClient({
               </div>
             </section>
 
-            {/* Module 5: Order summary */}
+            {/* Module 5: Contact + shipping (before payment) */}
+            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+                05 · Contacts & delivery
+              </h2>
+
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="fullName"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                  >
+                    Full name
+                  </label>
+                  <input
+                    id="fullName"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    autoComplete="name"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="email"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      autoComplete="email"
+                      inputMode="email"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="phone"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    >
+                      Phone
+                    </label>
+                    <input
+                      id="phone"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      autoComplete="tel"
+                      inputMode="tel"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="line1"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                  >
+                    Address line 1
+                  </label>
+                  <input
+                    id="line1"
+                    value={line1}
+                    onChange={(e) => setLine1(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    autoComplete="address-line1"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="line2"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                  >
+                    Address line 2 (optional)
+                  </label>
+                  <input
+                    id="line2"
+                    value={line2}
+                    onChange={(e) => setLine2(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    autoComplete="address-line2"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="city"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    >
+                      City
+                    </label>
+                    <input
+                      id="city"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      autoComplete="address-level2"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="eirCode"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    >
+                      Eircode
+                    </label>
+                    <input
+                      id="eirCode"
+                      value={eirCode}
+                      onChange={(e) => setEirCode(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      autoComplete="postal-code"
+                    />
+                  </div>
+                </div>
+
+                {!isEmailValid && email.trim().length > 0 && (
+                  <p className="font-mono text-xs text-red-500">
+                    Please enter a valid email address.
+                  </p>
+                )}
+              </div>
+
+              {submitError && (
+                <p className="mt-1 font-mono text-xs text-red-500">
+                  {submitError}
+                </p>
+              )}
+            </section>
+
+            {/* Module 6: Order summary */}
             <section className="sticky bottom-4 mt-auto space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div className="space-y-1">
                   <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
-                    05 · Order summary
+                    06 · Order summary
                   </p>
                   <p className="font-mono text-sm text-slate-900">
                     {deviceModel || "Select your device"}
@@ -493,10 +708,10 @@ export default function ConfigureUploadPageClient({
                 variant="space"
                 size="lg"
                 className="mt-3 w-full font-mono text-xs uppercase tracking-[0.25em]"
-                disabled={!deviceModel}
-                onClick={handleAddToCart}
+                disabled={!isCheckoutFormValid || isSubmitting}
+                onClick={() => void handleLaunch()}
               >
-                Launch My SpaceCase
+                {isSubmitting ? "Redirecting to payment..." : "Launch My SpaceCase"}
               </Button>
             </section>
           </div>

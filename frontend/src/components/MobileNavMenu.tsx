@@ -178,7 +178,7 @@ export default function MobileNavMenu({
                     <ArrowRight className="h-3 w-3 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 text-brand-pink" />
 
                     {/* Тонкая линия-разделитель снизу */}
-                    <div className="absolute bottom-0 left-4 right-4 h-[1px] bg-white/5" />
+                    <div className="absolute bottom-0 left-4 right-4 h-px bg-white/5" />
                   </motion.button>
                 ))}
               </div>
