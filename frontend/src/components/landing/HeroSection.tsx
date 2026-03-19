@@ -14,13 +14,13 @@ const HeroSection = () => {
       className="relative w-full overflow-hidden scroll-mt-16 pt-16 pb-16 md:pt-28 md:pb-24"
     >
       <Container className="relative z-(--z-top)">
-        <div className="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-12 md:gap-1 md:flex-row md:items-center md:justify-between">
           {/* Content */}
-          <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center md:text-left md:items-start max-w-xl">
+          <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center mx-auto md:mx-0 md:text-left md:items-start max-w-xl">
             <Badge className="mb-4">From NASA APOD</Badge>
 
             <SectionHeading
-              className="px-0 text-center md:text-left"
+              className="px-0 lg:px-0 text-center md:text-left"
               containerClassName="max-w-none"
               align="left"
               titleAs="h1"
@@ -33,7 +33,7 @@ const HeroSection = () => {
                   </span>
                 </>
               }
-              titleClassName="mt-0 text-5xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] max-w-[12ch] mx-auto md:mx-0"
+              titleClassName="mt-0 font-bold leading-[1.1] max-w-[12ch] mx-auto md:mx-0"
               subtitle={
                 <>
                   Pick a date. We fetch NASA&apos;s Astronomy Picture of the Day
@@ -43,15 +43,15 @@ const HeroSection = () => {
               subtitleClassName="max-w-[380px] leading-relaxed md:leading-loose mx-auto md:mx-0 text-pretty"
             />
 
-            <div className="flex flex-row items-center justify-center gap-3 md:justify-start">
+            <div className="flex flex-row items-center justify-center gap-3 lg:justify-start">
               <Button
                 asChild
                 variant="primary"
                 size="hero"
-                className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-8 md:py-4"
+                className="px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8 lg:py-4"
               >
                 <Link href="#try-now">
-                  <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
+                  <span className="text-xs sm:text-sm lg:text-base tracking-[0.14em] uppercase">
                     Preview My Sky
                   </span>
                   <ArrowUpRight className="ml-2 h-5 w-5" />
@@ -62,10 +62,10 @@ const HeroSection = () => {
                 asChild
                 variant="secondary"
                 size="hero"
-                className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-8 md:py-4"
+                className="px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8 lg:py-4"
               >
                 <a href="#how-it-works">
-                  <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
+                  <span className="text-xs sm:text-sm lg:text-base tracking-[0.14em] uppercase">
                     How it works
                   </span>
                   <ArrowDown className="ml-2 h-5 w-5" />
@@ -112,7 +112,7 @@ const HeroSection = () => {
             {/* Feature badges orbiting around the phone on mobile only*/}
 
             <div className="pointer-events-none">
-              <div className="absolute inset-0 opacity-50 block sm:hidden">
+              <div className="absolute inset-0 opacity-50 block md:hidden">
                 <div className="absolute top-[5%] left-[4%]">
                   <Badge variant="outline">Dual protection</Badge>
                 </div>
