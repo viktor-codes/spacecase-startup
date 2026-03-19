@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+
 import Section from "@/components/Section";
 import Phone from "@/components/Phone";
 import SectionHeading from "@/components/landing/SectionHeading";
@@ -47,6 +52,34 @@ const stories = [
 ];
 
 const StoriesSection = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+    dragFree: true,
+  });
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
+  }, [emblaApi]);
+
+  const handleDotClick = (index: number) => {
+    emblaApi?.scrollTo(index);
+  };
+
   return (
     <div id="gallery">
       <Section>
@@ -69,11 +102,53 @@ const StoriesSection = () => {
             Swipe to explore stories
           </p>
 
-          <div className="flex gap-5 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 snap-x snap-mandatory">
+          <div className="md:hidden">
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex gap-5 pb-4">
+                {stories.map((story) => (
+                  <article
+                    key={story.title}
+                    className="group flex min-w-[72%] sm:min-w-[60%] flex-col items-center text-center"
+                  >
+                    <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
+                      <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
+                    </div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                      {story.dateLabel}
+                    </p>
+                    <h3 className="mt-1.5 text-base font-semibold text-text-primary">
+                      {story.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-text-secondary max-w-[22ch] mx-auto leading-relaxed">
+                      {story.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-1 flex items-center justify-center gap-2">
+              {stories.map((story, index) => (
+                <button
+                  key={story.title}
+                  type="button"
+                  aria-label={`Go to ${story.title}`}
+                  className={`h-1.5 rounded-full transition-all ${
+                    selectedIndex === index
+                      ? "w-6 bg-brand-pink"
+                      : "w-2 bg-white/30 hover:bg-white/50"
+                  }`}
+                  onClick={() => handleDotClick(index)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden md:grid md:grid-cols-3 md:gap-8">
             {stories.map((story) => (
               <article
                 key={story.title}
-                className="group flex min-w-[72%] sm:min-w-[60%] flex-col items-center text-center snap-center md:min-w-0"
+                className="group flex flex-col items-center text-center"
               >
                 <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
                   <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
