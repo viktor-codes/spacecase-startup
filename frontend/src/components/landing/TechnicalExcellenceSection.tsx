@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 import Section from "@/components/Section";
 import { GlassCard } from "@/components/ui/glass-card";
 import SectionHeading from "@/components/landing/SectionHeading";
@@ -45,8 +46,41 @@ const featureBullets = [
 
 const TechnicalExcellenceSection = () => {
   const [activeId, setActiveId] = useState<string>(featureBullets[0].id);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+    dragFree: true,
+  });
   const activeFeature =
     featureBullets.find((f) => f.id === activeId) ?? featureBullets[0];
+
+  const activeIndex = featureBullets.findIndex((f) => f.id === activeId);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const handleSelect = () => {
+      const index = emblaApi.selectedScrollSnap();
+      const nextFeature = featureBullets[index];
+      if (nextFeature) {
+        setActiveId(nextFeature.id);
+      }
+    };
+
+    emblaApi.on("select", handleSelect);
+    emblaApi.on("reInit", handleSelect);
+    handleSelect();
+
+    return () => {
+      emblaApi.off("select", handleSelect);
+      emblaApi.off("reInit", handleSelect);
+    };
+  }, [emblaApi]);
+
+  const handleMobileCardClick = (id: string, index: number) => {
+    setActiveId(id);
+    emblaApi?.scrollTo(index);
+  };
 
   return (
     <div id="case-anatomy">
@@ -71,21 +105,42 @@ const TechnicalExcellenceSection = () => {
             />
           </div>
 
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-6 px-6">
-            {featureBullets.map((f) => (
-              <GlassCard
-                key={f.id}
-                className="min-w-[82%] snap-center p-4 shrink-0"
-                onClick={() => setActiveId(f.id)}
-              >
-                <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
-                  {f.label}
-                </p>
-                <p className="text-sm leading-relaxed text-text-secondary">
-                  {f.description}
-                </p>
-              </GlassCard>
-            ))}
+          <div className="-mx-6 px-6">
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex gap-4 pb-2">
+                {featureBullets.map((f, index) => (
+                  <div className="min-w-[82%] shrink-0" key={f.id}>
+                    <GlassCard
+                      className="p-4"
+                      onClick={() => handleMobileCardClick(f.id, index)}
+                    >
+                      <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                        {f.label}
+                      </p>
+                      <p className="text-sm leading-relaxed text-text-secondary">
+                        {f.description}
+                      </p>
+                    </GlassCard>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center justify-center gap-2">
+              {featureBullets.map((f, index) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  aria-label={`Go to ${f.label}`}
+                  className={`h-1.5 rounded-full transition-all ${
+                    activeIndex === index
+                      ? "w-6 bg-brand-pink"
+                      : "w-2 bg-white/30 hover:bg-white/50"
+                  }`}
+                  onClick={() => handleMobileCardClick(f.id, index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
