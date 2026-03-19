@@ -78,7 +78,7 @@ const StoriesSection = () => {
                 <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
                   <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
                 </div>
-                <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
                   {story.dateLabel}
                 </p>
                 <h3 className="mt-1.5 text-base font-semibold text-text-primary">

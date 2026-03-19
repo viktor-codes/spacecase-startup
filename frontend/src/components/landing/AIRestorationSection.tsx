@@ -147,7 +147,7 @@ const AIRestorationSection = () => {
                 variant="interactive"
                 className="p-4 text-center sm:text-left"
               >
-                <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-brand-pink">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-pink">
                   {item.step}
                 </p>
                 <h3 className="mt-2 text-sm font-semibold text-text-primary">

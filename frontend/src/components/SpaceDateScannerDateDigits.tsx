@@ -99,7 +99,7 @@ const SpaceDateScannerDateDigits = ({
       </DateField>
 
       {helperVariant !== "none" && (
-        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-mono">
+        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-technical">
           <span
             className={cn(
               "transition-colors",

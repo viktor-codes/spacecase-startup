@@ -73,11 +73,10 @@ const SpaceDateScannerTimeline = ({
       <div className="flex justify-between mt-4 font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
         <span>16.06.1995</span>
         <span className="text-accent animate-pulse">Scanning timeline</span>
-        <span>Today</span>
+        <span className="font-technical">Today</span>
       </div>
     </div>
   );
 };
 
 export default SpaceDateScannerTimeline;
-

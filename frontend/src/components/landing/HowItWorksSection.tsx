@@ -102,7 +102,7 @@ const HowItWorksSection = () => {
                     <step.icon className="h-4 w-4" />
                   </div>
                   <div className="pt-1">
-                    <p className="font-technical text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
                       Step {step.number}
                     </p>
                     <h3 className="mt-1 text-base font-semibold text-text-primary">
