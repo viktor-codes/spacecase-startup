@@ -30,7 +30,9 @@ export const metadata: Metadata = {
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
@@ -47,7 +49,7 @@ export default function RootLayout({
       <body className="antialiased">
         {/* Fixed background for iOS and desktop */}
         <div
-          className="fixed inset-0 -z-10 h-[120svh] overflow-hidden pointer-events-none"
+          className="fixed inset-0 -z-10 h-[200svh] overflow-hidden pointer-events-none"
           style={{
             WebkitTransform: "translate3d(0,0,0)",
             backfaceVisibility: "hidden",

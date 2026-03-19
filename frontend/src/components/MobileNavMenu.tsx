@@ -119,7 +119,7 @@ export default function MobileNavMenu({
         aria-label={isOpen ? "Закрыть навигацию" : "Открыть навигацию"}
         aria-expanded={isOpen}
         aria-controls="main-nav-dropdown"
-        className="relative z-(--z-dropdown) flex h-10 w-10 items-center justify-center rounded-xl bg-surface-raised/50 border border-white/10 text-text-secondary active:scale-90 transition-transform sm:hidden"
+        className="relative z-(--z-dropdown) flex h-10 w-10 items-center justify-center rounded-xl bg-surface-raised/50 border border-white/10 text-text-secondary active:scale-90 transition-transform md:hidden"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (

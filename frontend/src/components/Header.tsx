@@ -74,7 +74,7 @@ export default function Header() {
           </Link>
 
           <nav className="flex h-full items-center gap-4">
-            <div className="hidden sm:flex items-center gap-6 text-sm text-text-secondary">
+            <div className="hidden md:flex items-center gap-6 text-sm text-text-secondary">
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.id}
