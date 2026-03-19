@@ -13,23 +13,23 @@ export default function Logo({
   className,
   textClassName,
   iconClassName,
-  iconSize = 60,
+  iconSize = 36,
 }: LogoProps) {
   return (
     <span className={cn("select-none flex items-center gap-2", className)}>
       <span className="leading-none flex items-center">
         <Image
-          src="/spacecasenewlogo.svg"
+          src="/spacecaselogonew3.svg"
           alt="SpaceCase"
           width={iconSize}
           height={iconSize}
-          className={cn("inline-block shrink-0", iconClassName)}
+          className={cn("inline-block shrink-0 rotate-90", iconClassName)}
         />
       </span>
 
       <span
         className={cn(
-          "font-technical text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center -ms-4",
+          "font-technical text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center",
           textClassName,
         )}
       >

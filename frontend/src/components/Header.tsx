@@ -64,7 +64,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 inset-x-0 z-(--z-header) bg-transparent backdrop-blur-lg">
       <Container className="relative">
-        <div className="flex h-14 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           <Link
             href="/#home"
             className="flex items-center gap-2 z-(--z-top)"
