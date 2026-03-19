@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { CalendarDate } from "@internationalized/date";
 
 export const APOD_MIN_DATE = "1995-06-16";
 
@@ -10,7 +11,10 @@ type UseApodDateArgs = {
 };
 
 export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
-  // Всё считаем в UTC (00:00 UTC), чтобы дата не "прыгала" из-за локальной таймзоны
+  // Всё считаем в UTC (00:00 UTC), чтобы дата не "прыгала" из-за локальной таймзоны.
+  // Важная идея упрощения:
+  // - `committedTimestamp` используется для callbacks / submit (реальная дата)
+  // - `previewTimestamp` используется только для визуального обновления digits во время перетаскивания
   const minDate = useMemo(() => {
     const [y, m, d] = APOD_MIN_DATE.split("-").map(Number);
     return Date.UTC(y, m - 1, d);
@@ -18,78 +22,89 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
 
   const maxDate = useMemo(() => {
     const now = new Date();
-    return Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-    );
+    return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   }, []);
 
-  const initialTimestamp = useMemo(() => {
-    if (value) {
-      const [y, m, d] = value.split("-").map(Number);
-      if (!Number.isNaN(y) && !Number.isNaN(m) && !Number.isNaN(d)) {
-        const ts = Date.UTC(y, m - 1, d);
-        return Math.min(Math.max(ts, minDate), maxDate);
-      }
+  const parseValueToTimestamp = (valueToParse: string) => {
+    const [y, m, d] = valueToParse.split("-").map(Number);
+    if (!Number.isNaN(y) && !Number.isNaN(m) && !Number.isNaN(d)) {
+      return Date.UTC(y, m - 1, d);
     }
-    return maxDate;
+    return null;
+  };
+
+  const initialTimestamp = useMemo(() => {
+    if (!value) return maxDate;
+    const parsed = parseValueToTimestamp(value);
+    if (parsed === null) return maxDate;
+    // clamp нужен только при инициализации/вводе, чтобы гарантировать валидность.
+    return Math.min(Math.max(parsed, minDate), maxDate);
   }, [value, minDate, maxDate]);
 
-  const [timestamp, setTimestamp] = useState(initialTimestamp);
-  const [sliderValue, setSliderValue] = useState(initialTimestamp);
+  const [committedTimestamp, setCommittedTimestamp] = useState(initialTimestamp);
+  const [previewTimestamp, setPreviewTimestamp] = useState(initialTimestamp);
 
   useEffect(() => {
-    setTimestamp(initialTimestamp);
-    setSliderValue(initialTimestamp);
+    setCommittedTimestamp(initialTimestamp);
+    setPreviewTimestamp(initialTimestamp);
   }, [initialTimestamp]);
 
+  const tsToCalendarDate = (ts: number) => {
+    const d = new Date(ts);
+    return new CalendarDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate());
+  };
+
+  const minCalendarDate = useMemo(() => tsToCalendarDate(minDate), [minDate]);
+  const maxCalendarDate = useMemo(() => tsToCalendarDate(maxDate), [maxDate]);
+  const previewCalendarValue = useMemo(
+    () => tsToCalendarDate(previewTimestamp),
+    [previewTimestamp],
+  );
+
   const dateString = useMemo(() => {
-    const d = new Date(timestamp);
+    const d = new Date(committedTimestamp);
     const year = d.getUTCFullYear();
     const month = String(d.getUTCMonth() + 1).padStart(2, "0");
     const day = String(d.getUTCDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  }, [timestamp]);
+  }, [committedTimestamp]);
 
+  // Уведомляем родителя только о "реально выбранной" (committed) дате.
   useEffect(() => {
-    if (onChange) {
-      onChange(dateString);
-    }
+    onChange?.(dateString);
   }, [dateString, onChange]);
 
-  const displayDate = useMemo(() => {
-    const d = new Date(timestamp);
-    return {
-      day: String(d.getUTCDate()).padStart(2, "0"),
-      month: String(d.getUTCMonth() + 1).padStart(2, "0"),
-      year: d.getUTCFullYear(),
-    };
-  }, [timestamp]);
-
-  const handleSliderChange = (value: number) => {
-    const clamped = Math.min(Math.max(value, minDate), maxDate);
-    setSliderValue(clamped);
+  const commitPreview = (next?: number) => {
+    const committedNext = typeof next === "number" ? next : previewTimestamp;
+    setCommittedTimestamp(committedNext);
+    setPreviewTimestamp(committedNext);
   };
 
-  const commitSliderValue = (value?: number) => {
-    const next = typeof value === "number" ? value : sliderValue;
-    const clamped = Math.min(Math.max(next, minDate), maxDate);
-    setTimestamp(clamped);
-    setSliderValue(clamped);
+  const handleSliderChange = (nextValue: number) => {
+    // Radix slider ограничен min/max, поэтому clamp не требуется.
+    // Здесь нет реквестов и нет side-effects, только визуальный preview.
+    setPreviewTimestamp(nextValue);
+  };
+
+  const handleDigitsChange = (value: { year: number; month: number; day: number }) => {
+    const ts = Date.UTC(value.year, value.month - 1, value.day);
+    if (ts < minDate || ts > maxDate) return;
+    // При ручном вводе это считается "реальным выбором".
+    setCommittedTimestamp(ts);
+    setPreviewTimestamp(ts);
   };
 
   return {
     minDate,
     maxDate,
-    timestamp,
-    setTimestamp,
-    sliderValue,
-    setSliderValue,
+    previewTimestamp,
+    minCalendarDate,
+    maxCalendarDate,
+    previewCalendarValue,
     dateString,
-    displayDate,
     handleSliderChange,
-    commitSliderValue,
+    commitSliderValue: commitPreview,
+    handleDigitsChange,
   };
 };
 

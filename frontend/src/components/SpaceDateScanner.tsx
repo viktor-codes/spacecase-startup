@@ -1,8 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { CalendarDate } from "@internationalized/date";
 
 import { cn } from "@/lib/utils";
 import { useApodDate } from "@/hooks/useApodDate";
@@ -38,57 +36,22 @@ const SpaceDateScanner = ({
   const {
     minDate,
     maxDate,
-    timestamp,
-    setTimestamp,
-    sliderValue,
-    setSliderValue,
+    previewTimestamp,
     dateString,
     handleSliderChange,
     commitSliderValue,
+    previewCalendarValue,
+    minCalendarDate,
+    maxCalendarDate,
+    handleDigitsChange,
   } = useApodDate({ value, onChange });
-  const hasError = useMemo(() => {
-    return timestamp < minDate || timestamp > maxDate;
-  }, [timestamp, minDate, maxDate]);
-
-  const calendarValue = useMemo(() => {
-    const d = new Date(timestamp);
-    return new CalendarDate(
-      d.getUTCFullYear(),
-      d.getUTCMonth() + 1,
-      d.getUTCDate(),
-    );
-  }, [timestamp]);
-
-  const minCalendarDate = useMemo(() => {
-    const d = new Date(minDate);
-    return new CalendarDate(
-      d.getUTCFullYear(),
-      d.getUTCMonth() + 1,
-      d.getUTCDate(),
-    );
-  }, [minDate]);
-
-  const maxCalendarDate = useMemo(() => {
-    const d = new Date(maxDate);
-    return new CalendarDate(
-      d.getUTCFullYear(),
-      d.getUTCMonth() + 1,
-      d.getUTCDate(),
-    );
-  }, [maxDate]);
 
   const handleDateFieldChange = (value: {
     year: number;
     month: number;
     day: number;
   }) => {
-    const ts = Date.UTC(value.year, value.month - 1, value.day);
-    if (ts < minDate || ts > maxDate) {
-      return;
-    }
-
-    setTimestamp(ts);
-    setSliderValue(ts);
+    handleDigitsChange(value);
   };
 
   const handleSubmitClick = () => {
@@ -107,13 +70,13 @@ const SpaceDateScanner = ({
     >
       {/* 1. ГИГАНТСКИЕ ЦИФРЫ (РУЧНОЙ ВВОД) */}
       <SpaceDateScannerDateDigits
-        value={calendarValue}
+        value={previewCalendarValue}
         minDate={minCalendarDate}
         maxDate={maxCalendarDate}
         size={size}
         helperVariant={helperVariant}
         helperTextOverride={helperTextOverride}
-        hasError={hasError}
+        hasError={false}
         onChange={handleDateFieldChange}
         onSubmit={showPrimaryButton ? handleSubmitClick : undefined}
       />
@@ -123,13 +86,9 @@ const SpaceDateScanner = ({
         <SpaceDateScannerTimeline
           minDate={minDate}
           maxDate={maxDate}
-          sliderValue={sliderValue}
+          value={previewTimestamp}
           onChange={handleSliderChange}
           onCommit={commitSliderValue}
-          onInteractStart={() => {
-            // взаимодействие со слайдером не сбрасывает состояние даты,
-            // React Aria DateField синхронизируется через timestamp
-          }}
         />
       )}
 
