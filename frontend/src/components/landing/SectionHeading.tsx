@@ -61,7 +61,7 @@ export default function SectionHeading({
 
       <TitleTag
         className={cn(
-          "mt-4 tracking-tight text-balance leading-tight! font-bold text-text-primary font-display",
+          "mt-4 tracking-tight text-balance leading-tight! font-bold text-text-primary font-display max-w-xl lg:max-w-none mx-auto",
           isHeroH1
             ? "text-[clamp(3.5rem,8vw,6rem)]"
             : "text-[clamp(2.5rem,5vw,4.5rem)]",
