@@ -8,6 +8,7 @@ import { Check } from "lucide-react";
 import Container from "@/components/Container";
 import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
+import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
 import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
 import {
@@ -116,6 +117,7 @@ export default function ConfigureUploadPageClient({
   const [apod, setApod] = useState<ApodResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
@@ -186,12 +188,29 @@ export default function ConfigureUploadPageClient({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialDate]);
 
+  useEffect(() => {
+    if (!isImagePreviewOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsImagePreviewOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isImagePreviewOpen]);
+
+  useEffect(() => {
+    if (!hasImage) {
+      setIsImagePreviewOpen(false);
+    }
+  }, [hasImage]);
+
   const handleSync = async (explicitDate?: string) => {
     const dateToUse = explicitDate ?? selectedDate;
     if (!dateToUse) {
-      setError(
-        "Please select a date to sync your NASA image.",
-      );
+      setError("Please select a date to sync your NASA image.");
       return;
     }
 
@@ -211,9 +230,7 @@ export default function ConfigureUploadPageClient({
 
       setApod(data);
     } catch (e) {
-      setError(
-        "Failed to fetch NASA APOD data. Please try again later.",
-      );
+      setError("Failed to fetch NASA APOD data. Please try again later.");
 
       console.error(e);
     } finally {
@@ -224,7 +241,9 @@ export default function ConfigureUploadPageClient({
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
     if (!hasImage) {
-      setSubmitError("NASA image for this date is not available. Please try another date.");
+      setSubmitError(
+        "NASA image for this date is not available. Please try another date.",
+      );
       return;
     }
 
@@ -249,12 +268,13 @@ export default function ConfigureUploadPageClient({
     };
 
     try {
-      const { checkoutUrl } =
-        await createStripeCheckoutSession(payload);
+      const { checkoutUrl } = await createStripeCheckoutSession(payload);
       window.location.href = checkoutUrl;
     } catch (e) {
       const msg =
-        e instanceof Error ? e.message : "Failed to start payment. Please try again.";
+        e instanceof Error
+          ? e.message
+          : "Failed to start payment. Please try again.";
       setSubmitError(msg);
     } finally {
       setIsSubmitting(false);
@@ -262,18 +282,18 @@ export default function ConfigureUploadPageClient({
   };
 
   return (
-    <div className="grain-dark min-h-[calc(100vh-56px)] py-10">
+    <div className="min-h-screen">
       <Container className="h-full">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12 lg:items-start">
           {/* Left scene: title + phone, sticky on screen */}
-          <div className="flex flex-col gap-10 lg:sticky lg:top-20 lg:h-[calc(100vh-120px)]">
+          <div className="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
             <div className="max-w-xl">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
                 Configure Your SpaceCase
               </h1>
             </div>
 
-            <div className="relative flex flex-1 max-w-sm items-center justify-center">
+            <div className="relative flex max-w-[280px] items-center justify-center md:max-w-sm">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={hasImage ? (apod as ApodResponse).url : "placeholder"}
@@ -281,7 +301,7 @@ export default function ConfigureUploadPageClient({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="flex w-full max-w-sm items-center justify-center md:max-w-md"
+                  className="flex w-full items-center justify-center"
                 >
                   <Phone
                     imgSrc={hasImage ? (apod as ApodResponse).url : null}
@@ -295,15 +315,15 @@ export default function ConfigureUploadPageClient({
           </div>
 
           {/* Right column: vertical module stack */}
-          <div className="flex flex-col gap-6 pb-8">
+          <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
             {/* Module 1: Date scanner */}
-            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+                  <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                     01 · Date scanner
                   </h2>
-                  <p className="mt-1 font-mono text-xs text-slate-600">
+                  <p className="mt-1 font-mono text-xs text-text-secondary">
                     Input the date you want to freeze in time.
                   </p>
                 </div>
@@ -329,70 +349,73 @@ export default function ConfigureUploadPageClient({
                   helperVariant="minimal"
                   helperTextOverride="Type your date and press Sync"
                   loading={loading}
-                  className="space-y-4 rounded-xl border border-slate-200 bg-white px-4 py-5 md:px-5 md:py-6"
+                  className="space-y-4 rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-5 md:px-5 md:py-6"
                 />
               </div>
 
               {error && (
                 <p className="mt-3 font-mono text-xs text-red-500">{error}</p>
               )}
-            </section>
+            </GlassCard>
 
             {/* Module 2: Image preview + metadata */}
-            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between">
-                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                   02 · Cosmic frame
                 </h2>
                 {selectedDate && (
-                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-600">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-secondary">
                     {selectedDate}
                   </p>
                 )}
               </div>
 
               <div className="mt-2 flex gap-4">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={
-                        hasImage
-                          ? (apod as ApodResponse).url
-                          : "thumb-placeholder"
-                      }
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
-                      className="h-full w-full"
-                    >
-                      {hasImage ? (
-                        // eslint-disable-next-line @next/next/no-img-element
+                {hasImage ? (
+                  <button
+                    type="button"
+                    onClick={() => setIsImagePreviewOpen(true)}
+                    className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/50"
+                    aria-label="Open full-size image preview"
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={(apod as ApodResponse).url}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full w-full"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={(apod as ApodResponse).url}
                           alt={(apod as ApodResponse).title}
                           className="h-full w-full object-cover"
                         />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-slate-100">
-                          <span className="px-2 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">
-                            NASA preview
-                          </span>
-                        </div>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </button>
+                ) : (
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
+                    <div className="flex h-full w-full items-center justify-center bg-surface-raised/60">
+                      <span className="px-2 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-text-tertiary">
+                        NASA preview
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 <div className="min-w-0 space-y-2">
-                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
+                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-tertiary">
                     Image title
                   </p>
-                  <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900">
+                  <p className="line-clamp-2 text-sm font-semibold leading-snug text-text-primary">
                     {apod?.title ?? "Awaiting synced image"}
                   </p>
 
-                  <p className="mt-2 line-clamp-4 font-mono text-[11px] leading-relaxed text-slate-600">
+                  <p className="mt-2 line-clamp-4 font-mono text-[11px] leading-relaxed text-text-secondary">
                     {apod?.explanation ??
                       "Once you sync a date, you will see NASA’s official description of the Astronomy Picture of the Day for that moment in time."}
                   </p>
@@ -404,18 +427,18 @@ export default function ConfigureUploadPageClient({
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="mt-3 text-center text-sm italic leading-relaxed text-slate-500"
+                  className="mt-3 text-center text-sm italic leading-relaxed text-text-tertiary"
                 >
                   On this day, the light you see traveled millions of years to
                   reach Earth — and now it&apos;s yours.
                 </motion.p>
               )}
-            </section>
+            </GlassCard>
 
             {/* Module 3: Device configuration */}
-            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between">
-                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                   03 · Device configuration
                 </h2>
               </div>
@@ -423,42 +446,42 @@ export default function ConfigureUploadPageClient({
               <div className="space-y-2">
                 <label
                   htmlFor="device-model"
-                  className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                  className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                 >
                   Device Model
                 </label>
                 <div
                   className={cn(
-                    "relative mt-1 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900",
-                    "focus-within:border-slate-900/40 focus-within:ring-1 focus-within:ring-slate-900/30",
+                    "relative mt-1 flex items-center justify-between rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 text-sm text-text-primary",
+                    "focus-within:border-(--border-vivid) focus-within:ring-1 focus-within:ring-brand-pink/30",
                   )}
                 >
                   <select
                     id="device-model"
                     value={deviceModel}
                     onChange={(event) => setDeviceModel(event.target.value)}
-                    className="w-full appearance-none border-none bg-transparent font-mono text-sm text-slate-900 outline-none"
+                    className="w-full appearance-none border-none bg-transparent font-mono text-sm text-text-primary outline-none"
                   >
                     {PHONE_MODELS.map((model) => (
                       <option
                         key={model}
                         value={model}
-                        className="bg-white text-slate-900"
+                        className="bg-surface-overlay text-text-primary"
                       >
                         {model}
                       </option>
                     ))}
                   </select>
-                  <span className="pointer-events-none ml-3 font-mono text-xs text-slate-500">
+                  <span className="pointer-events-none ml-3 font-mono text-xs text-text-tertiary">
                     ▼
                   </span>
                 </div>
               </div>
-            </section>
+            </GlassCard>
 
             {/* Module 4: Delivery options */}
-            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
-              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                 04 · Delivery
               </h2>
 
@@ -476,16 +499,16 @@ export default function ConfigureUploadPageClient({
                     className={cn(
                       "flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
                       shipping === key
-                        ? "border-brand bg-brand/5 ring-1 ring-brand/20"
-                        : "border-slate-200 hover:border-slate-300",
+                        ? "border-(--border-vivid) bg-brand-pink/10 ring-1 ring-brand-pink/20"
+                        : "border-(--border-default) hover:border-brand-pink/40",
                     )}
                   >
                     <div
                       className={cn(
                         "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
                         shipping === key
-                          ? "border-brand bg-brand"
-                          : "border-slate-300",
+                          ? "border-brand-pink bg-brand-pink"
+                          : "border-(--border-default)",
                       )}
                     >
                       {shipping === key && (
@@ -494,28 +517,28 @@ export default function ConfigureUploadPageClient({
                     </div>
                     <div className="flex-1">
                       <div className="flex items-baseline justify-between">
-                        <p className="font-mono text-sm font-semibold text-slate-900">
+                        <p className="font-mono text-sm font-semibold text-text-primary">
                           {option.label}
                         </p>
-                        <p className="font-mono text-sm font-semibold text-slate-900">
+                        <p className="font-mono text-sm font-semibold text-text-primary">
                           {formatEur(option.price)}
                         </p>
                       </div>
-                      <p className="mt-0.5 font-mono text-[11px] text-slate-500">
+                      <p className="mt-0.5 font-mono text-[11px] text-text-tertiary">
                         {option.description}
                       </p>
-                      <p className="font-mono text-[11px] text-slate-500">
+                      <p className="font-mono text-[11px] text-text-tertiary">
                         {option.delivery}
                       </p>
                     </div>
                   </button>
                 ))}
               </div>
-            </section>
+            </GlassCard>
 
             {/* Module 5: Contact + shipping (before payment) */}
-            <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
-              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-slate-900">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                 05 · Contacts & delivery
               </h2>
 
@@ -523,7 +546,7 @@ export default function ConfigureUploadPageClient({
                 <div className="space-y-2">
                   <label
                     htmlFor="fullName"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                   >
                     Full name
                   </label>
@@ -531,7 +554,7 @@ export default function ConfigureUploadPageClient({
                     id="fullName"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                     autoComplete="name"
                   />
                 </div>
@@ -540,7 +563,7 @@ export default function ConfigureUploadPageClient({
                   <div className="space-y-2">
                     <label
                       htmlFor="email"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
                       Email
                     </label>
@@ -548,7 +571,7 @@ export default function ConfigureUploadPageClient({
                       id="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                       autoComplete="email"
                       inputMode="email"
                     />
@@ -557,7 +580,7 @@ export default function ConfigureUploadPageClient({
                   <div className="space-y-2">
                     <label
                       htmlFor="phone"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
                       Phone
                     </label>
@@ -565,7 +588,7 @@ export default function ConfigureUploadPageClient({
                       id="phone"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                       autoComplete="tel"
                       inputMode="tel"
                     />
@@ -575,7 +598,7 @@ export default function ConfigureUploadPageClient({
                 <div className="space-y-2">
                   <label
                     htmlFor="line1"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                   >
                     Address line 1
                   </label>
@@ -583,7 +606,7 @@ export default function ConfigureUploadPageClient({
                     id="line1"
                     value={line1}
                     onChange={(e) => setLine1(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                     autoComplete="address-line1"
                   />
                 </div>
@@ -591,7 +614,7 @@ export default function ConfigureUploadPageClient({
                 <div className="space-y-2">
                   <label
                     htmlFor="line2"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                   >
                     Address line 2 (optional)
                   </label>
@@ -599,7 +622,7 @@ export default function ConfigureUploadPageClient({
                     id="line2"
                     value={line2}
                     onChange={(e) => setLine2(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                     autoComplete="address-line2"
                   />
                 </div>
@@ -608,7 +631,7 @@ export default function ConfigureUploadPageClient({
                   <div className="space-y-2">
                     <label
                       htmlFor="city"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
                       City
                     </label>
@@ -616,7 +639,7 @@ export default function ConfigureUploadPageClient({
                       id="city"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                       autoComplete="address-level2"
                     />
                   </div>
@@ -624,7 +647,7 @@ export default function ConfigureUploadPageClient({
                   <div className="space-y-2">
                     <label
                       htmlFor="eirCode"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
                       Eircode
                     </label>
@@ -632,7 +655,7 @@ export default function ConfigureUploadPageClient({
                       id="eirCode"
                       value={eirCode}
                       onChange={(e) => setEirCode(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 outline-none focus:border-slate-900/40 focus:ring-1 focus:ring-slate-900/30"
+                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
                       autoComplete="postal-code"
                     />
                   </div>
@@ -650,37 +673,37 @@ export default function ConfigureUploadPageClient({
                   {submitError}
                 </p>
               )}
-            </section>
+            </GlassCard>
 
             {/* Module 6: Order summary */}
-            <section className="sticky bottom-4 mt-auto space-y-4 rounded-2xl border border-slate-200 bg-white p-5 md:p-6">
+            <GlassCard className="sticky bottom-4 shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
+                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
                     06 · Order summary
                   </p>
-                  <p className="font-mono text-sm text-slate-900">
+                  <p className="font-mono text-sm text-text-primary">
                     {deviceModel || "Select your device"}
                   </p>
                   {selectedDate && (
-                    <p className="font-mono text-[11px] text-slate-600">
+                    <p className="font-mono text-[11px] text-text-secondary">
                       Date synced: {selectedDate}
                     </p>
                   )}
                 </div>
 
                 <div className="text-right">
-                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
+                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
                     Total
                   </p>
-                  <p className="text-2xl font-semibold text-slate-900">
+                  <p className="text-2xl font-semibold text-text-primary">
                     {formattedPrice}
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-1.5 border-t border-slate-100 pt-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-400">
+              <div className="space-y-1.5 border-t border-(--border-default) pt-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
                   What&apos;s included
                 </p>
                 {[
@@ -691,12 +714,9 @@ export default function ConfigureUploadPageClient({
                   "Fade-resistant UV ink",
                   SHIPPING_OPTIONS[shipping].label,
                 ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-2"
-                  >
+                  <div key={item} className="flex items-center gap-2">
                     <Check className="h-3 w-3 shrink-0 text-brand" />
-                    <span className="font-mono text-[11px] text-slate-600">
+                    <span className="font-mono text-[11px] text-text-secondary">
                       {item}
                     </span>
                   </div>
@@ -711,12 +731,52 @@ export default function ConfigureUploadPageClient({
                 disabled={!isCheckoutFormValid || isSubmitting}
                 onClick={() => void handleLaunch()}
               >
-                {isSubmitting ? "Redirecting to payment..." : "Launch My SpaceCase"}
+                {isSubmitting
+                  ? "Redirecting to payment..."
+                  : "Launch My SpaceCase"}
               </Button>
-            </section>
+            </GlassCard>
           </div>
         </div>
       </Container>
+
+      <AnimatePresence>
+        {isImagePreviewOpen && hasImage && (
+          <motion.div
+            className="fixed inset-0 z-(--z-overlay) flex items-center justify-center bg-black/80 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsImagePreviewOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-5xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setIsImagePreviewOpen(false)}
+                className="absolute -top-10 right-0 text-text-secondary hover:text-text-primary text-sm font-mono uppercase tracking-[0.2em]"
+                aria-label="Close image preview"
+              >
+                Close
+              </button>
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-(--border-default) bg-surface-overlay">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={(apod as ApodResponse).url}
+                  alt={(apod as ApodResponse).title}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
