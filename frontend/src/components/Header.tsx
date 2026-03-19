@@ -36,16 +36,13 @@ function scrollToSection(id: NavItemId) {
 }
 
 export default function Header() {
-  const handleNavClick = useCallback(
-    (id: NavItemId) => {
-      if (window.location.pathname === "/") {
-        scrollToSection(id);
-      } else {
-        window.location.href = `/#${id}`;
-      }
-    },
-    [],
-  );
+  const handleNavClick = useCallback((id: NavItemId) => {
+    if (window.location.pathname === "/") {
+      scrollToSection(id);
+    } else {
+      window.location.href = `/#${id}`;
+    }
+  }, []);
 
   const handleLogoClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
     // Важно: якорь вида /#home иногда не триггерит скролл повторно,

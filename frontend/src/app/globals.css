@@ -1,28 +1,80 @@
 @import "tailwindcss";
 
+:root {
+  /* Surfaces (from Space Black #020207) */
+  --surface-base: #020207;
+  --surface-raised: #0b0b12;
+  --surface-overlay: #13131e;
+  --surface-card: #0a0a14;
+
+  /* Brand (Cosmic Pink + Midnight Purple) */
+  --brand-pink: #cb7cfd;
+  --brand-purple: #4d30ff;
+  --brand-subtle: #1a1030;
+
+  /* Text (from White #F3F3F3) */
+  --text-primary: #f3f3f3;
+  --text-secondary: rgba(243, 243, 243, 0.8);
+  --text-tertiary: #5c5c6e;
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-vivid: rgba(203, 124, 253, 0.2);
+
+  /* Glow */
+  --glow-pink: rgba(203, 124, 253, 0.15);
+  --glow-purple: rgba(77, 48, 255, 0.12);
+  --glow-combined: rgba(140, 86, 253, 0.1);
+
+  --radius: 0.5rem;
+
+  /* Z-index tokens: global layers */
+  --z-base: 0;
+  --z-sidebar: 10;
+  --z-dropdown: 100;
+  --z-popover: 150;
+  --z-toast: 200;
+  --z-modal: 300;
+  --z-overlay: 400;
+  --z-critical: 500;
+  --z-header: 600; /* header above everything else */
+
+  /* Z-index tokens: local (inside components) */
+  --z-top: 10;
+  --z-bottom: -10;
+
+  /* Fonts */
+  --font-sans: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui;
+  --font-technical: var(--font-recursive), ui-monospace, monospace;
+}
+
 /*
  * SpaceCase Design System
  * Palette: Space Black #020207 · Polar White #FFFFFF · Cosmic Pink #CB7CFD · Midnight Purple #4D30FF
  */
 
 @theme inline {
-  /* ═══ SURFACES ═══ */
+  --font-sans: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui;
+  --font-display: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui;
+
+  /* Surfaces */
   --color-surface-base: var(--surface-base);
   --color-surface-raised: var(--surface-raised);
   --color-surface-overlay: var(--surface-overlay);
   --color-surface-card: var(--surface-card);
 
-  /* ═══ BRAND ═══ */
+  /* Brand */
   --color-brand-pink: var(--brand-pink);
   --color-brand-purple: var(--brand-purple);
   --color-brand-subtle: var(--brand-subtle);
 
-  /* ═══ TEXT ═══ */
+  /* Text */
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
 
-  /* ═══ shadcn/ui compatibility ═══ */
+  /* shadcn/ui compatibility */
   --color-background: var(--surface-base);
   --color-foreground: var(--text-primary);
   --color-card: var(--surface-card);
@@ -48,13 +100,7 @@
   --color-brand-light: #1a1030;
   --color-brand-foreground: #f3f3f3;
 
-  /* ═══ FONTS ═══ */
-  --font-sans: var(--font-recursive), ui-sans-serif, system-ui;
-  --font-mono:
-    var(--font-recursive), ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-display: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui;
-
-  /* ═══ ANIMATIONS ═══ */
+  /* Animations */
   --animate-accordion-down: accordion-down 200ms ease-out;
   --animate-accordion-up: accordion-up 200ms ease-out;
 }
@@ -64,9 +110,7 @@
     text-wrap: balance;
   }
 
-  .font-display {
-    font-family: var(--font-display);
-  }
+  /* font-sans / font-display are generated from @theme; no duplicate here */
 
   .animate-float {
     animation: float 2s ease-in-out infinite;
@@ -88,9 +132,8 @@
   }
 
   .font-technical {
-    font-variation-settings:
-      "MONO" 1,
-      "CASL" 0;
+    font-family: var(--font-recursive), ui-monospace, monospace;
+    text-transform: uppercase;
   }
 
   .glass-shine {
@@ -159,53 +202,6 @@
   }
 }
 
-@layer base {
-  :root {
-    /* Surfaces (from Space Black #020207) */
-    --surface-base: #020207;
-    --surface-raised: #0b0b12;
-    --surface-overlay: #13131e;
-    --surface-card: #0a0a14;
-
-    /* Brand (Cosmic Pink + Midnight Purple) */
-    --brand-pink: #cb7cfd;
-    --brand-purple: #4d30ff;
-    --brand-subtle: #1a1030;
-
-    /* Text (from Polar White #FFFFFF) */
-    --text-primary: #f3f3f3;
-    --text-secondary: rgba(243, 243, 243, 0.8);
-    --text-tertiary: #5c5c6e;
-
-    /* Borders */
-    --border-subtle: rgba(255, 255, 255, 0.06);
-    --border-default: rgba(255, 255, 255, 0.1);
-    --border-vivid: rgba(203, 124, 253, 0.2);
-
-    /* Glow */
-    --glow-pink: rgba(203, 124, 253, 0.15);
-    --glow-purple: rgba(77, 48, 255, 0.12);
-    --glow-combined: rgba(140, 86, 253, 0.1);
-
-    --radius: 0.5rem;
-
-    /* Z-index tokens: global layers */
-    --z-base: 0;
-    --z-sidebar: 10;
-    --z-dropdown: 100;
-    --z-popover: 150;
-    --z-toast: 200;
-    --z-modal: 300;
-    --z-overlay: 400;
-    --z-critical: 500;
-    --z-header: 600; /* header above everything else */
-
-    /* Z-index tokens: local (inside components) */
-    --z-top: 10;
-    --z-bottom: -10;
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -213,15 +209,6 @@ html {
 @layer base {
   body {
     @apply bg-[#020207] text-foreground font-sans;
-  }
-}
-
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
   }
 }
 
@@ -237,7 +224,7 @@ html {
     background-repeat: repeat;
   }
 
-  /* Кастомный слайдер даты с бегунком slider.svg */
+  /* Custom date slider with slider.svg thumb */
   .spacecase-range {
     background: transparent;
   }
@@ -250,12 +237,12 @@ html {
   .spacecase-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 100px; /* подгони под реальный размер slider.svg */
+    width: 100px; /* match slider.svg visual width */
     height: 40px;
     background: url("/slider.svg") center center / contain no-repeat;
     border: none;
     cursor: pointer;
-    margin-top: 0; /* чтобы не сдвигался по вертикали */
+    margin-top: 0; /* prevent vertical offset */
   }
 
   .spacecase-range::-moz-range-track {
@@ -286,7 +273,7 @@ html {
     cursor: pointer;
   }
 
-  /* Слайдер с космонавтом: нативный бегунок и трек полностью скрыты (в т.ч. Safari/iOS) */
+  /* Astronaut slider: hide native thumb and track across browsers */
   .slider-astronaut {
     background: transparent;
     -webkit-appearance: none;

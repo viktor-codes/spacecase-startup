@@ -11,16 +11,16 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative w-full overflow-hidden scroll-mt-16 pt-16 pb-16 lg:pt-28 lg:pb-24"
+      className="relative w-full overflow-hidden scroll-mt-16 pt-16 pb-16 md:pt-28 md:pb-24"
     >
       <Container className="relative z-(--z-top)">
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
           {/* Content */}
-          <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center lg:text-left lg:items-start max-w-xl">
+          <div className="flex flex-col space-y-6 md:space-y-8 text-center items-center md:text-left md:items-start max-w-xl">
             <Badge className="mb-4">From NASA APOD</Badge>
 
             <SectionHeading
-              className="px-0 lg:px-0 text-center lg:text-left"
+              className="px-0 text-center md:text-left"
               containerClassName="max-w-none"
               align="left"
               titleAs="h1"
@@ -33,22 +33,22 @@ const HeroSection = () => {
                   </span>
                 </>
               }
-              titleClassName="mt-0 text-6xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] max-w-[12ch] mx-auto lg:mx-0"
+              titleClassName="mt-0 text-5xl sm:text-4xl md:text-5xl xl:text-7xl font-bold leading-[1.1] max-w-[12ch] mx-auto md:mx-0"
               subtitle={
                 <>
                   Pick a date. We fetch NASA&apos;s Astronomy Picture of the Day
                   and AI-enhance it for print-ready detail.
                 </>
               }
-              subtitleClassName="max-w-[480px] leading-relaxed md:leading-loose mx-auto lg:mx-0 text-pretty"
+              subtitleClassName="max-w-[380px] leading-relaxed md:leading-loose mx-auto md:mx-0 text-pretty"
             />
 
-            <div className="flex flex-row items-center justify-center gap-3">
+            <div className="flex flex-row items-center justify-center gap-3 md:justify-start">
               <Button
                 asChild
                 variant="primary"
                 size="hero"
-                className="px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8 lg:py-4"
+                className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-8 md:py-4"
               >
                 <Link href="#try-now">
                   <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
@@ -62,7 +62,7 @@ const HeroSection = () => {
                 asChild
                 variant="secondary"
                 size="hero"
-                className="px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8 lg:py-4"
+                className="px-4 py-2.5 sm:px-5 sm:py-3 md:px-8 md:py-4"
               >
                 <a href="#how-it-works">
                   <span className="text-xs sm:text-sm md:text-base tracking-[0.14em] uppercase">
@@ -75,30 +75,7 @@ const HeroSection = () => {
           </div>
 
           {/* Product */}
-          <div className="relative flex flex-col items-center justify-center gap-6 mt-4 lg:mt-0">
-            {/* Tech grid under the product */}
-            {/* <div
-              className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[120%] h-[120%] pointer-events-none"
-              style={{
-                perspective: "1000px", // Создает точку схода
-              }}
-            >
-              <div
-                className="w-full h-full"
-                style={{
-                  backgroundImage: `
-        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
-      `,
-                  backgroundSize: "70px 70px",
-                  transform: "rotateZ(70deg)",
-                  // Наклоняем сетку от себя
-                  maskImage:
-                    "radial-gradient(ellipse at center, black 20%, transparent 80%)", // Смягчаем края
-                }}
-              />
-            </div> */}
-
+          <div className="relative flex flex-col items-center justify-center gap-6 mt-4 md:mt-0">
             {/* Сферическая сетка "Рыбий глаз" за продуктом */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none z-(--z-bottom)">
               <div
@@ -132,7 +109,7 @@ const HeroSection = () => {
               />
             </div>
 
-            {/* Feature badges orbiting around the phone on tablet+ */}
+            {/* Feature badges orbiting around the phone on mobile only*/}
 
             <div className="pointer-events-none">
               <div className="absolute inset-0 opacity-50 block sm:hidden">

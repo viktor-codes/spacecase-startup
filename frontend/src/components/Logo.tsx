@@ -29,7 +29,7 @@ export default function Logo({
 
       <span
         className={cn(
-          "font-display text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center -ms-4",
+          "font-technical text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center -ms-4",
           textClassName,
         )}
       >

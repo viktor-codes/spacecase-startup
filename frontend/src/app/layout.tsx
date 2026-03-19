@@ -40,9 +40,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="">
-      <body className={`${recursive.variable} ${plusJakartaSans.variable} antialiased`}>
-        {/* Фиксированный фон для iOS и десктопа */}
+    <html
+      lang="en"
+      className={`${recursive.variable} ${plusJakartaSans.variable}`}
+    >
+      <body className="antialiased">
+        {/* Fixed background for iOS and desktop */}
         <div
           className="fixed inset-0 -z-10 h-[120svh] overflow-hidden pointer-events-none"
           style={{
