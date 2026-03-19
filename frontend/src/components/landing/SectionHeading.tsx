@@ -73,7 +73,7 @@ export default function SectionHeading({
       {subtitle ? (
         <p
           className={cn(
-            "mt-4 text-base md:text-lg text-text-secondary font-display",
+            "mt-4 text-[clamp(1rem,1.2vw,1.25rem)] text-text-secondary font-display max-w-md lg:max-w-lg mx-auto text-balance",
             subtitleClassName,
           )}
         >
