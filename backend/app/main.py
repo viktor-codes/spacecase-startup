@@ -52,6 +52,18 @@ else:
         allow_headers=["*"],
     )
 
+
+@app.get("/", tags=["meta"])
+def root() -> dict[str, str]:
+    """API lives under /v1; use /health for uptime checks."""
+    return {"service": settings.app_name, "health": "/health"}
+
+
+@app.get("/health", tags=["meta"])
+def health_check() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 app.include_router(api_router)
 
 
@@ -60,10 +72,4 @@ async def _init_startup() -> None:
     # MVP: create tables automatically on startup.
     # Later we can migrate to Alembic once schemas stabilize.
     await init_db()
-
-
-@app.get("/health", tags=["meta"])
-def health_check() -> dict[str, str]:
-    return {"status": "ok"}
-
 
