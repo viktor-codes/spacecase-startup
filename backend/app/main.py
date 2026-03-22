@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
+from urllib.parse import urlparse
 
 from app.api import api_router
 from app.core.config import get_settings
@@ -11,11 +12,16 @@ from app.infrastructure.db.init_db import init_db
 
 settings = get_settings()
 
-_cors_origins = [
-    o.strip()
-    for o in settings.cors_allow_origins.split(",")
-    if o.strip()
-]
+_cors_origins: list[str] = []
+for _o in settings.cors_allow_origins.split(","):
+    _o = _o.strip()
+    if _o and _o not in _cors_origins:
+        _cors_origins.append(_o)
+_fb = urlparse(settings.frontend_base_url.strip())
+if _fb.scheme and _fb.netloc:
+    _origin = f"{_fb.scheme}://{_fb.netloc}"
+    if _fb.hostname not in ("localhost", "127.0.0.1") and _origin not in _cors_origins:
+        _cors_origins.append(_origin)
 
 if settings.sentry_dsn:
     sentry_sdk.init(

@@ -37,8 +37,9 @@ class Settings(BaseSettings):
         default="http://localhost:3000", alias="FRONTEND_BASE_URL"
     )
 
-    # Comma-separated origins for CORS (e.g. https://app.example.com). If empty,
-    # dev regex from main.py is used (localhost / LAN).
+    # Comma-separated origins for CORS. Origin of FRONTEND_BASE_URL is merged in
+    # when it is not localhost (so prod works without duplicating the site URL).
+    # If empty and FRONTEND_BASE_URL is localhost, dev regex from main.py applies.
     cors_allow_origins: str = Field(default="", alias="CORS_ALLOW_ORIGINS")
 
     # Persistence (MVP)
