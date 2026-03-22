@@ -14,6 +14,7 @@ dependencies = [
     "stripe>=14.4.1",
     "sqlalchemy>=2.0.48",
     "aiosqlite>=0.22.1",
+    "asyncpg>=0.30.0",
     "email-validator>=2.3.0",
     "greenlet>=3.3.2",
     "sentry-sdk[fastapi]>=2.19.0",
