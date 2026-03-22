@@ -65,6 +65,7 @@ export async function fetchOrder(orderId: string): Promise<OrderResponse> {
 
   const res = await fetch(`${API_URL}/v1/orders/${encodeURIComponent(orderId)}`, {
     method: "GET",
+    cache: "no-store",
   });
 
   if (!res.ok) {

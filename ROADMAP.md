@@ -16,10 +16,10 @@
 
 | # | Задача | Статус | Файлы / заметки |
 |---|--------|--------|-----------------|
-| B1 | Polling / «Подтверждаем оплату» на success | ☐ | `frontend/src/app/order/success/` |
-| B2 | Ошибки и retry на лендинге (Try Now) | ☐ | `frontend/src/components/landing/TryNowSection.tsx` |
-| B3 | Open Graph + `metadataBase` | ☐ | `frontend/src/app/layout.tsx` |
-| B4 | APOD: `remotePatterns` или `<img>` для не-nasa.gov URL | ☐ | `next.config`, модалка |
+| B1 | Polling / «Подтверждаем оплату» на success | ☑ | `OrderSuccessContent.tsx`, `page.tsx` |
+| B2 | Ошибки и retry на лендинге (Try Now) | ☑ | `TryNowSection.tsx` |
+| B3 | Open Graph + `metadataBase` | ☑ | `layout.tsx` — задайте `NEXT_PUBLIC_SITE_URL` в проде |
+| B4 | APOD: `remotePatterns` или `<img>` для не-nasa.gov URL | ☑ | `next.config.ts` + нативный `<img>` в модалке |
 
 ## Фаза C — наблюдаемость и тесты
 
@@ -39,4 +39,4 @@
 
 ---
 
-**Текущий фокус:** Фаза A.
+**Текущий фокус:** Фаза C (Sentry, Playwright, pytest).

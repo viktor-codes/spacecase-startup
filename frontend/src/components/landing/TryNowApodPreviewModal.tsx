@@ -1,24 +1,25 @@
 "use client";
 
-import Image from "next/image";
-
 import { buttonVariants } from "@/components/ui/button";
 import type { ApodResponse } from "@/lib/api/apodClient";
 
 type TryNowApodPreviewModalProps = {
   isOpen: boolean;
   apod: ApodResponse | null;
-  date: string;
   onClose: () => void;
 };
 
 const TryNowApodPreviewModal = ({
   isOpen,
   apod,
-  date,
   onClose,
 }: TryNowApodPreviewModalProps) => {
   if (!isOpen || !apod) return null;
+
+  const configureDate =
+    typeof apod.date === "string" && apod.date.length > 0
+      ? apod.date.slice(0, 10)
+      : "";
 
   return (
     <div className="fixed inset-0 z-(--z-overlay) flex items-center justify-center bg-black/70 px-4">
@@ -44,12 +45,13 @@ const TryNowApodPreviewModal = ({
           </div>
 
           <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-(--border-default) bg-surface-base">
-            <Image
+            {/* Native img: APOD URLs may point at any NASA/third-party host. */}
+            <img
               src={apod.url}
               alt={apod.title || "NASA Astronomy Picture of the Day"}
-              fill
-              sizes="(min-width: 1024px) 768px, 100vw"
-              className="object-cover"
+              className="h-full w-full object-cover"
+              loading="eager"
+              decoding="async"
             />
           </div>
 
@@ -69,7 +71,11 @@ const TryNowApodPreviewModal = ({
             </button>
 
             <a
-              href={`/configure/upload?date=${encodeURIComponent(date)}`}
+              href={
+                configureDate
+                  ? `/configure/upload?date=${encodeURIComponent(configureDate)}`
+                  : "/configure/upload"
+              }
               className={buttonVariants({
                 variant: "space",
                 size: "sm",
