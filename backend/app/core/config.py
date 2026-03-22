@@ -43,6 +43,12 @@ class Settings(BaseSettings):
         alias="DATABASE_URL",
     )
 
+    sentry_dsn: str = Field(
+        default="",
+        alias="SENTRY_DSN",
+        description="Optional Sentry DSN for error monitoring.",
+    )
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

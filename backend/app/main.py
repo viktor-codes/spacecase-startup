@@ -1,5 +1,8 @@
+import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from app.api import api_router
 from app.core.config import get_settings
@@ -7,6 +10,17 @@ from app.infrastructure.db.init_db import init_db
 
 
 settings = get_settings()
+
+if settings.sentry_dsn:
+    sentry_sdk.init(
+        dsn=settings.sentry_dsn,
+        send_default_pii=False,
+        traces_sample_rate=0.1,
+        integrations=[
+            StarletteIntegration(),
+            FastApiIntegration(),
+        ],
+    )
 
 app = FastAPI(
     title=settings.app_name,

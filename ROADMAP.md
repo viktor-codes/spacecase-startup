@@ -25,9 +25,9 @@
 
 | # | Задача | Статус | Файлы / заметки |
 |---|--------|--------|-----------------|
-| C1 | Sentry (frontend + backend) | ☐ | |
-| C2 | Playwright: критический путь | ☐ | `frontend/e2e/` |
-| C3 | Pytest: health + APOD mock | ☐ | `backend/tests/` |
+| C1 | Sentry (frontend + backend) | ☑ | `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`; опционально `SENTRY_AUTH_TOKEN` для source maps |
+| C2 | Playwright: критический путь | ☑ | `npm run test:e2e` (build + e2e), порт **3001** |
+| C3 | Pytest: health + APOD mock | ☑ | `cd backend && uv run pytest` |
 
 ## Фаза D — полировка
 
@@ -39,4 +39,4 @@
 
 ---
 
-**Текущий фокус:** Фаза C (Sentry, Playwright, pytest).
+**Текущий фокус:** Фаза D.

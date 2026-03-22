@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -13,4 +14,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG ?? "spacecase",
+  project: process.env.SENTRY_PROJECT ?? "frontend",
+  silent: !process.env.CI,
+  telemetry: false,
+});
