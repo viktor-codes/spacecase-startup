@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     # If empty and FRONTEND_BASE_URL is localhost, dev regex from main.py applies.
     cors_allow_origins: str = Field(default="", alias="CORS_ALLOW_ORIGINS")
 
+    # Optional regex (fullmatch) for extra origins, e.g. all Vercel previews:
+    # ^https://[\\w.-]+\\.vercel\\.app$
+    cors_allow_origin_regex: str = Field(default="", alias="CORS_ALLOW_ORIGIN_REGEX")
+
     # Persistence (MVP)
     database_url: str = Field(
         default="sqlite+aiosqlite:///./CosmicCase.db",
