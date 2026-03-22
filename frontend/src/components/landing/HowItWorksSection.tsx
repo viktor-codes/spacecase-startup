@@ -73,8 +73,8 @@ const HowItWorksSection = () => {
               <Image
                 src="/rosette-cone.jpg"
                 alt="NASA Rosette Cone Nebula — original archive"
-                width={480}
-                height={480}
+                width={639}
+                height={1024}
                 quality={75}
                 className="object-cover w-full h-full"
               />
