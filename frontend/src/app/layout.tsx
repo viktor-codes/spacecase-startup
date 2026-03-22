@@ -20,8 +20,10 @@ const recursive = Recursive({
   axes: ["MONO", "CASL"],
 });
 
+// Empty NEXT_PUBLIC_SITE_URL in dashboard is "" — `??` does not fall back; avoid `new URL("")`.
+const _site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  _site && _site.length > 0 ? _site : "http://localhost:3000";
 
 const defaultTitle =
   "SpaceCase — The Sky From Your Most Important Date, On Your Phone";
