@@ -96,7 +96,7 @@ const TechnicalExcellenceSection = () => {
           <div className="relative mx-auto w-96">
             <motion.img
               src="/excelence-2.png"
-              alt="SpaceCase"
+              alt="CosmicCase"
               className="w-full"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ const TechnicalExcellenceSection = () => {
             <div className="relative w-full">
               <motion.img
                 src="/excelence-2.png"
-                alt="SpaceCase"
+                alt="CosmicCase"
                 className="w-full"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

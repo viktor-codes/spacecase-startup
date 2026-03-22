@@ -92,7 +92,7 @@ const HeroSection = () => {
       `,
                   WebkitMaskImage:
                     "radial-gradient(circle at center, black 10%, transparent 70%)",
-                  animation: "radar-pulse 14s linear infinite",
+                  animation: "radar-pulse 20s linear infinite",
                 }}
               />
             </div>
@@ -100,7 +100,7 @@ const HeroSection = () => {
             <div className="relative">
               <Image
                 src="/hero-phone.png"
-                alt="SpaceCase — premium phone case with NASA nebula print"
+                alt="CosmicCase — premium phone case with NASA nebula print"
                 width={1024}
                 height={1024}
                 priority

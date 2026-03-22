@@ -12,7 +12,7 @@ test.describe("critical paths", () => {
   test("configure page loads", async ({ page }) => {
     await page.goto("/configure/upload");
     await expect(
-      page.getByRole("heading", { name: /Configure Your SpaceCase/i }),
+      page.getByRole("heading", { name: /Configure Your CosmicCase/i }),
     ).toBeVisible();
   });
 

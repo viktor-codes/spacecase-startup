@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    app_name: str = Field(default="Spacecase Backend", alias="APP_NAME")
+    app_name: str = Field(default="CosmicCase Backend", alias="APP_NAME")
     debug: bool = Field(default=False, alias="DEBUG")
 
     nasa_api_key: str = Field(
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
 
     # Persistence (MVP)
     database_url: str = Field(
-        default="sqlite+aiosqlite:///./spacecase.db",
+        default="sqlite+aiosqlite:///./CosmicCase.db",
         alias="DATABASE_URL",
         description="Async SQLAlchemy URL, e.g. postgresql+asyncpg://user:pass@host:5432/dbname",
     )

@@ -26,7 +26,7 @@ const faqs = [
   {
     question: "Which phone models do you support?",
     answer:
-      "We currently support popular iPhone models, with more devices coming soon. You'll see the full list of supported models when you configure your SpaceCase.",
+      "We currently support popular iPhone models, with more devices coming soon. You'll see the full list of supported models when you configure your CosmicCase.",
   },
   {
     question: "What happens if the case doesn't fit or arrives damaged?",
@@ -44,33 +44,33 @@ const FAQSection = () => {
   return (
     <div id="faq">
       <Section>
-      <SectionHeading
-        kicker="FAQ"
-        title="Answers before you launch your SpaceCase"
-        subtitle={
-          <>
-            If you are wondering about how we use NASA imagery, shipping, or
-            customization, you will probably find your answer below.
-          </>
-        }
-        subtitleClassName="max-w-2xl mx-auto"
-      />
+        <SectionHeading
+          kicker="FAQ"
+          title="Answers before you launch your CosmicCase"
+          subtitle={
+            <>
+              If you are wondering about how we use NASA imagery, shipping, or
+              customization, you will probably find your answer below.
+            </>
+          }
+          subtitleClassName="max-w-2xl mx-auto"
+        />
 
-      <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
-        <Accordion type="single" collapsible>
-          {faqs.map((item, i) => (
-            <AccordionItem key={item.question} value={`faq-${i}`}>
-              <AccordionTrigger className="text-text-primary">
-                {item.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-text-secondary">
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </Section>
+        <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
+          <Accordion type="single" collapsible>
+            {faqs.map((item, i) => (
+              <AccordionItem key={item.question} value={`faq-${i}`}>
+                <AccordionTrigger className="text-text-primary">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-text-secondary">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </Section>
     </div>
   );
 };

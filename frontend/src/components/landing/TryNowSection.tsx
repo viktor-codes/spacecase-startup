@@ -68,7 +68,7 @@ const TryNowSection = () => {
         subtitle={
           <>
             Enter a date to preview NASA&apos;s Astronomy Picture of the Day.
-            We&apos;ll AI-enhance it for a print-ready SpaceCase.
+            We&apos;ll AI-enhance it for a print-ready CosmicCase.
           </>
         }
       />

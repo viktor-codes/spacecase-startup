@@ -4,10 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
-import {
-  fetchOrder,
-  type OrderResponse,
-} from "@/lib/api/ordersClient";
+import { fetchOrder, type OrderResponse } from "@/lib/api/ordersClient";
 
 type OrderSuccessContentProps = {
   orderId: string;
@@ -80,7 +77,7 @@ export default function OrderSuccessContent({
               : "Payment received"}
         </p>
         <h1 className="text-2xl font-bold text-slate-900">
-          Thank you! Your SpaceCase is moving to preparation.
+          Thank you! Your CosmicCase is moving to preparation.
         </h1>
         <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-slate-600">
           Order #{order.orderId}
@@ -94,8 +91,8 @@ export default function OrderSuccessContent({
         {pollingStopped && !isPaid && (
           <div className="space-y-2 rounded-lg border border-amber-200 bg-amber-50 p-3">
             <p className="text-sm text-amber-900">
-              Your payment is still being processed. You can refresh this page or
-              check your email for confirmation.
+              Your payment is still being processed. You can refresh this page
+              or check your email for confirmation.
             </p>
             <Button type="button" variant="outline" size="sm" onClick={refresh}>
               Refresh status

@@ -215,9 +215,17 @@ export default function ConfigureUploadPageClient({
     if (selectedDate) completed += 1;
     if (hasImage) completed += 1;
     if (deviceModel) completed += 1;
-    if (fullName.trim().length >= 2 && isEmailValid && isEirCodeValid) completed += 1;
+    if (fullName.trim().length >= 2 && isEmailValid && isEirCodeValid)
+      completed += 1;
     return completed;
-  }, [selectedDate, hasImage, deviceModel, fullName, isEmailValid, isEirCodeValid]);
+  }, [
+    selectedDate,
+    hasImage,
+    deviceModel,
+    fullName,
+    isEmailValid,
+    isEirCodeValid,
+  ]);
 
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
   const formatEur = useMemo(() => {
@@ -350,7 +358,7 @@ export default function ConfigureUploadPageClient({
           <div className="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
             <div className="max-w-xl">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
-                Configure Your SpaceCase
+                Configure Your CosmicCase
               </h1>
             </div>
 
@@ -383,7 +391,10 @@ export default function ConfigureUploadPageClient({
           {/* Right column: vertical module stack */}
           <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
             {/* Module 1: Date scanner */}
-            <GlassCard ref={module2Ref} className="shrink-0 space-y-4 p-5 md:p-6">
+            <GlassCard
+              ref={module2Ref}
+              className="shrink-0 space-y-4 p-5 md:p-6"
+            >
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
@@ -613,146 +624,146 @@ export default function ConfigureUploadPageClient({
             {/* Module 5: Your details */}
             {hasImage && (
               <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
-                05 · Your details
-              </h2>
+                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
+                  05 · Your details
+                </h2>
 
-              <div className="space-y-3">
-                <div className="space-y-2">
-                  <label
-                    htmlFor="fullName"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                  >
-                    Full name
-                  </label>
-                  <input
-                    id="fullName"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                    autoComplete="name"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="space-y-3">
                   <div className="space-y-2">
                     <label
-                      htmlFor="email"
+                      htmlFor="fullName"
                       className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
-                      Email
+                      Full name
                     </label>
                     <input
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      id="fullName"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="email"
-                      inputMode="email"
+                      autoComplete="name"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="email"
+                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+                      >
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+                        autoComplete="email"
+                        inputMode="email"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="phone"
+                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+                        autoComplete="tel"
+                        inputMode="tel"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="line1"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+                    >
+                      Address line 1
+                    </label>
+                    <input
+                      id="line1"
+                      value={line1}
+                      onChange={(e) => setLine1(e.target.value)}
+                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+                      autoComplete="address-line1"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <label
-                      htmlFor="phone"
+                      htmlFor="line2"
                       className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
                     >
-                      Phone
+                      Address line 2 (optional)
                     </label>
                     <input
-                      id="phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      id="line2"
+                      value={line2}
+                      onChange={(e) => setLine2(e.target.value)}
                       className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="tel"
-                      inputMode="tel"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="line1"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                  >
-                    Address line 1
-                  </label>
-                  <input
-                    id="line1"
-                    value={line1}
-                    onChange={(e) => setLine1(e.target.value)}
-                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                    autoComplete="address-line1"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="line2"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                  >
-                    Address line 2 (optional)
-                  </label>
-                  <input
-                    id="line2"
-                    value={line2}
-                    onChange={(e) => setLine2(e.target.value)}
-                    className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                    autoComplete="address-line2"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="city"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                    >
-                      City
-                    </label>
-                    <input
-                      id="city"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="address-level2"
+                      autoComplete="address-line2"
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="eirCode"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                    >
-                      Eircode
-                    </label>
-                    <input
-                      id="eirCode"
-                      value={eirCode}
-                      onChange={(e) => setEirCode(e.target.value)}
-                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="postal-code"
-                    />
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="city"
+                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+                      >
+                        City
+                      </label>
+                      <input
+                        id="city"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+                        autoComplete="address-level2"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="eirCode"
+                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+                      >
+                        Eircode
+                      </label>
+                      <input
+                        id="eirCode"
+                        value={eirCode}
+                        onChange={(e) => setEirCode(e.target.value)}
+                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+                        autoComplete="postal-code"
+                      />
+                    </div>
                   </div>
+
+                  {!isEmailValid && email.trim().length > 0 && (
+                    <p className="font-mono text-xs text-red-500">
+                      Please enter a valid email address.
+                    </p>
+                  )}
+                  {!isEirCodeValid && eirCode.trim().length > 0 && (
+                    <p className="font-mono text-xs text-red-500">
+                      Enter a valid Eircode (e.g. A65 F4E2).
+                    </p>
+                  )}
                 </div>
 
-                {!isEmailValid && email.trim().length > 0 && (
-                  <p className="font-mono text-xs text-red-500">
-                    Please enter a valid email address.
+                {submitError && (
+                  <p className="mt-1 font-mono text-xs text-red-500">
+                    {submitError}
                   </p>
                 )}
-                {!isEirCodeValid && eirCode.trim().length > 0 && (
-                  <p className="font-mono text-xs text-red-500">
-                    Enter a valid Eircode (e.g. A65 F4E2).
-                  </p>
-                )}
-              </div>
-
-              {submitError && (
-                <p className="mt-1 font-mono text-xs text-red-500">
-                  {submitError}
-                </p>
-              )}
               </GlassCard>
             )}
 
@@ -817,7 +828,7 @@ export default function ConfigureUploadPageClient({
               >
                 {isSubmitting
                   ? "Redirecting to payment..."
-                  : "Launch My SpaceCase"}
+                  : "Launch My CosmicCase"}
               </Button>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
                 {isCheckoutFormValid

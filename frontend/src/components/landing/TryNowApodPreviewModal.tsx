@@ -82,7 +82,7 @@ const TryNowApodPreviewModal = ({
                 className: "text-xs",
               })}
             >
-              Continue to my SpaceCase
+              Continue to my CosmicCase
             </a>
           </div>
         </div>
@@ -92,4 +92,3 @@ const TryNowApodPreviewModal = ({
 };
 
 export default TryNowApodPreviewModal;
-

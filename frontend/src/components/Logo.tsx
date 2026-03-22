@@ -20,7 +20,7 @@ export default function Logo({
       <span className="leading-none flex items-center">
         <Image
           src="/cosmiccase-logo.svg"
-          alt="SpaceCase"
+          alt="CosmicCase"
           width={iconSize}
           height={iconSize}
           className={cn("inline-block shrink-0", iconClassName)}
@@ -33,8 +33,8 @@ export default function Logo({
           textClassName,
         )}
       >
-        Space
-        <span className="text-brand-pink">Case</span>
+        Cosmic
+        <span className="text-brand-pink ms-0.5">Case</span>
       </span>
     </span>
   );

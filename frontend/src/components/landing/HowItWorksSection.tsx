@@ -40,7 +40,7 @@ const steps = [
     icon: Package,
     title: "Shipped with tracking",
     description:
-      "Typical production is 2-3 business days, then your SpaceCase ships with tracking.",
+      "Typical production is 2-3 business days, then your CosmicCase ships with tracking.",
   },
 ];
 
@@ -57,7 +57,7 @@ const HowItWorksSection = () => {
         kicker="How it works"
         title={
           <>
-            From date to SpaceCase{" "}
+            From date to CosmicCase{" "}
             <span className="bg-brand-subtle px-2 text-brand-pink">
               in 4 steps
             </span>

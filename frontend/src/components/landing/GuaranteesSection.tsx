@@ -9,7 +9,7 @@ const guarantees = [
     icon: Clock,
     title: "Clear production timeline",
     description:
-      "We start working on your SpaceCase as soon as you place the order. Typical production time is 3–5 business days before your case ships out.",
+      "We start working on your CosmicCase as soon as you place the order. Typical production time is 3–5 business days before your case ships out.",
   },
   {
     icon: Truck,
@@ -42,7 +42,7 @@ const GuaranteesSection = () => {
         title="Safe purchase, predictable delivery"
         subtitle={
           <>
-            We want your SpaceCase to feel exciting, not stressful. That is why
+            We want your CosmicCase to feel exciting, not stressful. That is why
             we keep our production, shipping, and guarantees as transparent as
             possible.
           </>

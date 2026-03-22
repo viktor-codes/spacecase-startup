@@ -91,7 +91,7 @@ export default function Header() {
               navItems={NAV_ITEMS}
               onNavigate={(id) => handleNavClick(id as NavItemId)}
               ctaHref="/configure/upload"
-              ctaLabel="Create Your SpaceCase"
+              ctaLabel="Create Your CosmicCase"
             />
           </nav>
         </div>

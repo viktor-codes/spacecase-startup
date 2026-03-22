@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
 };
 
 export default withSentryConfig(nextConfig, {
-  org: process.env.SENTRY_ORG ?? "spacecase",
+  org: process.env.SENTRY_ORG ?? "CosmicCase",
   project: process.env.SENTRY_PROJECT ?? "frontend",
   silent: !process.env.CI,
   telemetry: false,

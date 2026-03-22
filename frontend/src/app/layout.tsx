@@ -22,11 +22,10 @@ const recursive = Recursive({
 
 // Empty NEXT_PUBLIC_SITE_URL in dashboard is "" — `??` does not fall back; avoid `new URL("")`.
 const _site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-const siteUrl =
-  _site && _site.length > 0 ? _site : "http://localhost:3000";
+const siteUrl = _site && _site.length > 0 ? _site : "http://localhost:3000";
 
 const defaultTitle =
-  "SpaceCase — The Sky From Your Most Important Date, On Your Phone";
+  "CosmicCase — The Sky From Your Most Important Date, On Your Phone";
 const defaultDescription =
   "Choose a date that matters. We find NASA's Astronomy Picture of the Day, restore it with AI to 300+ DPI, and print it on a premium dual-layer phone case.";
 
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IE",
     url: "/",
-    siteName: "SpaceCase",
+    siteName: "CosmicCase",
     title: defaultTitle,
     description: defaultDescription,
     images: [
@@ -51,7 +50,7 @@ export const metadata: Metadata = {
         url: "/cosmiccase-logo.svg",
         width: 1500,
         height: 1500,
-        alt: "SpaceCase",
+        alt: "CosmicCase",
       },
     ],
   },

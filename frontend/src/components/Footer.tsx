@@ -19,25 +19,34 @@ const Footer = () => {
               a premium dual-layer phone case.
             </p>
             <p className="text-xs text-text-tertiary">
-              © {year} SpaceCase. All rights reserved.
+              © {year} CosmicCase. All rights reserved.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-text-tertiary">
-            <Link href="/configure/upload" className="hover:text-text-primary transition-colors">
-              Create Your SpaceCase
+            <Link
+              href="/configure/upload"
+              className="hover:text-text-primary transition-colors"
+            >
+              Create Your CosmicCase
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
-            <Link href="/legal/terms" className="hover:text-text-primary transition-colors">
+            <Link
+              href="/legal/terms"
+              className="hover:text-text-primary transition-colors"
+            >
               Terms
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
-            <Link href="/legal/privacy" className="hover:text-text-primary transition-colors">
+            <Link
+              href="/legal/privacy"
+              className="hover:text-text-primary transition-colors"
+            >
               Privacy
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
             <a
-              href="mailto:hello@spacecase.app"
+              href="mailto:hello@CosmicCase.app"
               className="hover:text-text-primary transition-colors"
             >
               Contact
@@ -50,4 +59,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
