@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   description: defaultDescription,
   manifest: "/site.webmanifest",
   icons: {
-    icon: [{ url: "/spacecaselogonew3.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/spacecaselogonew3.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/cosmiccase-logo.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/cosmiccase-logo.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     type: "website",
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     description: defaultDescription,
     images: [
       {
-        url: "/spacecaselogonew3.svg",
-        width: 1200,
-        height: 630,
+        url: "/cosmiccase-logo.svg",
+        width: 1500,
+        height: 1500,
         alt: "SpaceCase",
       },
     ],
@@ -59,6 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
+    images: ["/cosmiccase-logo.svg"],
   },
   alternates: {
     canonical: "/",

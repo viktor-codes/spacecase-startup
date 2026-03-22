@@ -99,7 +99,7 @@ const HeroSection = () => {
 
             <div className="relative">
               <Image
-                src="/hero-phone (1).png"
+                src="/hero-phone.png"
                 alt="SpaceCase — premium phone case with NASA nebula print"
                 width={1024}
                 height={1024}

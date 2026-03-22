@@ -19,11 +19,11 @@ export default function Logo({
     <span className={cn("select-none flex items-center gap-2", className)}>
       <span className="leading-none flex items-center">
         <Image
-          src="/spacecaselogonew3.svg"
+          src="/cosmiccase-logo.svg"
           alt="SpaceCase"
           width={iconSize}
           height={iconSize}
-          className={cn("inline-block shrink-0 rotate-90", iconClassName)}
+          className={cn("inline-block shrink-0", iconClassName)}
         />
       </span>
 

@@ -95,7 +95,7 @@ const TechnicalExcellenceSection = () => {
         <div className="mx-auto w-full max-w-md flex flex-col gap-6 md:hidden">
           <div className="relative mx-auto w-96">
             <motion.img
-              src="/excelence-2 (1).png"
+              src="/excelence-2.png"
               alt="SpaceCase"
               className="w-full"
               initial={{ opacity: 0, y: 20 }}
@@ -173,7 +173,7 @@ const TechnicalExcellenceSection = () => {
           <div className="relative flex justify-center">
             <div className="relative w-full">
               <motion.img
-                src="/excelence-2 (1).png"
+                src="/excelence-2.png"
                 alt="SpaceCase"
                 className="w-full"
                 initial={{ opacity: 0, y: 20 }}
