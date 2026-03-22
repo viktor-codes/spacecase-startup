@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { Check } from "lucide-react";
@@ -109,6 +109,41 @@ const PHONE_MODELS: string[] = [
   "Sony Xperia 10 V",
 ];
 
+const PHONE_MODEL_GROUPS: { label: string; models: string[] }[] = [
+  {
+    label: "Apple iPhone",
+    models: PHONE_MODELS.filter((model) => model.startsWith("iPhone")),
+  },
+  {
+    label: "Samsung Galaxy",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Samsung")),
+  },
+  {
+    label: "Google Pixel",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Google")),
+  },
+  {
+    label: "Nothing",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Nothing")),
+  },
+  {
+    label: "OnePlus",
+    models: PHONE_MODELS.filter((model) => model.startsWith("OnePlus")),
+  },
+  {
+    label: "Huawei",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Huawei")),
+  },
+  {
+    label: "Xiaomi",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Xiaomi")),
+  },
+  {
+    label: "Sony Xperia",
+    models: PHONE_MODELS.filter((model) => model.startsWith("Sony")),
+  },
+];
+
 export default function ConfigureUploadPageClient({
   initialDate,
 }: ConfigureUploadPageClientProps) {
@@ -118,6 +153,7 @@ export default function ConfigureUploadPageClient({
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
+  const [syncHighlight, setSyncHighlight] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
@@ -129,6 +165,7 @@ export default function ConfigureUploadPageClient({
   const [line2, setLine2] = useState("");
   const [city, setCity] = useState("");
   const [eirCode, setEirCode] = useState("");
+  const module2Ref = useRef<HTMLDivElement | null>(null);
 
   const hasImage = apod && apod.media_type === "image" && apod.url;
   const isEmailValid = useMemo(() => {
@@ -140,6 +177,13 @@ export default function ConfigureUploadPageClient({
     return shipping === "standard" || shipping === "express";
   }, [shipping]);
 
+  const isEirCodeValid = useMemo(() => {
+    if (!eirCode.trim()) return false;
+    return /^[AC-FHKNPRTV-Y]\d{2}\s?[AC-FHKNPRTV-Y0-9]{4}$/i.test(
+      eirCode.trim(),
+    );
+  }, [eirCode]);
+
   const isCheckoutFormValid = useMemo(() => {
     return (
       Boolean(selectedDate) &&
@@ -147,11 +191,11 @@ export default function ConfigureUploadPageClient({
       Boolean(deviceModel) &&
       isShippingValid &&
       isEmailValid &&
+      isEirCodeValid &&
       fullName.trim().length >= 2 &&
       phone.trim().length >= 5 &&
       line1.trim().length >= 2 &&
-      city.trim().length >= 2 &&
-      eirCode.trim().length >= 3
+      city.trim().length >= 2
     );
   }, [
     selectedDate,
@@ -159,12 +203,21 @@ export default function ConfigureUploadPageClient({
     deviceModel,
     isShippingValid,
     isEmailValid,
+    isEirCodeValid,
     fullName,
     phone,
     line1,
     city,
-    eirCode,
   ]);
+
+  const completionStep = useMemo(() => {
+    let completed = 0;
+    if (selectedDate) completed += 1;
+    if (hasImage) completed += 1;
+    if (deviceModel) completed += 1;
+    if (fullName.trim().length >= 2 && isEmailValid && isEirCodeValid) completed += 1;
+    return completed;
+  }, [selectedDate, hasImage, deviceModel, fullName, isEmailValid, isEirCodeValid]);
 
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
   const formatEur = useMemo(() => {
@@ -229,6 +282,14 @@ export default function ConfigureUploadPageClient({
       }
 
       setApod(data);
+      setSyncHighlight(true);
+      setTimeout(() => setSyncHighlight(false), 900);
+      requestAnimationFrame(() => {
+        module2Ref.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
     } catch (e) {
       setError("Failed to fetch NASA APOD data. Please try again later.");
 
@@ -293,7 +354,12 @@ export default function ConfigureUploadPageClient({
               </h1>
             </div>
 
-            <div className="relative flex max-w-[280px] items-center justify-center md:max-w-sm">
+            <div
+              className={cn(
+                "relative flex max-w-[280px] items-center justify-center md:max-w-sm",
+                syncHighlight && "animate-pulse",
+              )}
+            >
               <AnimatePresence mode="wait">
                 <motion.div
                   key={hasImage ? (apod as ApodResponse).url : "placeholder"}
@@ -317,7 +383,7 @@ export default function ConfigureUploadPageClient({
           {/* Right column: vertical module stack */}
           <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
             {/* Module 1: Date scanner */}
-            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
+            <GlassCard ref={module2Ref} className="shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
@@ -397,6 +463,10 @@ export default function ConfigureUploadPageClient({
                       </motion.div>
                     </AnimatePresence>
                   </button>
+                ) : loading ? (
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
+                    <div className="h-full w-full animate-pulse bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
+                  </div>
                 ) : (
                   <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
                     <div className="flex h-full w-full items-center justify-center bg-surface-raised/60">
@@ -462,14 +532,18 @@ export default function ConfigureUploadPageClient({
                     onChange={(event) => setDeviceModel(event.target.value)}
                     className="w-full appearance-none border-none bg-transparent font-mono text-sm text-text-primary outline-none"
                   >
-                    {PHONE_MODELS.map((model) => (
-                      <option
-                        key={model}
-                        value={model}
-                        className="bg-surface-overlay text-text-primary"
-                      >
-                        {model}
-                      </option>
+                    {PHONE_MODEL_GROUPS.map((group) => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.models.map((model) => (
+                          <option
+                            key={model}
+                            value={model}
+                            className="bg-surface-overlay text-text-primary"
+                          >
+                            {model}
+                          </option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                   <span className="pointer-events-none ml-3 font-mono text-xs text-text-tertiary">
@@ -536,10 +610,11 @@ export default function ConfigureUploadPageClient({
               </div>
             </GlassCard>
 
-            {/* Module 5: Contact + shipping (before payment) */}
-            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
+            {/* Module 5: Your details */}
+            {hasImage && (
+              <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
               <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
-                05 · Contacts & delivery
+                05 · Your details
               </h2>
 
               <div className="space-y-3">
@@ -666,6 +741,11 @@ export default function ConfigureUploadPageClient({
                     Please enter a valid email address.
                   </p>
                 )}
+                {!isEirCodeValid && eirCode.trim().length > 0 && (
+                  <p className="font-mono text-xs text-red-500">
+                    Enter a valid Eircode (e.g. A65 F4E2).
+                  </p>
+                )}
               </div>
 
               {submitError && (
@@ -673,10 +753,11 @@ export default function ConfigureUploadPageClient({
                   {submitError}
                 </p>
               )}
-            </GlassCard>
+              </GlassCard>
+            )}
 
             {/* Module 6: Order summary */}
-            <GlassCard className="sticky bottom-4 shrink-0 space-y-4 p-5 md:p-6">
+            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div className="space-y-1">
                   <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
@@ -690,6 +771,9 @@ export default function ConfigureUploadPageClient({
                       Date synced: {selectedDate}
                     </p>
                   )}
+                  <p className="font-mono text-[11px] text-text-secondary">
+                    Shipping: {SHIPPING_OPTIONS[shipping].label}
+                  </p>
                 </div>
 
                 <div className="text-right">
@@ -735,6 +819,11 @@ export default function ConfigureUploadPageClient({
                   ? "Redirecting to payment..."
                   : "Launch My SpaceCase"}
               </Button>
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
+                {isCheckoutFormValid
+                  ? "Ready to launch"
+                  : `Complete ${completionStep}/4 steps to continue`}
+              </p>
             </GlassCard>
           </div>
         </div>
