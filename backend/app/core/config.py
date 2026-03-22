@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -45,7 +45,21 @@ class Settings(BaseSettings):
     database_url: str = Field(
         default="sqlite+aiosqlite:///./spacecase.db",
         alias="DATABASE_URL",
+        description="Async SQLAlchemy URL, e.g. postgresql+asyncpg://user:pass@host:5432/dbname",
     )
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def _strip_database_url(cls, v: object) -> object:
+        if not isinstance(v, str):
+            return v
+        s = v.strip()
+        if len(s) >= 2 and (
+            (s.startswith('"') and s.endswith('"'))
+            or (s.startswith("'") and s.endswith("'"))
+        ):
+            s = s[1:-1].strip()
+        return s
 
     sentry_dsn: str = Field(
         default="",
