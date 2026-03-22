@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 
 import httpx
@@ -6,6 +7,8 @@ from app.core.config import get_settings
 from app.domain.apod.entities import ApodImage
 from app.domain.apod.errors import ApodExternalError, ApodNotFound
 from app.domain.apod.ports import ApodProvider
+
+logger = logging.getLogger(__name__)
 
 
 class NasaApodClient(ApodProvider):
@@ -36,9 +39,11 @@ class NasaApodClient(ApodProvider):
 
         data = response.json()
 
-        print("NASA APOD URL:", data.get("hdurl") or data.get("url", ""))
-        print("APOD copyright:", data.get("copyright"))
-
+        logger.debug(
+            "NASA APOD resolved url=%s copyright=%s",
+            data.get("hdurl") or data.get("url", ""),
+            "yes" if data.get("copyright") else "no",
+        )
 
         return ApodImage(
             date=target_date,

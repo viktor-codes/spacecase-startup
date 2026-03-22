@@ -1,5 +1,6 @@
 import uuid
 from datetime import date
+from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, EmailStr, Field
@@ -37,7 +38,7 @@ class ShippingAddressIn(BaseModel):
 class CreateStripeCheckoutSessionRequest(BaseModel):
     apodDate: date
     deviceModel: str = Field(min_length=2, max_length=128)
-    shippingOption: str  # "standard" | "express"
+    shippingOption: Literal["standard", "express"]
     contact: ContactIn
     shippingAddress: ShippingAddressIn
 

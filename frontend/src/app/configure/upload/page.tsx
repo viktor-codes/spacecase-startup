@@ -7,12 +7,13 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: {
+  searchParams: Promise<{
     date?: string;
-  };
+  }>;
 };
 
-export default function ConfigureUploadPage({ searchParams }: PageProps) {
-  return <ConfigureUploadPageClient initialDate={searchParams.date} />;
+export default async function ConfigureUploadPage({ searchParams }: PageProps) {
+  const { date } = await searchParams;
+  return <ConfigureUploadPageClient initialDate={date} />;
 }
 
