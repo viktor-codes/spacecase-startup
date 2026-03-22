@@ -1,12 +1,17 @@
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, date
+from datetime import date, datetime
+from urllib.parse import quote
 
 from app.core.config import get_settings
 from app.application.apod.services import ApodService
 from app.domain.orders.entities import ApodSnapshot, Order
 from app.domain.orders.ports import OrderRepository
 from app.infrastructure.nasa.client import get_nasa_apod_client
+from app.infrastructure.security.order_view_token import (
+    generate_view_token_pair,
+    verify_view_token,
+)
 from app.infrastructure.stripe.stripe_provider import StripeProvider
 
 
@@ -51,7 +56,6 @@ class CreateStripeCheckoutSessionService:
         shipping_option: str,
         contact: ContactInput,
         address: ShippingAddressInput,
-        success_url: str,
         cancel_url: str,
         order_id: str | None = None,
     ) -> tuple[str, str]:
@@ -92,6 +96,13 @@ class CreateStripeCheckoutSessionService:
             )
         )
 
+        view_token, view_token_hash = generate_view_token_pair()
+        base = self._settings.frontend_base_url.rstrip("/")
+        success_url = (
+            f"{base}/order/success?orderId={created_order_id}"
+            f"&token={quote(view_token, safe='')}"
+        )
+
         order = Order(
             id=created_order_id,
             created_at=now,
@@ -111,6 +122,7 @@ class CreateStripeCheckoutSessionService:
             shipping_postal_code=address.eir_code,
             shipping_country=address.country,
             stripe_checkout_session_id=None,
+            view_token_hash=view_token_hash,
         )
 
         order = await self._order_repository.create_pending_payment(order)
@@ -153,6 +165,13 @@ class GetOrderService:
     def __init__(self, *, order_repository: OrderRepository) -> None:
         self._order_repository = order_repository
 
-    async def execute(self, *, order_id: str) -> Order | None:
-        return await self._order_repository.get_by_id(order_id)
+    async def execute(
+        self, *, order_id: str, view_token: str | None
+    ) -> Order | None:
+        order = await self._order_repository.get_by_id(order_id)
+        if not order:
+            return None
+        if not verify_view_token(order.view_token_hash, view_token):
+            return None
+        return order
 

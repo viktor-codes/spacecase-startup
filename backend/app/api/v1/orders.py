@@ -93,9 +93,6 @@ async def create_stripe_checkout_session(
     )
 
     order_id = str(uuid.uuid4())
-    success_url = (
-        f"{settings.frontend_base_url}/order/success?orderId={order_id}"
-    )
     cancel_url = (
         f"{settings.frontend_base_url}/configure/upload?date={payload.apodDate.isoformat()}"
     )
@@ -113,7 +110,6 @@ async def create_stripe_checkout_session(
             shipping_option=payload.shippingOption,
             contact=contact,
             address=address,
-            success_url=success_url,
             cancel_url=cancel_url,
             order_id=order_id,
         )
@@ -163,10 +159,11 @@ async def stripe_webhook(
 @router.get("/orders/{order_id}", response_model=OrderResponse)
 async def get_order(
     order_id: str,
+    token: str | None = None,
     order_repository: OrderRepository = Depends(get_order_repository),
 ) -> OrderResponse:
     service = GetOrderService(order_repository=order_repository)
-    order = await service.execute(order_id=order_id)
+    order = await service.execute(order_id=order_id, view_token=token)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
 

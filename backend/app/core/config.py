@@ -37,6 +37,10 @@ class Settings(BaseSettings):
         default="http://localhost:3000", alias="FRONTEND_BASE_URL"
     )
 
+    # Comma-separated origins for CORS (e.g. https://app.example.com). If empty,
+    # dev regex from main.py is used (localhost / LAN).
+    cors_allow_origins: str = Field(default="", alias="CORS_ALLOW_ORIGINS")
+
     # Persistence (MVP)
     database_url: str = Field(
         default="sqlite+aiosqlite:///./spacecase.db",

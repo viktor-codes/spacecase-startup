@@ -6,14 +6,15 @@ import OrderSuccessContent from "./OrderSuccessContent";
 type PageProps = {
   searchParams: Promise<{
     orderId?: string;
+    token?: string;
   }>;
 };
 
 export default async function OrderSuccessPage({
   searchParams,
 }: PageProps) {
-  const { orderId } = await searchParams;
-  if (!orderId) {
+  const { orderId, token } = await searchParams;
+  if (!orderId || !token) {
     return (
       <div className="grain-dark min-h-[calc(100vh-56px)] py-10">
         <Container>
@@ -22,7 +23,7 @@ export default async function OrderSuccessPage({
               Order not found
             </h1>
             <p className="mt-2 text-slate-600">
-              Missing <code>orderId</code> in the URL.
+              Missing <code>orderId</code> or <code>token</code> in the URL.
             </p>
           </div>
         </Container>
@@ -30,12 +31,16 @@ export default async function OrderSuccessPage({
     );
   }
 
-  const order = await fetchOrder(orderId);
+  const order = await fetchOrder(orderId, token);
 
   return (
     <div className="grain-dark min-h-[calc(100vh-56px)] py-10">
       <Container className="h-full">
-        <OrderSuccessContent orderId={orderId} initialOrder={order} />
+        <OrderSuccessContent
+          orderId={orderId}
+          viewToken={token}
+          initialOrder={order}
+        />
       </Container>
     </div>
   );

@@ -33,10 +33,15 @@
 
 | # | Задача | Статус | Файлы / заметки |
 |---|--------|--------|-----------------|
-| D1 | Адаптив / микровзаимодействия | ☐ | Scanner, configure |
-| D2 | Защита `GET /orders/{id}` (токен / маскирование) | ☐ | `backend/`, success URL |
-| D3 | Production DB (PostgreSQL), CORS, env checklist | ☐ | деплой-док |
+| D1 | Адаптив / микровзаимодействия | — | Вручную (верстка не трогалась в коде) |
+| D2 | Защита `GET /orders/{id}` | ☑ | Секрет `token` в URL success + SHA-256 в БД; `fetchOrder(id, token)` |
+| D3 | PostgreSQL, CORS, env | ☑ | `DATABASE_URL` (любой SQLAlchemy URL), `CORS_ALLOW_ORIGINS` (через запятую); чеклист ниже |
+
+### Pre-launch (env)
+
+- **Frontend (Vercel):** `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SENTRY_DSN` (опц.).
+- **Backend:** `FRONTEND_BASE_URL`, `DATABASE_URL` (например PostgreSQL), `CORS_ALLOW_ORIGINS=https://your-domain.com`, `STRIPE_*`, `NASA_API_KEY`, `SENTRY_DSN` (опц.), `SENTRY_AUTH_TOKEN` в CI для source maps.
 
 ---
 
-**Текущий фокус:** Фаза D.
+**Текущий фокус:** релиз и ваша полировка UI.

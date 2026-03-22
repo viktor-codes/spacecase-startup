@@ -11,6 +11,7 @@ import {
 
 type OrderSuccessContentProps = {
   orderId: string;
+  viewToken: string;
   initialOrder: OrderResponse;
 };
 
@@ -19,6 +20,7 @@ const MAX_WAIT_MS = 90_000;
 
 export default function OrderSuccessContent({
   orderId,
+  viewToken,
   initialOrder,
 }: OrderSuccessContentProps) {
   const [order, setOrder] = useState(initialOrder);
@@ -26,12 +28,12 @@ export default function OrderSuccessContent({
 
   const refresh = useCallback(async () => {
     try {
-      const next = await fetchOrder(orderId);
+      const next = await fetchOrder(orderId, viewToken);
       setOrder(next);
     } catch {
       /* keep previous order; user can retry */
     }
-  }, [orderId]);
+  }, [orderId, viewToken]);
 
   useEffect(() => {
     if (order.status === "paid") return;
@@ -46,7 +48,7 @@ export default function OrderSuccessContent({
         return;
       }
       try {
-        const next = await fetchOrder(orderId);
+        const next = await fetchOrder(orderId, viewToken);
         setOrder(next);
         if (next.status === "paid" && intervalId !== undefined) {
           window.clearInterval(intervalId);
@@ -62,7 +64,7 @@ export default function OrderSuccessContent({
     return () => {
       if (intervalId !== undefined) window.clearInterval(intervalId);
     };
-  }, [orderId, order.status]);
+  }, [orderId, viewToken, order.status]);
 
   const isPaid = order.status === "paid";
   const isConfirming = !isPaid && !pollingStopped;

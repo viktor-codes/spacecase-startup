@@ -37,3 +37,6 @@ class Order:
 
     stripe_checkout_session_id: str | None
 
+    # SHA-256 hex of secret shown only in Stripe success redirect URL
+    view_token_hash: str | None = None
+

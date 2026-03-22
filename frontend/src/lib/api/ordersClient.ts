@@ -58,12 +58,20 @@ export async function createStripeCheckoutSession(
   return (await res.json()) as CreateStripeCheckoutSessionResponse;
 }
 
-export async function fetchOrder(orderId: string): Promise<OrderResponse> {
+export async function fetchOrder(
+  orderId: string,
+  viewToken: string,
+): Promise<OrderResponse> {
   if (!API_URL) {
     throw new Error("NEXT_PUBLIC_API_URL is not configured");
   }
 
-  const res = await fetch(`${API_URL}/v1/orders/${encodeURIComponent(orderId)}`, {
+  const url = new URL(
+    `${API_URL}/v1/orders/${encodeURIComponent(orderId)}`,
+  );
+  url.searchParams.set("token", viewToken);
+
+  const res = await fetch(url.toString(), {
     method: "GET",
     cache: "no-store",
   });

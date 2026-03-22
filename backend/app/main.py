@@ -11,6 +11,12 @@ from app.infrastructure.db.init_db import init_db
 
 settings = get_settings()
 
+_cors_origins = [
+    o.strip()
+    for o in settings.cors_allow_origins.split(",")
+    if o.strip()
+]
+
 if settings.sentry_dsn:
     sentry_sdk.init(
         dsn=settings.sentry_dsn,
@@ -27,20 +33,24 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# For early development we allow localhost frontends.
-# Later we can tighten this list based on deployed origins.
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        # "http://localhost:3000",
-        # "http://127.0.0.1:3000",
-        # "http://172.20.10.2:3000",
-    ],
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|172\.20\.10\.\d+)(:\d+)?",
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+if _cors_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    # Local development: LAN + localhost (set CORS_ALLOW_ORIGINS in production).
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[],
+        allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|172\.20\.10\.\d+)(:\d+)?",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 app.include_router(api_router)
 
