@@ -146,10 +146,7 @@ const TechnicalExcellenceSection = () => {
 
         {/* Планшет и десктоп */}
         <div
-          className="hidden md:grid mx-auto w-full max-w-6xl
-             md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)]
-             lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)]
-             gap-8 lg:gap-12 items-start"
+          className="hidden md:grid mx-auto w-full max-w-6xl md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)] gap-8 lg:gap-12 items-start"
         >
           {/* Левая колонка с фичами (только десктоп) */}
           <div className="hidden lg:flex flex-col gap-4">

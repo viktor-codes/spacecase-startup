@@ -4,6 +4,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
+    qualities: [75, 85],
     remotePatterns: [
       { protocol: "https", hostname: "apod.nasa.gov" },
       { protocol: "https", hostname: "images-assets.nasa.gov" },
