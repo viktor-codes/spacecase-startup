@@ -9,14 +9,18 @@ export type ConfigureProgressProps = {
   stepComplete: readonly boolean[];
   labels: readonly string[];
   orientation: "horizontal" | "vertical";
+  /** Carousel / current slide (mobile); adds a focus ring on that step. */
+  focusedStepIndex?: number | null;
 };
 
 function StepDot({
   index,
   complete,
+  isFocused,
 }: {
   index: number;
   complete: boolean;
+  isFocused: boolean;
 }) {
   return (
     <span
@@ -25,6 +29,7 @@ function StepDot({
         complete
           ? "border-brand-pink bg-brand-pink/15 text-brand-pink"
           : "border-(--border-default) bg-surface-raised/40 text-text-secondary",
+        isFocused ? "ring-2 ring-brand-pink/45 ring-offset-2 ring-offset-background" : null,
       )}
     >
       {index + 1}
@@ -36,6 +41,7 @@ export default function ConfigureProgress({
   stepComplete,
   labels,
   orientation,
+  focusedStepIndex = null,
 }: ConfigureProgressProps) {
   const count = Math.min(stepComplete.length, labels.length);
 
@@ -55,7 +61,11 @@ export default function ConfigureProgress({
             return (
               <li key={label} className="flex flex-col items-center">
                 <div className="flex flex-col items-center gap-2">
-                  <StepDot index={i} complete={complete} />
+                  <StepDot
+                    index={i}
+                    complete={complete}
+                    isFocused={focusedStepIndex === i}
+                  />
                   <span
                     className={cn(
                       "max-w-20 text-center text-[9px] leading-tight sm:text-[10px]",
@@ -106,7 +116,11 @@ export default function ConfigureProgress({
                 />
               ) : null}
               <div className="flex w-11 shrink-0 flex-col items-center gap-1.5 sm:w-14">
-                <StepDot index={i} complete={complete} />
+                <StepDot
+                  index={i}
+                  complete={complete}
+                  isFocused={focusedStepIndex === i}
+                />
                 <span
                   className={cn(
                     "line-clamp-2 max-w-17 text-center text-[8px] leading-tight sm:max-w-20 sm:text-[9px]",

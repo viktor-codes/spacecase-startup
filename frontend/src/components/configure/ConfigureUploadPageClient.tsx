@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import Container from "@/components/Container";
@@ -10,6 +10,9 @@ import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureChecko
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
 import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
 import ConfigureOrderSummaryCard from "@/components/configure/ConfigureOrderSummaryCard";
+import ConfigureCardsCarousel, {
+  type ConfigureCarouselSlide,
+} from "@/components/configure/configure-cards-carousel";
 import ConfigureProgress from "@/components/configure/configure-progress";
 import ConfigureRevealPanel from "@/components/configure/configure-reveal-panel";
 import ConfigureSkyDateCard from "@/components/configure/ConfigureSkyDateCard";
@@ -39,6 +42,7 @@ import {
   type ConfigureContactFormValues,
 } from "@/lib/schemas/configure-contact-form";
 import { useImagePreviewModal } from "@/hooks/useImagePreviewModal";
+import { useMinWidthLg } from "@/hooks/use-min-width-lg";
 import { useSyncedApod } from "@/hooks/useSyncedApod";
 
 type ConfigureUploadPageClientProps = {
@@ -57,7 +61,11 @@ export default function ConfigureUploadPageClient({
   const [maxRevealedStepIndex, setMaxRevealedStepIndex] = useState<number>(
     CONFIGURE_STEP_INDEX.DELIVERY,
   );
+  const [mobileCarouselStepIndex, setMobileCarouselStepIndex] = useState<number>(
+    CONFIGURE_STEP_INDEX.SKY,
+  );
   const module2Ref = useRef<HTMLDivElement | null>(null);
+  const isLg = useMinWidthLg();
 
   const form = useForm<ConfigureContactFormValues>({
     resolver: zodResolver(configureContactFormSchema),
@@ -170,7 +178,7 @@ export default function ConfigureUploadPageClient({
     ],
   );
 
-  const handleLaunch = async () => {
+  const handleLaunch = useCallback(async () => {
     if (!isCheckoutFormValid) return;
     if (apodImageUrl === null) {
       setSubmitError(
@@ -213,7 +221,133 @@ export default function ConfigureUploadPageClient({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [
+    apodImageUrl,
+    deviceModel,
+    form,
+    isCheckoutFormValid,
+    selectedDate,
+    shipping,
+  ]);
+
+  const configureSlides = useMemo((): ConfigureCarouselSlide[] => {
+    const slides: ConfigureCarouselSlide[] = [];
+
+    if (
+      isStepIndexVisible(CONFIGURE_STEP_INDEX.SKY, maxRevealedStepIndex)
+    ) {
+      slides.push({
+        stepIndex: CONFIGURE_STEP_INDEX.SKY,
+        content: (
+          <ConfigureSkyDateCard
+            ref={module2Ref}
+            selectedDate={selectedDate}
+            onSelectedDateChange={setSelectedDate}
+            loading={loading}
+            error={error}
+            onSync={() => void handleSync()}
+            thumbnailUrl={apodImageUrl}
+            apod={apod}
+            onOpenImagePreview={() => setIsImagePreviewOpen(true)}
+          />
+        ),
+      });
+    }
+
+    if (
+      isStepIndexVisible(CONFIGURE_STEP_INDEX.DEVICE, maxRevealedStepIndex)
+    ) {
+      slides.push({
+        stepIndex: CONFIGURE_STEP_INDEX.DEVICE,
+        content: (
+          <ConfigureDeviceCard
+            deviceModel={deviceModel}
+            onDeviceModelChange={setDeviceModel}
+          />
+        ),
+      });
+    }
+
+    if (
+      isStepIndexVisible(CONFIGURE_STEP_INDEX.DELIVERY, maxRevealedStepIndex)
+    ) {
+      slides.push({
+        stepIndex: CONFIGURE_STEP_INDEX.DELIVERY,
+        content: (
+          <ConfigureDeliveryCard
+            shipping={shipping}
+            onShippingChange={setShipping}
+            formatEur={formatEur}
+          />
+        ),
+      });
+    }
+
+    if (
+      isStepIndexVisible(CONFIGURE_STEP_INDEX.DETAILS, maxRevealedStepIndex)
+    ) {
+      slides.push({
+        stepIndex: CONFIGURE_STEP_INDEX.DETAILS,
+        content: (
+          <ConfigureRevealPanel>
+            <ConfigureCheckoutDetailsCard submitError={submitError} />
+          </ConfigureRevealPanel>
+        ),
+      });
+    }
+
+    if (
+      isStepIndexVisible(CONFIGURE_STEP_INDEX.SUMMARY, maxRevealedStepIndex)
+    ) {
+      slides.push({
+        stepIndex: CONFIGURE_STEP_INDEX.SUMMARY,
+        content: (
+          <ConfigureRevealPanel>
+            <ConfigureOrderSummaryCard
+              deviceModel={deviceModel}
+              selectedDate={selectedDate}
+              shipping={shipping}
+              formattedPrice={formattedPrice}
+              isCheckoutFormValid={isCheckoutFormValid}
+              completionStep={completionStep}
+              isSubmitting={isSubmitting}
+              onLaunch={() => void handleLaunch()}
+            />
+          </ConfigureRevealPanel>
+        ),
+      });
+    }
+
+    return slides;
+  }, [
+    maxRevealedStepIndex,
+    selectedDate,
+    setSelectedDate,
+    loading,
+    error,
+    handleSync,
+    apodImageUrl,
+    apod,
+    setIsImagePreviewOpen,
+    deviceModel,
+    shipping,
+    formatEur,
+    submitError,
+    formattedPrice,
+    isCheckoutFormValid,
+    completionStep,
+    isSubmitting,
+    handleLaunch,
+  ]);
+
+  useEffect(() => {
+    if (configureSlides.length === 0) return;
+    setMobileCarouselStepIndex((prev) => {
+      const visible = new Set(configureSlides.map((s) => s.stepIndex));
+      if (visible.has(prev)) return prev;
+      return configureSlides[0]!.stepIndex;
+    });
+  }, [configureSlides]);
 
   return (
     <FormProvider {...form}>
@@ -234,6 +368,7 @@ export default function ConfigureUploadPageClient({
                 orientation="horizontal"
                 labels={CONFIGURE_PROGRESS_LABELS}
                 stepComplete={stepCompleteFlags}
+                focusedStepIndex={mobileCarouselStepIndex}
               />
             </div>
 
@@ -251,72 +386,20 @@ export default function ConfigureUploadPageClient({
                 />
               </div>
 
-              <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
-              {isStepIndexVisible(
-                CONFIGURE_STEP_INDEX.SKY,
-                maxRevealedStepIndex,
-              ) ? (
-                <ConfigureSkyDateCard
-                  ref={module2Ref}
-                  selectedDate={selectedDate}
-                  onSelectedDateChange={setSelectedDate}
-                  loading={loading}
-                  error={error}
-                  onSync={() => void handleSync()}
-                  thumbnailUrl={apodImageUrl}
-                  apod={apod}
-                  onOpenImagePreview={() => setIsImagePreviewOpen(true)}
-                />
-              ) : null}
-
-              {isStepIndexVisible(
-                CONFIGURE_STEP_INDEX.DEVICE,
-                maxRevealedStepIndex,
-              ) ? (
-                <ConfigureDeviceCard
-                  deviceModel={deviceModel}
-                  onDeviceModelChange={setDeviceModel}
-                />
-              ) : null}
-
-              {isStepIndexVisible(
-                CONFIGURE_STEP_INDEX.DELIVERY,
-                maxRevealedStepIndex,
-              ) ? (
-                <ConfigureDeliveryCard
-                  shipping={shipping}
-                  onShippingChange={setShipping}
-                  formatEur={formatEur}
-                />
-              ) : null}
-
-              {isStepIndexVisible(
-                CONFIGURE_STEP_INDEX.DETAILS,
-                maxRevealedStepIndex,
-              ) ? (
-                <ConfigureRevealPanel>
-                  <ConfigureCheckoutDetailsCard submitError={submitError} />
-                </ConfigureRevealPanel>
-              ) : null}
-
-              {isStepIndexVisible(
-                CONFIGURE_STEP_INDEX.SUMMARY,
-                maxRevealedStepIndex,
-              ) ? (
-                <ConfigureRevealPanel>
-                  <ConfigureOrderSummaryCard
-                    deviceModel={deviceModel}
-                    selectedDate={selectedDate}
-                    shipping={shipping}
-                    formattedPrice={formattedPrice}
-                    isCheckoutFormValid={isCheckoutFormValid}
-                    completionStep={completionStep}
-                    isSubmitting={isSubmitting}
-                    onLaunch={() => void handleLaunch()}
+              {isLg === true ? (
+                <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
+                  {configureSlides.map((slide) => (
+                    <div key={slide.stepIndex}>{slide.content}</div>
+                  ))}
+                </div>
+              ) : (
+                <div className="pb-8">
+                  <ConfigureCardsCarousel
+                    slides={configureSlides}
+                    onActiveStepIndexChange={setMobileCarouselStepIndex}
                   />
-                </ConfigureRevealPanel>
-              ) : null}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </Container>
