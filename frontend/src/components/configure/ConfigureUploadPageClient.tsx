@@ -7,11 +7,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import Container from "@/components/Container";
 import ConfigureApodImagePreviewModal from "@/components/configure/ConfigureApodImagePreviewModal";
 import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureCheckoutDetailsCard";
-import ConfigureCosmicFrameCard from "@/components/configure/ConfigureCosmicFrameCard";
-import ConfigureDateScannerCard from "@/components/configure/ConfigureDateScannerCard";
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
 import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
 import ConfigureOrderSummaryCard from "@/components/configure/ConfigureOrderSummaryCard";
+import ConfigureSkyDateCard from "@/components/configure/ConfigureSkyDateCard";
 import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
 import {
   createStripeCheckoutSession,
@@ -190,18 +189,13 @@ export default function ConfigureUploadPageClient({
             />
 
             <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
-              <ConfigureDateScannerCard
+              <ConfigureSkyDateCard
                 ref={module2Ref}
                 selectedDate={selectedDate}
                 onSelectedDateChange={setSelectedDate}
                 loading={loading}
                 error={error}
                 onSync={() => void handleSync()}
-              />
-
-              <ConfigureCosmicFrameCard
-                selectedDate={selectedDate}
-                loading={loading}
                 thumbnailUrl={apodImageUrl}
                 apod={apod}
                 onOpenImagePreview={() => setIsImagePreviewOpen(true)}

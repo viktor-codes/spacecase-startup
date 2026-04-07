@@ -35,7 +35,7 @@ export default function ConfigureOrderSummaryCard({
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
           <p className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase">
-            06 · Order summary
+            05 · Order summary
           </p>
           <p className="font-mono text-sm text-text-primary">
             {deviceModel || "Select your device"}

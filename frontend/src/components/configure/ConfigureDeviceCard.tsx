@@ -17,7 +17,7 @@ export default function ConfigureDeviceCard({
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between">
         <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
-          03 · Device configuration
+          02 · Device configuration
         </h2>
       </div>
 
