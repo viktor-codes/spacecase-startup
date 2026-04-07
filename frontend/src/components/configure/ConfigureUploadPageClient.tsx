@@ -363,20 +363,20 @@ export default function ConfigureUploadPageClient({
               </h1>
             </div>
 
-            <div className="lg:hidden">
-              <ConfigureProgress
-                orientation="horizontal"
-                labels={CONFIGURE_PROGRESS_LABELS}
-                stepComplete={stepCompleteFlags}
-                focusedStepIndex={mobileCarouselStepIndex}
-              />
-            </div>
-
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">
               <ConfigureUploadHeroColumn
                 syncHighlight={syncHighlight}
                 phoneImageUrl={apodImageUrl}
               />
+
+              <div className="lg:hidden">
+                <ConfigureProgress
+                  orientation="horizontal"
+                  labels={CONFIGURE_PROGRESS_LABELS}
+                  stepComplete={stepCompleteFlags}
+                  focusedStepIndex={mobileCarouselStepIndex}
+                />
+              </div>
 
               <div className="hidden min-w-14 self-start pt-2 lg:block">
                 <ConfigureProgress
