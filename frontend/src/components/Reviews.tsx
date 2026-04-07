@@ -120,7 +120,7 @@ function ReviewGrid() {
   return (
     <div
       ref={containerRef}
-      className="relative -mx-4 mt-16 grid h-196 max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+      className="relative -mx-2.5 px-2.5 md:-mx-10 md:px-10 lg:-mx-20 lg:px-20 mt-16 grid h-196 max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
     >
       <>
         <ReviewColumn

@@ -105,7 +105,7 @@ const TechnicalExcellenceSection = () => {
             />
           </div>
 
-          <div className="-mx-6 px-6">
+          <div className="-mx-2.5 px-2.5">
             <div className="overflow-hidden" ref={emblaRef}>
               <div className="flex gap-4 pb-2">
                 {featureBullets.map((f, index) => (
