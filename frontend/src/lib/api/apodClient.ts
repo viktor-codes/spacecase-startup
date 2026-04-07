@@ -10,6 +10,13 @@ export type ApodResponse = {
   copyright?: string | null;
 };
 
+/** Returns the APOD image URL when the response is a usable image, otherwise null. */
+export function getApodImageUrl(apod: ApodResponse | null): string | null {
+  if (apod === null) return null;
+  if (apod.media_type !== "image" || !apod.url) return null;
+  return apod.url;
+}
+
 export async function fetchApod(date?: string): Promise<ApodResponse> {
   if (!API_URL) {
     throw new Error("NEXT_PUBLIC_API_URL is not configured");

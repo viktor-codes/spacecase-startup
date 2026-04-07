@@ -5,7 +5,11 @@ import {
   type RefObject,
 } from "react";
 
-import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
+import {
+  fetchApod,
+  getApodImageUrl,
+  type ApodResponse,
+} from "@/lib/api/apodClient";
 
 export type UseSyncedApodOptions = {
   initialDate?: string;
@@ -22,7 +26,7 @@ export function useSyncedApod({
   const [error, setError] = useState<string | null>(null);
   const [syncHighlight, setSyncHighlight] = useState(false);
 
-  const hasImage = apod && apod.media_type === "image" && apod.url;
+  const apodImageUrl = getApodImageUrl(apod);
 
   const handleSync = useCallback(
     async (explicitDate?: string) => {
@@ -79,7 +83,7 @@ export function useSyncedApod({
     loading,
     error,
     syncHighlight,
-    hasImage,
+    apodImageUrl,
     handleSync,
   };
 }

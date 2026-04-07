@@ -1,46 +1,29 @@
 "use client";
 
+import { useFormContext } from "react-hook-form";
+
 import { GlassCard } from "@/components/ui/glass-card";
+import type { ConfigureContactFormValues } from "@/lib/schemas/configure-contact-form";
+
+const inputClassName =
+  "w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30";
 
 export type ConfigureCheckoutDetailsCardProps = {
-  fullName: string;
-  onFullNameChange: (value: string) => void;
-  email: string;
-  onEmailChange: (value: string) => void;
-  phone: string;
-  onPhoneChange: (value: string) => void;
-  line1: string;
-  onLine1Change: (value: string) => void;
-  line2: string;
-  onLine2Change: (value: string) => void;
-  city: string;
-  onCityChange: (value: string) => void;
-  eirCode: string;
-  onEirCodeChange: (value: string) => void;
-  isEmailValid: boolean;
-  isEirCodeValid: boolean;
   submitError: string | null;
 };
 
 export default function ConfigureCheckoutDetailsCard({
-  fullName,
-  onFullNameChange,
-  email,
-  onEmailChange,
-  phone,
-  onPhoneChange,
-  line1,
-  onLine1Change,
-  line2,
-  onLine2Change,
-  city,
-  onCityChange,
-  eirCode,
-  onEirCodeChange,
-  isEmailValid,
-  isEirCodeValid,
   submitError,
 }: ConfigureCheckoutDetailsCardProps) {
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = useFormContext<ConfigureContactFormValues>();
+
+  const email = watch("email");
+  const eirCode = watch("eirCode");
+
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
@@ -57,11 +40,15 @@ export default function ConfigureCheckoutDetailsCard({
           </label>
           <input
             id="fullName"
-            value={fullName}
-            onChange={(e) => onFullNameChange(e.target.value)}
-            className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+            {...register("fullName")}
+            className={inputClassName}
             autoComplete="name"
           />
+          {errors.fullName && (
+            <p className="font-mono text-xs text-red-500">
+              {errors.fullName.message}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -74,12 +61,16 @@ export default function ConfigureCheckoutDetailsCard({
             </label>
             <input
               id="email"
-              value={email}
-              onChange={(e) => onEmailChange(e.target.value)}
-              className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+              {...register("email")}
+              className={inputClassName}
               autoComplete="email"
               inputMode="email"
             />
+            {errors.email && email.trim().length > 0 && (
+              <p className="font-mono text-xs text-red-500">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -91,12 +82,16 @@ export default function ConfigureCheckoutDetailsCard({
             </label>
             <input
               id="phone"
-              value={phone}
-              onChange={(e) => onPhoneChange(e.target.value)}
-              className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+              {...register("phone")}
+              className={inputClassName}
               autoComplete="tel"
               inputMode="tel"
             />
+            {errors.phone && (
+              <p className="font-mono text-xs text-red-500">
+                {errors.phone.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -109,11 +104,13 @@ export default function ConfigureCheckoutDetailsCard({
           </label>
           <input
             id="line1"
-            value={line1}
-            onChange={(e) => onLine1Change(e.target.value)}
-            className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+            {...register("line1")}
+            className={inputClassName}
             autoComplete="address-line1"
           />
+          {errors.line1 && (
+            <p className="font-mono text-xs text-red-500">{errors.line1.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -125,9 +122,8 @@ export default function ConfigureCheckoutDetailsCard({
           </label>
           <input
             id="line2"
-            value={line2}
-            onChange={(e) => onLine2Change(e.target.value)}
-            className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+            {...register("line2")}
+            className={inputClassName}
             autoComplete="address-line2"
           />
         </div>
@@ -142,11 +138,13 @@ export default function ConfigureCheckoutDetailsCard({
             </label>
             <input
               id="city"
-              value={city}
-              onChange={(e) => onCityChange(e.target.value)}
-              className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+              {...register("city")}
+              className={inputClassName}
               autoComplete="address-level2"
             />
+            {errors.city && (
+              <p className="font-mono text-xs text-red-500">{errors.city.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -158,24 +156,17 @@ export default function ConfigureCheckoutDetailsCard({
             </label>
             <input
               id="eirCode"
-              value={eirCode}
-              onChange={(e) => onEirCodeChange(e.target.value)}
-              className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
+              {...register("eirCode")}
+              className={inputClassName}
               autoComplete="postal-code"
             />
+            {errors.eirCode && eirCode.trim().length > 0 && (
+              <p className="font-mono text-xs text-red-500">
+                {errors.eirCode.message}
+              </p>
+            )}
           </div>
         </div>
-
-        {!isEmailValid && email.trim().length > 0 && (
-          <p className="font-mono text-xs text-red-500">
-            Please enter a valid email address.
-          </p>
-        )}
-        {!isEirCodeValid && eirCode.trim().length > 0 && (
-          <p className="font-mono text-xs text-red-500">
-            Enter a valid Eircode (e.g. A65 F4E2).
-          </p>
-        )}
       </div>
 
       {submitError && (

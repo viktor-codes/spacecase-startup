@@ -1,6 +1,8 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 import Container from "@/components/Container";
 import ConfigureApodImagePreviewModal from "@/components/configure/ConfigureApodImagePreviewModal";
@@ -18,10 +20,12 @@ import {
 import { PHONE_MODELS, SHIPPING_OPTIONS, type ShippingOption } from "@/lib/configure/constants";
 import {
   getConfigureCompletionStep,
-  isConfigureCheckoutComplete,
-  isValidEirCode,
-  isValidEmail,
+  isValidShippingOption,
 } from "@/lib/configure/checkout-validation";
+import {
+  configureContactFormSchema,
+  type ConfigureContactFormValues,
+} from "@/lib/schemas/configure-contact-form";
 import { useImagePreviewModal } from "@/hooks/useImagePreviewModal";
 import { useSyncedApod } from "@/hooks/useSyncedApod";
 
@@ -37,14 +41,23 @@ export default function ConfigureUploadPageClient({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [line1, setLine1] = useState("");
-  const [line2, setLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [eirCode, setEirCode] = useState("");
   const module2Ref = useRef<HTMLDivElement | null>(null);
+
+  const form = useForm<ConfigureContactFormValues>({
+    resolver: zodResolver(configureContactFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      line1: "",
+      line2: "",
+      city: "",
+      eirCode: "",
+    },
+    mode: "onChange",
+  });
+
+  const contactValues = form.watch();
 
   const {
     selectedDate,
@@ -53,57 +66,43 @@ export default function ConfigureUploadPageClient({
     loading,
     error,
     syncHighlight,
-    hasImage,
+    apodImageUrl,
     handleSync,
   } = useSyncedApod({ initialDate, scrollAfterSyncRef: module2Ref });
 
   const { isImagePreviewOpen, setIsImagePreviewOpen } = useImagePreviewModal(
-    Boolean(hasImage),
+    apodImageUrl !== null,
   );
 
-  const isEmailValid = useMemo(() => isValidEmail(email), [email]);
-
-  const isEirCodeValid = useMemo(() => isValidEirCode(eirCode), [eirCode]);
-
-  const isCheckoutFormValid = useMemo(
-    () =>
-      isConfigureCheckoutComplete({
-        selectedDate,
-        hasImage: Boolean(hasImage),
-        deviceModel,
-        shipping,
-        email,
-        fullName,
-        phone,
-        line1,
-        city,
-        eirCode,
-      }),
-    [
-      selectedDate,
-      hasImage,
-      deviceModel,
-      shipping,
-      email,
-      fullName,
-      phone,
-      line1,
-      city,
-      eirCode,
-    ],
-  );
+  const isCheckoutFormValid = useMemo(() => {
+    const parsed = configureContactFormSchema.safeParse(contactValues);
+    if (!parsed.success) return false;
+    return (
+      Boolean(selectedDate) &&
+      apodImageUrl !== null &&
+      Boolean(deviceModel) &&
+      isValidShippingOption(shipping)
+    );
+  }, [selectedDate, apodImageUrl, deviceModel, shipping, contactValues]);
 
   const completionStep = useMemo(
     () =>
       getConfigureCompletionStep({
         selectedDate,
-        hasImage: Boolean(hasImage),
+        hasImage: apodImageUrl !== null,
         deviceModel,
-        fullName,
-        email,
-        eirCode,
+        fullName: contactValues.fullName,
+        email: contactValues.email,
+        eirCode: contactValues.eirCode,
       }),
-    [selectedDate, hasImage, deviceModel, fullName, email, eirCode],
+    [
+      selectedDate,
+      apodImageUrl,
+      deviceModel,
+      contactValues.fullName,
+      contactValues.email,
+      contactValues.eirCode,
+    ],
   );
 
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
@@ -124,7 +123,7 @@ export default function ConfigureUploadPageClient({
 
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
-    if (!hasImage) {
+    if (apodImageUrl === null) {
       setSubmitError(
         "NASA image for this date is not available. Please try another date.",
       );
@@ -134,20 +133,22 @@ export default function ConfigureUploadPageClient({
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const v = form.getValues();
+
     const payload: CreateStripeCheckoutSessionPayload = {
       apodDate: selectedDate,
       deviceModel,
       shippingOption: shipping,
       contact: {
-        email,
-        fullName,
-        phone,
+        email: v.email,
+        fullName: v.fullName,
+        phone: v.phone,
       },
       shippingAddress: {
-        line1,
-        line2: line2.trim() ? line2 : null,
-        city,
-        eirCode,
+        line1: v.line1,
+        line2: v.line2.trim() ? v.line2 : null,
+        city: v.city,
+        eirCode: v.eirCode,
       },
     };
 
@@ -166,90 +167,69 @@ export default function ConfigureUploadPageClient({
   };
 
   return (
-    <div className="min-h-screen">
-      <Container className="h-full">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12 lg:items-start">
-          <ConfigureUploadHeroColumn
-            syncHighlight={syncHighlight}
-            phoneImageUrl={
-              typeof hasImage === "string" ? hasImage : null
-            }
-          />
-
-          {/* Right column: vertical module stack */}
-          <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
-            <ConfigureDateScannerCard
-              ref={module2Ref}
-              selectedDate={selectedDate}
-              onSelectedDateChange={setSelectedDate}
-              loading={loading}
-              error={error}
-              onSync={() => void handleSync()}
+    <FormProvider {...form}>
+      <div className="min-h-screen">
+        <Container className="h-full">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12 lg:items-start">
+            <ConfigureUploadHeroColumn
+              syncHighlight={syncHighlight}
+              phoneImageUrl={apodImageUrl}
             />
 
-            <ConfigureCosmicFrameCard
-              selectedDate={selectedDate}
-              loading={loading}
-              thumbnailUrl={
-                typeof hasImage === "string" ? hasImage : null
-              }
-              apod={apod}
-              onOpenImagePreview={() => setIsImagePreviewOpen(true)}
-            />
-
-            <ConfigureDeviceCard
-              deviceModel={deviceModel}
-              onDeviceModelChange={setDeviceModel}
-            />
-
-            <ConfigureDeliveryCard
-              shipping={shipping}
-              onShippingChange={setShipping}
-              formatEur={formatEur}
-            />
-
-            {hasImage && (
-              <ConfigureCheckoutDetailsCard
-                fullName={fullName}
-                onFullNameChange={setFullName}
-                email={email}
-                onEmailChange={setEmail}
-                phone={phone}
-                onPhoneChange={setPhone}
-                line1={line1}
-                onLine1Change={setLine1}
-                line2={line2}
-                onLine2Change={setLine2}
-                city={city}
-                onCityChange={setCity}
-                eirCode={eirCode}
-                onEirCodeChange={setEirCode}
-                isEmailValid={isEmailValid}
-                isEirCodeValid={isEirCodeValid}
-                submitError={submitError}
+            <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
+              <ConfigureDateScannerCard
+                ref={module2Ref}
+                selectedDate={selectedDate}
+                onSelectedDateChange={setSelectedDate}
+                loading={loading}
+                error={error}
+                onSync={() => void handleSync()}
               />
-            )}
 
-            <ConfigureOrderSummaryCard
-              deviceModel={deviceModel}
-              selectedDate={selectedDate}
-              shipping={shipping}
-              formattedPrice={formattedPrice}
-              isCheckoutFormValid={isCheckoutFormValid}
-              completionStep={completionStep}
-              isSubmitting={isSubmitting}
-              onLaunch={() => void handleLaunch()}
-            />
+              <ConfigureCosmicFrameCard
+                selectedDate={selectedDate}
+                loading={loading}
+                thumbnailUrl={apodImageUrl}
+                apod={apod}
+                onOpenImagePreview={() => setIsImagePreviewOpen(true)}
+              />
+
+              <ConfigureDeviceCard
+                deviceModel={deviceModel}
+                onDeviceModelChange={setDeviceModel}
+              />
+
+              <ConfigureDeliveryCard
+                shipping={shipping}
+                onShippingChange={setShipping}
+                formatEur={formatEur}
+              />
+
+              {apodImageUrl !== null && (
+                <ConfigureCheckoutDetailsCard submitError={submitError} />
+              )}
+
+              <ConfigureOrderSummaryCard
+                deviceModel={deviceModel}
+                selectedDate={selectedDate}
+                shipping={shipping}
+                formattedPrice={formattedPrice}
+                isCheckoutFormValid={isCheckoutFormValid}
+                completionStep={completionStep}
+                isSubmitting={isSubmitting}
+                onLaunch={() => void handleLaunch()}
+              />
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
 
-      <ConfigureApodImagePreviewModal
-        isOpen={isImagePreviewOpen}
-        imageUrl={typeof hasImage === "string" ? hasImage : null}
-        imageTitle={apod?.title ?? "NASA APOD"}
-        onClose={() => setIsImagePreviewOpen(false)}
-      />
-    </div>
+        <ConfigureApodImagePreviewModal
+          isOpen={isImagePreviewOpen}
+          imageUrl={apodImageUrl}
+          imageTitle={apod?.title ?? "NASA APOD"}
+          onClose={() => setIsImagePreviewOpen(false)}
+        />
+      </div>
+    </FormProvider>
   );
 }
