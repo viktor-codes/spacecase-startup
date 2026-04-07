@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 import Container from "@/components/Container";
-import Phone from "@/components/Phone";
+import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
@@ -181,39 +181,12 @@ export default function ConfigureUploadPageClient({
     <div className="min-h-screen">
       <Container className="h-full">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12 lg:items-start">
-          {/* Left scene: title + phone, sticky on screen */}
-          <div className="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
-            <div className="max-w-xl">
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
-                Configure Your CosmicCase
-              </h1>
-            </div>
-
-            <div
-              className={cn(
-                "relative flex max-w-[280px] items-center justify-center md:max-w-sm",
-                syncHighlight && "animate-pulse",
-              )}
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={hasImage ? (apod as ApodResponse).url : "placeholder"}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="flex w-full items-center justify-center"
-                >
-                  <Phone
-                    imgSrc={hasImage ? (apod as ApodResponse).url : null}
-                    dark
-                    placeholderText="Your sky is waiting..."
-                    className="shadow-[0_40px_80px_rgba(0,0,0,0.65)] rounded-[3.5rem]"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+          <ConfigureUploadHeroColumn
+            syncHighlight={syncHighlight}
+            phoneImageUrl={
+              typeof hasImage === "string" ? hasImage : null
+            }
+          />
 
           {/* Right column: vertical module stack */}
           <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
