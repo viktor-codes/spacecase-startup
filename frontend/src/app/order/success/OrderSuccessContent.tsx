@@ -36,18 +36,17 @@ export default function OrderSuccessContent({
     if (order.status === "paid") return;
 
     const started = Date.now();
-    let intervalId: number | undefined;
 
     const tick = async () => {
       if (Date.now() - started > MAX_WAIT_MS) {
-        if (intervalId !== undefined) window.clearInterval(intervalId);
+        window.clearInterval(intervalId);
         setPollingStopped(true);
         return;
       }
       try {
         const next = await fetchOrder(orderId, viewToken);
         setOrder(next);
-        if (next.status === "paid" && intervalId !== undefined) {
+        if (next.status === "paid") {
           window.clearInterval(intervalId);
         }
       } catch {
@@ -55,11 +54,11 @@ export default function OrderSuccessContent({
       }
     };
 
-    intervalId = window.setInterval(() => void tick(), POLL_MS) as number;
+    const intervalId = window.setInterval(() => void tick(), POLL_MS) as number;
     void tick();
 
     return () => {
-      if (intervalId !== undefined) window.clearInterval(intervalId);
+      window.clearInterval(intervalId);
     };
   }, [orderId, viewToken, order.status]);
 
@@ -69,7 +68,7 @@ export default function OrderSuccessContent({
   return (
     <div className="mx-auto max-w-3xl space-y-6 rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
       <div className="space-y-2">
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
+        <p className="font-mono text-xs tracking-[0.25em] text-slate-600 uppercase">
           {isPaid
             ? "Payment confirmed"
             : isConfirming
@@ -79,7 +78,7 @@ export default function OrderSuccessContent({
         <h1 className="text-2xl font-bold text-slate-900">
           Thank you! Your CosmicCase is moving to preparation.
         </h1>
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-slate-600">
+        <p className="font-mono text-[11px] tracking-[0.25em] text-slate-600 uppercase">
           Order #{order.orderId}
         </p>
         {isConfirming && (
@@ -107,7 +106,7 @@ export default function OrderSuccessContent({
             imgSrc={order.apodUrl}
             dark
             placeholderText="Your sky is waiting..."
-            className="shadow-[0_40px_80px_rgba(0,0,0,0.65)] rounded-[3.5rem]"
+            className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
           />
         </div>
 
@@ -115,17 +114,17 @@ export default function OrderSuccessContent({
           <p className="font-mono text-sm font-semibold text-slate-900">
             NASA sky for {order.apodDate}
           </p>
-          <p className="line-clamp-3 text-sm font-semibold leading-snug text-slate-900">
+          <p className="line-clamp-3 text-sm leading-snug font-semibold text-slate-900">
             {order.apodTitle}
           </p>
           <div className="space-y-1">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
+            <p className="font-mono text-xs tracking-[0.25em] text-slate-600 uppercase">
               Delivery options
             </p>
             <p className="text-sm text-slate-700">{order.shippingOption}</p>
           </div>
           <div className="space-y-1">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-600">
+            <p className="font-mono text-xs tracking-[0.25em] text-slate-600 uppercase">
               Total paid
             </p>
             <p className="text-xl font-bold text-slate-900">

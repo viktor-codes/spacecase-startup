@@ -16,7 +16,7 @@ export default function ConfigureDeviceCard({
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
+        <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
           03 · Device configuration
         </h2>
       </div>
@@ -24,7 +24,7 @@ export default function ConfigureDeviceCard({
       <div className="space-y-2">
         <label
           htmlFor="device-model"
-          className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+          className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
         >
           Device Model
         </label>

@@ -93,7 +93,7 @@ const TryNowSection = () => {
             <button
               type="button"
               onClick={() => void handleRevealUniverse()}
-              className="font-mono text-xs uppercase tracking-[0.2em] text-brand-pink underline-offset-4 hover:underline"
+              className="font-mono text-xs tracking-[0.2em] text-brand-pink uppercase underline-offset-4 hover:underline"
             >
               Retry
             </button>
@@ -103,7 +103,7 @@ const TryNowSection = () => {
                 setError(null);
                 setNotImageHint(false);
               }}
-              className="font-mono text-xs uppercase tracking-[0.2em] text-text-tertiary hover:text-text-primary"
+              className="font-mono text-xs tracking-[0.2em] text-text-tertiary uppercase hover:text-text-primary"
             >
               Dismiss
             </button>

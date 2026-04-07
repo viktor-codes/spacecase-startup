@@ -39,4 +39,3 @@ export async function fetchApod(date?: string): Promise<ApodResponse> {
 
   return data;
 }
-

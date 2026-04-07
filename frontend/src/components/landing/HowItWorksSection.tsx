@@ -65,27 +65,27 @@ const HowItWorksSection = () => {
         }
       />
 
-      <div className="mt-16 mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center">
+      <div className="mx-auto mt-16 max-w-6xl px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
           {/* Visual: source → case */}
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center lg:flex-col">
-            <div className="relative w-56 sm:w-48 lg:w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-(--border-default)">
+            <div className="relative w-56 overflow-hidden rounded-xl shadow-lg ring-1 ring-(--border-default) sm:w-48 lg:w-56">
               <Image
                 src="/rosette-cone.jpg"
                 alt="NASA Rosette Cone Nebula — original archive"
                 width={639}
                 height={1024}
                 quality={75}
-                className="object-cover w-full h-full"
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent px-3 py-2">
-                <p className="font-technical text-[10px] uppercase tracking-[0.15em] text-white/80">
+                <p className="font-technical text-[10px] tracking-[0.15em] text-white/80 uppercase">
                   NASA APOD · Archive
                 </p>
               </div>
             </div>
 
-            <div className="text-text-tertiary text-2xl select-none hidden sm:block lg:rotate-90">
+            <div className="hidden text-2xl text-text-tertiary select-none sm:block lg:rotate-90">
               →
             </div>
 
@@ -94,7 +94,7 @@ const HowItWorksSection = () => {
 
           {/* Steps */}
           <div className="relative">
-            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-(--border-default) hidden sm:block" />
+            <div className="absolute top-4 bottom-4 left-[19px] hidden w-px bg-(--border-default) sm:block" />
             <div className="space-y-8">
               {steps.map((step) => (
                 <div key={step.number} className="relative flex gap-5">
@@ -102,7 +102,7 @@ const HowItWorksSection = () => {
                     <step.icon className="h-4 w-4" />
                   </div>
                   <div className="pt-1">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                    <p className="font-mono text-[11px] tracking-[0.2em] text-text-tertiary uppercase">
                       Step {step.number}
                     </p>
                     <h3 className="mt-1 text-base font-semibold text-text-primary">
@@ -128,7 +128,7 @@ const HowItWorksSection = () => {
           })}
           href="/configure/upload"
         >
-          Get Started <ArrowRight className="h-4 w-4 ml-1.5" />
+          Get Started <ArrowRight className="ml-1.5 h-4 w-4" />
         </Link>
       </div>
     </Section>

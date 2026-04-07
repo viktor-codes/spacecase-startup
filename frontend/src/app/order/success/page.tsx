@@ -10,9 +10,7 @@ type PageProps = {
   }>;
 };
 
-export default async function OrderSuccessPage({
-  searchParams,
-}: PageProps) {
+export default async function OrderSuccessPage({ searchParams }: PageProps) {
   const { orderId, token } = await searchParams;
   if (!orderId || !token) {
     return (
@@ -45,4 +43,3 @@ export default async function OrderSuccessPage({
     </div>
   );
 }
-

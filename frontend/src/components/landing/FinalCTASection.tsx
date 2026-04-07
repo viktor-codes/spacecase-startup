@@ -17,12 +17,12 @@ const included = [
 const FinalCTASection = () => {
   return (
     <Section className="overflow-hidden">
-      <div className="px-6 lg:px-8 mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
         <SectionHeading
           className="px-0 lg:px-0"
           containerClassName="max-w-none"
           kicker="Your moment, your universe"
-          title="Your sky is waiting. Don&apos;t let it fade."
+          title="Your sky is waiting. Don't let it fade."
           subtitle={
             <>
               Every day that passes, another piece of the cosmos is archived by
@@ -33,10 +33,12 @@ const FinalCTASection = () => {
         />
 
         <div className="mt-10 inline-flex flex-col items-center gap-1">
-          <p className="font-technical text-sm uppercase tracking-[0.2em] text-text-tertiary">
+          <p className="font-technical text-sm tracking-[0.2em] text-text-tertiary uppercase">
             Starting from
           </p>
-          <p className="font-display text-5xl font-bold text-text-primary">&euro;39</p>
+          <p className="font-display text-5xl font-bold text-text-primary">
+            &euro;39
+          </p>
           <p className="text-sm text-text-tertiary">Express from &euro;49</p>
         </div>
 
@@ -44,7 +46,7 @@ const FinalCTASection = () => {
           {included.map((item) => (
             <div key={item} className="flex items-center gap-2.5">
               <Check className="h-3.5 w-3.5 shrink-0 text-brand-pink" />
-              <span className="text-left font-technical text-xs text-text-secondary">
+              <span className="font-technical text-left text-xs text-text-secondary">
                 {item}
               </span>
             </div>

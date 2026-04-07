@@ -17,7 +17,11 @@ import {
   createStripeCheckoutSession,
   type CreateStripeCheckoutSessionPayload,
 } from "@/lib/api/ordersClient";
-import { PHONE_MODELS, SHIPPING_OPTIONS, type ShippingOption } from "@/lib/configure/constants";
+import {
+  PHONE_MODELS,
+  SHIPPING_OPTIONS,
+  type ShippingOption,
+} from "@/lib/configure/constants";
 import {
   getConfigureCompletionStep,
   isValidShippingOption,
@@ -170,7 +174,7 @@ export default function ConfigureUploadPageClient({
     <FormProvider {...form}>
       <div className="min-h-screen">
         <Container className="h-full">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-12 lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12">
             <ConfigureUploadHeroColumn
               syncHighlight={syncHighlight}
               phoneImageUrl={apodImageUrl}

@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useState,
-  type RefObject,
-} from "react";
+import { useCallback, useEffect, useState, type RefObject } from "react";
 
 import {
   fetchApod,

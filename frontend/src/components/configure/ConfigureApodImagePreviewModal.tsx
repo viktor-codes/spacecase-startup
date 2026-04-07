@@ -36,7 +36,7 @@ export default function ConfigureApodImagePreviewModal({
             <button
               type="button"
               onClick={onClose}
-              className="absolute -top-10 right-0 text-sm font-mono uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary"
+              className="absolute -top-10 right-0 font-mono text-sm tracking-[0.2em] text-text-secondary uppercase hover:text-text-primary"
               aria-label="Close image preview"
             >
               Close

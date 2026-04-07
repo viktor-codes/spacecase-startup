@@ -92,7 +92,7 @@ const TechnicalExcellenceSection = () => {
         />
 
         {/* Мобильный лэйаут: чехол + свайп карточек */}
-        <div className="mx-auto w-full max-w-md flex flex-col gap-6 md:hidden">
+        <div className="mx-auto flex w-full max-w-md flex-col gap-6 md:hidden">
           <div className="relative mx-auto w-96">
             <motion.img
               src="/excelence-2.png"
@@ -114,7 +114,7 @@ const TechnicalExcellenceSection = () => {
                       className="p-4"
                       onClick={() => handleMobileCardClick(f.id, index)}
                     >
-                      <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                      <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                         {f.label}
                       </p>
                       <p className="text-sm leading-relaxed text-text-secondary">
@@ -145,18 +145,16 @@ const TechnicalExcellenceSection = () => {
         </div>
 
         {/* Планшет и десктоп */}
-        <div
-          className="hidden md:grid mx-auto w-full max-w-6xl md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)] gap-8 lg:gap-12 items-start"
-        >
+        <div className="mx-auto hidden w-full max-w-6xl items-start gap-8 md:grid md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)] lg:gap-12">
           {/* Левая колонка с фичами (только десктоп) */}
-          <div className="hidden lg:flex flex-col gap-4">
+          <div className="hidden flex-col gap-4 lg:flex">
             {featureBullets.slice(0, 3).map((f) => (
               <GlassCard
                 key={f.id}
-                className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+                className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
                 onClick={() => setActiveId(f.id)}
               >
-                <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                   {f.label}
                 </p>
                 <p className="text-sm leading-relaxed text-text-secondary">
@@ -188,10 +186,10 @@ const TechnicalExcellenceSection = () => {
               {featureBullets.map((f) => (
                 <GlassCard
                   key={f.id}
-                  className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+                  className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
                   onClick={() => setActiveId(f.id)}
                 >
-                  <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                  <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                     {f.label}
                   </p>
                   <p className="text-sm leading-relaxed text-text-secondary">
@@ -202,14 +200,14 @@ const TechnicalExcellenceSection = () => {
             </div>
 
             {/* Десктоп (lg+): во второй колонке только вторая половина фич */}
-            <div className="hidden lg:flex flex-col gap-4">
+            <div className="hidden flex-col gap-4 lg:flex">
               {featureBullets.slice(3).map((f) => (
                 <GlassCard
                   key={f.id}
-                  className="p-4 cursor-pointer transition-transform duration-200 hover:-translate-y-1"
+                  className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
                   onClick={() => setActiveId(f.id)}
                 >
-                  <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+                  <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                     {f.label}
                   </p>
                   <p className="text-sm leading-relaxed text-text-secondary">
@@ -221,7 +219,7 @@ const TechnicalExcellenceSection = () => {
 
             {/* Активная фича как краткое резюме */}
             <GlassCard className="mt-2 p-4">
-              <p className="text-[11px] font-technical uppercase tracking-[0.2em] text-brand-pink mb-2">
+              <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                 {activeFeature.label}
               </p>
               <p className="text-sm leading-relaxed text-text-secondary">

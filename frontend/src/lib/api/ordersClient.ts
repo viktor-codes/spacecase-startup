@@ -66,9 +66,7 @@ export async function fetchOrder(
     throw new Error("NEXT_PUBLIC_API_URL is not configured");
   }
 
-  const url = new URL(
-    `${API_URL}/v1/orders/${encodeURIComponent(orderId)}`,
-  );
+  const url = new URL(`${API_URL}/v1/orders/${encodeURIComponent(orderId)}`);
   url.searchParams.set("token", viewToken);
 
   const res = await fetch(url.toString(), {
@@ -78,11 +76,8 @@ export async function fetchOrder(
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(
-      `Failed to fetch order (${res.status}). ${text}`,
-    );
+    throw new Error(`Failed to fetch order (${res.status}). ${text}`);
   }
 
   return (await res.json()) as OrderResponse;
 }
-

@@ -77,7 +77,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <AppBackground />
-        <div className="relative min-h-screen flex flex-col">
+        <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

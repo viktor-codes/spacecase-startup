@@ -34,7 +34,7 @@ export default function ConfigureOrderSummaryCard({
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
+          <p className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase">
             06 · Order summary
           </p>
           <p className="font-mono text-sm text-text-primary">
@@ -51,7 +51,7 @@ export default function ConfigureOrderSummaryCard({
         </div>
 
         <div className="text-right">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
+          <p className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase">
             Total
           </p>
           <p className="text-2xl font-semibold text-text-primary">
@@ -61,7 +61,7 @@ export default function ConfigureOrderSummaryCard({
       </div>
 
       <div className="space-y-1.5 border-t border-(--border-default) pt-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
+        <p className="font-mono text-[10px] tracking-[0.2em] text-text-tertiary uppercase">
           What&apos;s included
         </p>
         {[
@@ -85,15 +85,13 @@ export default function ConfigureOrderSummaryCard({
         type="button"
         variant="space"
         size="lg"
-        className="mt-3 w-full font-mono text-xs uppercase tracking-[0.25em]"
+        className="mt-3 w-full font-mono text-xs tracking-[0.25em] uppercase"
         disabled={!isCheckoutFormValid || isSubmitting}
         onClick={() => void onLaunch()}
       >
-        {isSubmitting
-          ? "Redirecting to payment..."
-          : "Launch My CosmicCase"}
+        {isSubmitting ? "Redirecting to payment..." : "Launch My CosmicCase"}
       </Button>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
+      <p className="font-mono text-[10px] tracking-[0.2em] text-text-tertiary uppercase">
         {isCheckoutFormValid
           ? "Ready to launch"
           : `Complete ${completionStep}/4 steps to continue`}

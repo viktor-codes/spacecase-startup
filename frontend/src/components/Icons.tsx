@@ -1,4 +1,4 @@
-import type { LucideProps } from "lucide-react"
+import type { LucideProps } from "lucide-react";
 
 export const Icons = {
   underline: (props: LucideProps) => (
@@ -19,5 +19,4 @@ export const Icons = {
       </g>
     </svg>
   ),
-}
-
+};

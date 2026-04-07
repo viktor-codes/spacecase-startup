@@ -23,11 +23,11 @@ const TryNowApodPreviewModal = ({
 
   return (
     <div className="fixed inset-0 z-(--z-overlay) flex items-center justify-center bg-black/70 px-4">
-      <div className="relative w-full max-w-2xl rounded-2xl bg-surface-overlay border border-(--border-default) p-5 shadow-xl">
+      <div className="relative w-full max-w-2xl rounded-2xl border border-(--border-default) bg-surface-overlay p-5 shadow-xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 text-text-tertiary hover:text-text-primary text-xl leading-none"
+          className="absolute top-3 right-3 text-xl leading-none text-text-tertiary hover:text-text-primary"
           aria-label="Close preview"
         >
           ×
@@ -56,7 +56,7 @@ const TryNowApodPreviewModal = ({
           </div>
 
           {apod.explanation && (
-            <p className="text-xs text-text-secondary line-clamp-4">
+            <p className="line-clamp-4 text-xs text-text-secondary">
               {apod.explanation}
             </p>
           )}
@@ -65,7 +65,7 @@ const TryNowApodPreviewModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="text-xs text-text-tertiary hover:text-text-primary transition-colors"
+              className="text-xs text-text-tertiary transition-colors hover:text-text-primary"
             >
               Close
             </button>

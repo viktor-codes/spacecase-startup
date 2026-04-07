@@ -51,7 +51,7 @@ export default function SectionHeading({
       {kicker ? (
         <p
           className={cn(
-            "text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary",
+            "text-sm font-semibold tracking-[0.2em] text-text-secondary uppercase",
             kickerClassName ?? "font-technical",
           )}
         >
@@ -61,7 +61,7 @@ export default function SectionHeading({
 
       <TitleTag
         className={cn(
-          "mt-4 tracking-tight text-balance leading-tight! font-bold text-text-primary font-display max-w-xl lg:max-w-none mx-auto",
+          "mx-auto mt-4 max-w-xl font-display leading-tight! font-bold tracking-tight text-balance text-text-primary lg:max-w-none",
           isHeroH1
             ? "text-[clamp(3.5rem,8vw,6rem)]"
             : "text-[clamp(2.5rem,5vw,4.5rem)]",
@@ -73,7 +73,7 @@ export default function SectionHeading({
       {subtitle ? (
         <p
           className={cn(
-            "mt-4 text-[clamp(1rem,1.2vw,1.25rem)] text-text-secondary font-display max-w-md lg:max-w-lg mx-auto text-balance",
+            "mx-auto mt-4 max-w-md font-display text-[clamp(1rem,1.2vw,1.25rem)] text-balance text-text-secondary lg:max-w-lg",
             subtitleClassName,
           )}
         >

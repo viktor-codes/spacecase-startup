@@ -16,8 +16,8 @@ export default function Logo({
   iconSize = 36,
 }: LogoProps) {
   return (
-    <span className={cn("select-none flex items-center gap-2", className)}>
-      <span className="leading-none flex items-center">
+    <span className={cn("flex items-center gap-2 select-none", className)}>
+      <span className="flex items-center leading-none">
         {/* <Image
           src="/cosmiccase-logo.svg"
           alt="CosmicCase"
@@ -29,12 +29,12 @@ export default function Logo({
 
       <span
         className={cn(
-          "font-technical text-base font-bold tracking-tight leading-none text-text-primary uppercase flex items-center",
+          "font-technical flex items-center text-base leading-none font-bold tracking-tight text-text-primary uppercase",
           textClassName,
         )}
       >
         Cosmic
-        <span className="text-brand-pink ms-0.5">Case</span>
+        <span className="ms-0.5 text-brand-pink">Case</span>
       </span>
     </span>
   );

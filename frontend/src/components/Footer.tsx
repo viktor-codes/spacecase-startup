@@ -14,7 +14,7 @@ const Footer = () => {
             <Link href="/" className="inline-flex">
               <Logo iconSize={48} />
             </Link>
-            <p className="max-w-md text-xs md:text-sm text-text-tertiary">
+            <p className="max-w-md text-xs text-text-tertiary md:text-sm">
               The sky from your most important date — AI-restored and printed on
               a premium dual-layer phone case.
             </p>
@@ -23,31 +23,31 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-text-tertiary">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-text-tertiary md:text-sm">
             <Link
               href="/configure/upload"
-              className="hover:text-text-primary transition-colors"
+              className="transition-colors hover:text-text-primary"
             >
               Create Your CosmicCase
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
             <Link
               href="/legal/terms"
-              className="hover:text-text-primary transition-colors"
+              className="transition-colors hover:text-text-primary"
             >
               Terms
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
             <Link
               href="/legal/privacy"
-              className="hover:text-text-primary transition-colors"
+              className="transition-colors hover:text-text-primary"
             >
               Privacy
             </Link>
             <span className="hidden h-1 w-1 rounded-full bg-text-tertiary/40 md:inline-block" />
             <a
               href="mailto:hello@CosmicCase.app"
-              className="hover:text-text-primary transition-colors"
+              className="transition-colors hover:text-text-primary"
             >
               Contact
             </a>

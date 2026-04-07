@@ -64,7 +64,7 @@ const SpaceDateScanner = ({
     <div
       suppressHydrationWarning
       className={cn(
-        "flex flex-col items-center space-y-12 p-10 bg-brand-subtle rounded-[3rem] border border-(--border-subtle) backdrop-blur-xl",
+        "flex flex-col items-center space-y-12 rounded-[3rem] border border-(--border-subtle) bg-brand-subtle p-10 backdrop-blur-xl",
         className,
       )}
     >
@@ -100,7 +100,7 @@ const SpaceDateScanner = ({
           onClick={handleSubmitClick}
           variant="space"
           size="hero"
-          className="group cursor-pointer relative"
+          className="group relative cursor-pointer"
         >
           <span className="relative z-(--z-top) flex items-center gap-3">
             {loading ? "Loading..." : "Reveal the Universe"}

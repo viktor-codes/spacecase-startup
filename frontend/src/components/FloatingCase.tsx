@@ -46,13 +46,13 @@ export default function FloatingCase({ imgSrc, className }: FloatingCaseProps) {
         </div>
 
         <div
-          className="transform transform-3d transition-transform duration-150 ease-out"
+          className="transform transition-transform duration-150 ease-out transform-3d"
           style={{
             transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(16px)`,
           }}
         >
           <Phone
-            className="w-64 sm:w-72 drop-shadow-2xl"
+            className="w-64 drop-shadow-2xl sm:w-72"
             imgSrc={imgSrc}
             dark={true}
           />

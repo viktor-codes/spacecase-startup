@@ -31,9 +31,9 @@ const AIRestorationSection = () => {
           subtitleClassName="max-w-2xl mx-auto"
         />
 
-        <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
+        <div className="mx-auto mt-12 max-w-3xl px-6 lg:px-8">
           {/* Interactive slider comparison (react-compare-slider) */}
-          <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) shadow-2xl bg-black">
+          <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-(--border-default) bg-black shadow-2xl">
             <ReactCompareSlider
               itemOne={
                 <ReactCompareSliderImage
@@ -58,7 +58,7 @@ const AIRestorationSection = () => {
               onPointerLeave={() => setIsInteracting(false)}
               handle={
                 <div
-                  className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-surface-overlay/90 backdrop-blur-md shadow-lg transition-all duration-200 group-hover:w-32 ${
+                  className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-surface-overlay/90 shadow-lg backdrop-blur-md transition-all duration-200 group-hover:w-32 ${
                     isInteracting ? "w-32" : ""
                   }`}
                 >
@@ -98,7 +98,7 @@ const AIRestorationSection = () => {
 
                   {/* Labels (hover/touch state, appear around arrows) */}
                   <div
-                    className={`pointer-events-none flex w-full items-center justify-between px-2 text-[8px] font-technical uppercase tracking-[0.2em] text-white/80 opacity-0 group-hover:opacity-100 ${
+                    className={`font-technical pointer-events-none flex w-full items-center justify-between px-2 text-[8px] tracking-[0.2em] text-white/80 uppercase opacity-0 group-hover:opacity-100 ${
                       isInteracting ? "opacity-100" : ""
                     }`}
                   >
@@ -116,7 +116,7 @@ const AIRestorationSection = () => {
             />
           </div>
 
-          <p className="mt-4 text-center font-technical text-xs text-text-tertiary uppercase">
+          <p className="font-technical mt-4 text-center text-xs text-text-tertiary uppercase">
             Drag to compare
           </p>
 
@@ -147,7 +147,7 @@ const AIRestorationSection = () => {
                 variant="interactive"
                 className="p-4 text-center sm:text-left"
               >
-                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-pink">
+                <p className="font-mono text-[11px] tracking-[0.2em] text-brand-pink uppercase">
                   {item.step}
                 </p>
                 <h3 className="mt-2 text-sm font-semibold text-text-primary">

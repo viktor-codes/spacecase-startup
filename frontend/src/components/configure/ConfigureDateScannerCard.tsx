@@ -32,7 +32,7 @@ const ConfigureDateScannerCard = forwardRef<
     <GlassCard ref={ref} className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
+          <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
             01 · Date scanner
           </h2>
           <p className="mt-1 font-mono text-xs text-text-secondary">
@@ -43,7 +43,7 @@ const ConfigureDateScannerCard = forwardRef<
           type="button"
           size="sm"
           variant="space"
-          className="font-mono text-[11px] uppercase tracking-[0.25em]"
+          className="font-mono text-[11px] tracking-[0.25em] uppercase"
           disabled={loading}
           onClick={() => void onSync()}
         >
@@ -65,9 +65,7 @@ const ConfigureDateScannerCard = forwardRef<
         />
       </div>
 
-      {error && (
-        <p className="mt-3 font-mono text-xs text-red-500">{error}</p>
-      )}
+      {error && <p className="mt-3 font-mono text-xs text-red-500">{error}</p>}
     </GlassCard>
   );
 });

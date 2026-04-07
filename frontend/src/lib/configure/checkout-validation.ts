@@ -15,9 +15,7 @@ export function isValidEirCode(eirCode: string): boolean {
   return EIRCODE_PATTERN.test(trimmed);
 }
 
-export function isValidShippingOption(
-  value: string,
-): value is ShippingOption {
+export function isValidShippingOption(value: string): value is ShippingOption {
   return value === "standard" || value === "express";
 }
 

@@ -208,7 +208,7 @@ html {
 
 @layer base {
   body {
-    @apply bg-[#020207] text-foreground font-sans;
+    @apply bg-[#020207] font-sans text-foreground;
   }
 }
 

@@ -18,7 +18,7 @@ const SpaceDateScannerTimeline = ({
   onCommit,
 }: SpaceDateScannerTimelineProps) => {
   return (
-    <div className="relative w-full max-w-2xl px-4 touch-none overflow-hidden">
+    <div className="relative w-full max-w-2xl touch-none overflow-hidden px-4">
       {/* Тонкая линия трека */}
       <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 rounded-full bg-white" />
 
@@ -44,17 +44,17 @@ const SpaceDateScannerTimeline = ({
         </Slider.Track>
         {/* Бегунок: используем стандартный Thumb от Radix */}
         <Slider.Thumb
-          className="h-10 w-10 rounded-full bg-white/6 border border-white/20 shadow-[0_0_0_6px_rgba(255,255,255,0.05)] flex items-center justify-center cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/6 shadow-[0_0_0_6px_rgba(255,255,255,0.05)] outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           aria-label="Date"
         >
-          <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+          <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
         </Slider.Thumb>
       </Slider.Root>
 
       {/* Метки дат под слайдером */}
-      <div className="flex justify-between mt-4 font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+      <div className="mt-4 flex justify-between font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
         <span>16.06.1995</span>
-        <span className="text-text-secondary animate-pulse hidden md:block">
+        <span className="hidden animate-pulse text-text-secondary md:block">
           Scanning timeline
         </span>
         <span className="font-technical">Today</span>

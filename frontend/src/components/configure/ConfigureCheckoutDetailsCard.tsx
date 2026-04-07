@@ -26,7 +26,7 @@ export default function ConfigureCheckoutDetailsCard({
 
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-      <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
+      <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
         05 · Your details
       </h2>
 
@@ -34,7 +34,7 @@ export default function ConfigureCheckoutDetailsCard({
         <div className="space-y-2">
           <label
             htmlFor="fullName"
-            className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+            className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
           >
             Full name
           </label>
@@ -55,7 +55,7 @@ export default function ConfigureCheckoutDetailsCard({
           <div className="space-y-2">
             <label
               htmlFor="email"
-              className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+              className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
             >
               Email
             </label>
@@ -76,7 +76,7 @@ export default function ConfigureCheckoutDetailsCard({
           <div className="space-y-2">
             <label
               htmlFor="phone"
-              className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+              className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
             >
               Phone
             </label>
@@ -98,7 +98,7 @@ export default function ConfigureCheckoutDetailsCard({
         <div className="space-y-2">
           <label
             htmlFor="line1"
-            className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+            className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
           >
             Address line 1
           </label>
@@ -109,14 +109,16 @@ export default function ConfigureCheckoutDetailsCard({
             autoComplete="address-line1"
           />
           {errors.line1 && (
-            <p className="font-mono text-xs text-red-500">{errors.line1.message}</p>
+            <p className="font-mono text-xs text-red-500">
+              {errors.line1.message}
+            </p>
           )}
         </div>
 
         <div className="space-y-2">
           <label
             htmlFor="line2"
-            className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+            className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
           >
             Address line 2 (optional)
           </label>
@@ -132,7 +134,7 @@ export default function ConfigureCheckoutDetailsCard({
           <div className="space-y-2">
             <label
               htmlFor="city"
-              className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+              className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
             >
               City
             </label>
@@ -143,14 +145,16 @@ export default function ConfigureCheckoutDetailsCard({
               autoComplete="address-level2"
             />
             {errors.city && (
-              <p className="font-mono text-xs text-red-500">{errors.city.message}</p>
+              <p className="font-mono text-xs text-red-500">
+                {errors.city.message}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
             <label
               htmlFor="eirCode"
-              className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
+              className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
             >
               Eircode
             </label>

@@ -62,25 +62,25 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 inset-x-0 z-(--z-header) bg-transparent backdrop-blur-lg">
+    <header className="sticky inset-x-0 top-0 z-(--z-header) bg-transparent backdrop-blur-lg">
       <Container className="relative">
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/#home"
-            className="flex items-center gap-2 z-(--z-top)"
+            className="z-(--z-top) flex items-center gap-2"
             onClick={handleLogoClick}
           >
             <Logo />
           </Link>
 
           <nav className="flex h-full items-center gap-4">
-            <div className="hidden md:flex items-center gap-6 text-sm text-text-secondary">
+            <div className="hidden items-center gap-6 text-sm text-text-secondary md:flex">
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => handleNavClick(item.id)}
-                  className="transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:text-text-primary"
+                  className="transition-colors hover:text-text-primary focus-visible:text-text-primary focus-visible:outline-none"
                 >
                   {item.label}
                 </button>

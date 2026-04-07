@@ -26,7 +26,7 @@ export default function Phone(props: PhoneProps) {
   return (
     <div
       className={cn(
-        "relative z-[var(--z-top)] overflow-hidden pointer-events-none rounded-4xl",
+        "pointer-events-none relative z-[var(--z-top)] overflow-hidden rounded-4xl",
         className,
       )}
       {...rest}
@@ -40,13 +40,13 @@ export default function Phone(props: PhoneProps) {
       <div className="absolute inset-0 z-[var(--z-bottom)]">
         {hasImage ? (
           <img
-            className="object-cover w-full h-full"
+            className="h-full w-full object-cover"
             src={imgSrc as string}
             alt="phone background"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 grain-dark">
-            <span className="px-6 text-center text-xs font-mono uppercase tracking-[0.25em] text-slate-300">
+          <div className="grain-dark flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+            <span className="px-6 text-center font-mono text-xs tracking-[0.25em] text-slate-300 uppercase">
               {placeholderText}
             </span>
           </div>

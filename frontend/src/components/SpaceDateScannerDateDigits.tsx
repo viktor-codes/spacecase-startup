@@ -43,7 +43,7 @@ const SpaceDateScannerDateDigits = ({
   };
 
   return (
-    <div className="relative group cursor-text">
+    <div className="group relative cursor-text">
       <DateField
         aria-label="Observation date"
         value={value}
@@ -58,7 +58,7 @@ const SpaceDateScannerDateDigits = ({
       >
         <DateInput
           className={cn(
-            "flex items-center gap-4 font-mono tracking-tighter transition-all duration-500 text-foreground",
+            "flex items-center gap-4 font-mono tracking-tighter text-foreground transition-all duration-500",
             size === "default" && "text-[clamp(2.5rem,12vw,8rem)]",
             size === "compact" && "text-[clamp(1.25rem,4vw,2.5rem)]",
           )}
@@ -81,11 +81,11 @@ const SpaceDateScannerDateDigits = ({
               <DateSegment
                 segment={segment}
                 className={cn(
-                  "[font-variation-settings:'MONO'_1] bg-transparent border-none outline-none text-current text-center cursor-text transition-all",
+                  "cursor-text border-none bg-transparent text-center text-current transition-all outline-none [font-variation-settings:'MONO'_1]",
                   isDay && "w-[2ch]",
                   isMonth && "w-[2ch]",
                   isYear && "w-[4ch]",
-                  isLiteral && "opacity-20 w-auto",
+                  isLiteral && "w-auto opacity-20",
                   // подчёркивание активного сегмента (каретки), без смены цвета текста
                   "data-[focused=true]:scale-110 data-[focused=true]:bg-white/10",
                   segment.isPlaceholder && "text-muted-foreground/60",
@@ -99,7 +99,7 @@ const SpaceDateScannerDateDigits = ({
       </DateField>
 
       {helperVariant !== "none" && (
-        <p className="text-center mt-4 text-xs uppercase tracking-[0.3em] font-technical">
+        <p className="font-technical mt-4 text-center text-xs tracking-[0.3em] uppercase">
           <span
             className={cn(
               "transition-colors",

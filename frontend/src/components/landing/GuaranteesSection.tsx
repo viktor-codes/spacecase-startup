@@ -50,14 +50,14 @@ const GuaranteesSection = () => {
         subtitleClassName="max-w-2xl mx-auto"
       />
 
-      <div className="mt-12 px-6 lg:px-8 mx-auto max-w-6xl grid gap-8 md:grid-cols-2">
+      <div className="mx-auto mt-12 grid max-w-6xl gap-8 px-6 md:grid-cols-2 lg:px-8">
         {guarantees.map((item) => (
           <GlassCard
             key={item.title}
             variant="interactive"
             className="p-6 text-left"
           >
-            <div className="flex items-center gap-3 mb-3">
+            <div className="mb-3 flex items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-subtle">
                 <item.icon className="h-4 w-4 text-brand-pink" />
               </div>
@@ -72,7 +72,7 @@ const GuaranteesSection = () => {
         ))}
       </div>
 
-      <p className="mt-10 px-6 lg:px-8 mx-auto max-w-3xl text-center text-xs text-text-tertiary">
+      <p className="mx-auto mt-10 max-w-3xl px-6 text-center text-xs text-text-tertiary lg:px-8">
         {deliveryNote}
       </p>
     </Section>

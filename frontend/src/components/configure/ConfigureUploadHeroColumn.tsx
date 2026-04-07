@@ -16,7 +16,7 @@ export default function ConfigureUploadHeroColumn({
   return (
     <div className="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
       <div className="max-w-xl">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl">
           Configure Your CosmicCase
         </h1>
       </div>
@@ -40,7 +40,7 @@ export default function ConfigureUploadHeroColumn({
               imgSrc={phoneImageUrl}
               dark
               placeholderText="Your sky is waiting..."
-              className="shadow-[0_40px_80px_rgba(0,0,0,0.65)] rounded-[3.5rem]"
+              className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
             />
           </motion.div>
         </AnimatePresence>

@@ -26,7 +26,7 @@ export default function OrderSegmentError({
             or return home.
           </p>
           {process.env.NODE_ENV === "development" && (
-            <p className="font-mono text-xs text-red-600 break-all">
+            <p className="font-mono text-xs break-all text-red-600">
               {error.message}
             </p>
           )}

@@ -41,7 +41,8 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     return Math.min(Math.max(parsed, minDate), maxDate);
   }, [value, minDate, maxDate]);
 
-  const [committedTimestamp, setCommittedTimestamp] = useState(initialTimestamp);
+  const [committedTimestamp, setCommittedTimestamp] =
+    useState(initialTimestamp);
   const [previewTimestamp, setPreviewTimestamp] = useState(initialTimestamp);
 
   useEffect(() => {
@@ -51,7 +52,11 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
 
   const tsToCalendarDate = (ts: number) => {
     const d = new Date(ts);
-    return new CalendarDate(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate());
+    return new CalendarDate(
+      d.getUTCFullYear(),
+      d.getUTCMonth() + 1,
+      d.getUTCDate(),
+    );
   };
 
   const minCalendarDate = useMemo(() => tsToCalendarDate(minDate), [minDate]);
@@ -86,7 +91,11 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     setPreviewTimestamp(nextValue);
   };
 
-  const handleDigitsChange = (value: { year: number; month: number; day: number }) => {
+  const handleDigitsChange = (value: {
+    year: number;
+    month: number;
+    day: number;
+  }) => {
     const ts = Date.UTC(value.year, value.month - 1, value.day);
     if (ts < minDate || ts > maxDate) return;
     // При ручном вводе это считается "реальным выбором".
@@ -107,4 +116,3 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     handleDigitsChange,
   };
 };
-

@@ -24,11 +24,11 @@ export default function ConfigureCosmicFrameCard({
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
+        <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
           02 · Cosmic frame
         </h2>
         {selectedDate && (
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-secondary">
+          <p className="font-mono text-[11px] tracking-[0.2em] text-text-secondary uppercase">
             {selectedDate}
           </p>
         )}
@@ -39,7 +39,7 @@ export default function ConfigureCosmicFrameCard({
           <button
             type="button"
             onClick={onOpenImagePreview}
-            className="relative h-24 w-24 shrink-0 cursor-zoom-in overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/50"
+            className="relative h-24 w-24 shrink-0 cursor-zoom-in overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60 focus-visible:ring-2 focus-visible:ring-brand-pink/50 focus-visible:outline-none"
             aria-label="Open full-size image preview"
           >
             <AnimatePresence mode="wait">
@@ -67,7 +67,7 @@ export default function ConfigureCosmicFrameCard({
         ) : (
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
             <div className="flex h-full w-full items-center justify-center bg-surface-raised/60">
-              <span className="px-2 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-text-tertiary">
+              <span className="px-2 text-center font-mono text-[10px] tracking-[0.25em] text-text-tertiary uppercase">
                 NASA preview
               </span>
             </div>
@@ -75,10 +75,10 @@ export default function ConfigureCosmicFrameCard({
         )}
 
         <div className="min-w-0 space-y-2">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-tertiary">
+          <p className="font-mono text-xs tracking-[0.25em] text-text-tertiary uppercase">
             Image title
           </p>
-          <p className="line-clamp-2 text-sm font-semibold leading-snug text-text-primary">
+          <p className="line-clamp-2 text-sm leading-snug font-semibold text-text-primary">
             {apod?.title ?? "Awaiting synced image"}
           </p>
 
@@ -94,10 +94,10 @@ export default function ConfigureCosmicFrameCard({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-3 text-center text-sm italic leading-relaxed text-text-tertiary"
+          className="mt-3 text-center text-sm leading-relaxed text-text-tertiary italic"
         >
-          On this day, the light you see traveled millions of years to reach Earth
-          — and now it&apos;s yours.
+          On this day, the light you see traveled millions of years to reach
+          Earth — and now it&apos;s yours.
         </motion.p>
       )}
     </GlassCard>

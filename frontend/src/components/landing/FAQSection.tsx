@@ -56,7 +56,7 @@ const FAQSection = () => {
           subtitleClassName="max-w-2xl mx-auto"
         />
 
-        <div className="mt-12 px-6 lg:px-8 mx-auto max-w-3xl">
+        <div className="mx-auto mt-12 max-w-3xl px-6 lg:px-8">
           <Accordion type="single" collapsible>
             {faqs.map((item, i) => (
               <AccordionItem key={item.question} value={`faq-${i}`}>

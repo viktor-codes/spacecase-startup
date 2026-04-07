@@ -97,8 +97,8 @@ const StoriesSection = () => {
           subtitleClassName="max-w-2xl mx-auto"
         />
 
-        <div className="mt-14 px-6 lg:px-8 mx-auto max-w-6xl">
-          <p className="text-xs text-text-tertiary mb-4 md:hidden">
+        <div className="mx-auto mt-14 max-w-6xl px-6 lg:px-8">
+          <p className="mb-4 text-xs text-text-tertiary md:hidden">
             Swipe to explore stories
           </p>
 
@@ -108,18 +108,22 @@ const StoriesSection = () => {
                 {stories.map((story) => (
                   <article
                     key={story.title}
-                    className="group flex min-w-[72%] sm:min-w-[60%] flex-col items-center text-center"
+                    className="group flex min-w-[72%] flex-col items-center text-center sm:min-w-[60%]"
                   >
                     <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
-                      <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
+                      <Phone
+                        className="w-44 md:w-48"
+                        imgSrc={story.imgSrc}
+                        dark
+                      />
                     </div>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                    <p className="font-mono text-[11px] tracking-[0.2em] text-text-tertiary uppercase">
                       {story.dateLabel}
                     </p>
                     <h3 className="mt-1.5 text-base font-semibold text-text-primary">
                       {story.title}
                     </h3>
-                    <p className="mt-1.5 text-sm text-text-secondary max-w-[22ch] mx-auto leading-relaxed">
+                    <p className="mx-auto mt-1.5 max-w-[22ch] text-sm leading-relaxed text-text-secondary">
                       {story.description}
                     </p>
                   </article>
@@ -153,13 +157,13 @@ const StoriesSection = () => {
                 <div className="mb-5 transition-transform duration-300 group-hover:scale-[1.03]">
                   <Phone className="w-44 md:w-48" imgSrc={story.imgSrc} dark />
                 </div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-tertiary">
+                <p className="font-mono text-[11px] tracking-[0.2em] text-text-tertiary uppercase">
                   {story.dateLabel}
                 </p>
                 <h3 className="mt-1.5 text-base font-semibold text-text-primary">
                   {story.title}
                 </h3>
-                <p className="mt-1.5 text-sm text-text-secondary max-w-[22ch] mx-auto leading-relaxed">
+                <p className="mx-auto mt-1.5 max-w-[22ch] text-sm leading-relaxed text-text-secondary">
                   {story.description}
                 </p>
               </article>
