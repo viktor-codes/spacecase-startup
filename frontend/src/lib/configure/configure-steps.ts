@@ -1,3 +1,9 @@
+import {
+  isValidEmail,
+  isValidEirCode,
+  isValidShippingOption,
+} from "@/lib/configure/checkout-validation";
+
 /**
  * Configure upload flow: ordered steps (0..4). Eligibility can drop when NASA
  * image is cleared, but the UI never hides a step once revealed (monotonic).
@@ -46,4 +52,42 @@ export function isStepIndexVisible(
   maxRevealedStepIndex: number,
 ): boolean {
   return stepIndex <= maxRevealedStepIndex;
+}
+
+/** Short labels for progress UI (English; card titles stay in components). */
+export const CONFIGURE_PROGRESS_LABELS: readonly string[] = [
+  "Sky",
+  "Device",
+  "Delivery",
+  "Details",
+  "Order",
+];
+
+export type ConfigureStepCompletionInput = {
+  selectedDate: string;
+  hasApodImage: boolean;
+  deviceModel: string;
+  shipping: string;
+  fullName: string;
+  email: string;
+  eirCode: string;
+  isFullCheckoutValid: boolean;
+};
+
+/**
+ * Per-step completion for the progress indicator (achievement / filled segments).
+ * Order matches {@link CONFIGURE_STEP_IDS}.
+ */
+export function getConfigureStepCompletionFlags(
+  input: ConfigureStepCompletionInput,
+): boolean[] {
+  const sky = Boolean(input.selectedDate.trim()) && input.hasApodImage;
+  const device = Boolean(input.deviceModel.trim());
+  const delivery = isValidShippingOption(input.shipping);
+  const details =
+    input.fullName.trim().length >= 2 &&
+    isValidEmail(input.email) &&
+    isValidEirCode(input.eirCode);
+  const order = input.isFullCheckoutValid;
+  return [sky, device, delivery, details, order];
 }

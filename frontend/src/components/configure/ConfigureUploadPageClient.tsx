@@ -10,6 +10,7 @@ import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureChecko
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
 import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
 import ConfigureOrderSummaryCard from "@/components/configure/ConfigureOrderSummaryCard";
+import ConfigureProgress from "@/components/configure/configure-progress";
 import ConfigureRevealPanel from "@/components/configure/configure-reveal-panel";
 import ConfigureSkyDateCard from "@/components/configure/ConfigureSkyDateCard";
 import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
@@ -27,7 +28,9 @@ import {
   isValidShippingOption,
 } from "@/lib/configure/checkout-validation";
 import {
+  CONFIGURE_PROGRESS_LABELS,
   CONFIGURE_STEP_INDEX,
+  getConfigureStepCompletionFlags,
   getEligibleMaxStepIndex,
   isStepIndexVisible,
 } from "@/lib/configure/configure-steps";
@@ -143,6 +146,30 @@ export default function ConfigureUploadPageClient({
     setMaxRevealedStepIndex((prev) => Math.max(prev, eligibleMaxStepIndex));
   }, [eligibleMaxStepIndex]);
 
+  const stepCompleteFlags = useMemo(
+    () =>
+      getConfigureStepCompletionFlags({
+        selectedDate,
+        hasApodImage: apodImageUrl !== null,
+        deviceModel,
+        shipping,
+        fullName: contactValues.fullName,
+        email: contactValues.email,
+        eirCode: contactValues.eirCode,
+        isFullCheckoutValid: isCheckoutFormValid,
+      }),
+    [
+      selectedDate,
+      apodImageUrl,
+      deviceModel,
+      shipping,
+      contactValues.fullName,
+      contactValues.email,
+      contactValues.eirCode,
+      isCheckoutFormValid,
+    ],
+  );
+
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
     if (apodImageUrl === null) {
@@ -192,8 +219,8 @@ export default function ConfigureUploadPageClient({
     <FormProvider {...form}>
       <div className="min-h-screen">
         <Container className="h-full">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12">
-            <div className="max-w-xl lg:col-span-2">
+          <div className="flex flex-col gap-10">
+            <div className="max-w-xl lg:max-w-none">
               <h1
                 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl"
                 data-testid="configure-page-heading"
@@ -202,12 +229,29 @@ export default function ConfigureUploadPageClient({
               </h1>
             </div>
 
-            <ConfigureUploadHeroColumn
-              syncHighlight={syncHighlight}
-              phoneImageUrl={apodImageUrl}
-            />
+            <div className="lg:hidden">
+              <ConfigureProgress
+                orientation="horizontal"
+                labels={CONFIGURE_PROGRESS_LABELS}
+                stepComplete={stepCompleteFlags}
+              />
+            </div>
 
-            <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">
+              <ConfigureUploadHeroColumn
+                syncHighlight={syncHighlight}
+                phoneImageUrl={apodImageUrl}
+              />
+
+              <div className="hidden min-w-14 self-start pt-2 lg:block">
+                <ConfigureProgress
+                  orientation="vertical"
+                  labels={CONFIGURE_PROGRESS_LABELS}
+                  stepComplete={stepCompleteFlags}
+                />
+              </div>
+
+              <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
               {isStepIndexVisible(
                 CONFIGURE_STEP_INDEX.SKY,
                 maxRevealedStepIndex,
@@ -272,6 +316,7 @@ export default function ConfigureUploadPageClient({
                   />
                 </ConfigureRevealPanel>
               ) : null}
+              </div>
             </div>
           </div>
         </Container>
