@@ -175,6 +175,15 @@ export default function ConfigureUploadPageClient({
       <div className="min-h-screen">
         <Container className="h-full">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12">
+            <div className="max-w-xl lg:col-span-2">
+              <h1
+                className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl"
+                data-testid="configure-page-heading"
+              >
+                Configure Your CosmicCase
+              </h1>
+            </div>
+
             <ConfigureUploadHeroColumn
               syncHighlight={syncHighlight}
               phoneImageUrl={apodImageUrl}
