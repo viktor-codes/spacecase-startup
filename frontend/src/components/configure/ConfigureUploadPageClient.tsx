@@ -10,7 +10,7 @@ import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
-import { fetchApod, type ApodResponse } from "@/lib/api/apodClient";
+import type { ApodResponse } from "@/lib/api/apodClient";
 import {
   createStripeCheckoutSession,
   type CreateStripeCheckoutSessionPayload,
@@ -27,6 +27,7 @@ import {
   isValidEirCode,
   isValidEmail,
 } from "@/lib/configure/checkout-validation";
+import { useSyncedApod } from "@/hooks/useSyncedApod";
 
 type ConfigureUploadPageClientProps = {
   initialDate?: string;
@@ -43,13 +44,8 @@ export default function ConfigureUploadPageClient({
   initialDate,
 }: ConfigureUploadPageClientProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(initialDate ?? "");
-  const [apod, setApod] = useState<ApodResponse | null>(null);
-  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
-  const [syncHighlight, setSyncHighlight] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
@@ -62,7 +58,17 @@ export default function ConfigureUploadPageClient({
   const [eirCode, setEirCode] = useState("");
   const module2Ref = useRef<HTMLDivElement | null>(null);
 
-  const hasImage = apod && apod.media_type === "image" && apod.url;
+  const {
+    selectedDate,
+    setSelectedDate,
+    apod,
+    loading,
+    error,
+    syncHighlight,
+    hasImage,
+    handleSync,
+  } = useSyncedApod({ initialDate, scrollAfterSyncRef: module2Ref });
+
   const isEmailValid = useMemo(() => isValidEmail(email), [email]);
 
   const isEirCodeValid = useMemo(() => isValidEirCode(eirCode), [eirCode]);
@@ -125,12 +131,6 @@ export default function ConfigureUploadPageClient({
   }, []);
 
   useEffect(() => {
-    if (!initialDate) return;
-    void handleSync(initialDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialDate]);
-
-  useEffect(() => {
     if (!isImagePreviewOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -148,45 +148,6 @@ export default function ConfigureUploadPageClient({
       setIsImagePreviewOpen(false);
     }
   }, [hasImage]);
-
-  const handleSync = async (explicitDate?: string) => {
-    const dateToUse = explicitDate ?? selectedDate;
-    if (!dateToUse) {
-      setError("Please select a date to sync your NASA image.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setApod(null);
-
-    try {
-      const data = await fetchApod(dateToUse);
-
-      if (data.media_type !== "image" || !data.url) {
-        setError(
-          "No image available for this date in NASA APOD. Please try another date.",
-        );
-        return;
-      }
-
-      setApod(data);
-      setSyncHighlight(true);
-      setTimeout(() => setSyncHighlight(false), 900);
-      requestAnimationFrame(() => {
-        module2Ref.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      });
-    } catch (e) {
-      setError("Failed to fetch NASA APOD data. Please try again later.");
-
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
