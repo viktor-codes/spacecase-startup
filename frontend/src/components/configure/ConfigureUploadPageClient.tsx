@@ -21,6 +21,12 @@ import {
   SHIPPING_OPTIONS,
   type ShippingOption,
 } from "@/lib/configure/constants";
+import {
+  getConfigureCompletionStep,
+  isConfigureCheckoutComplete,
+  isValidEirCode,
+  isValidEmail,
+} from "@/lib/configure/checkout-validation";
 
 type ConfigureUploadPageClientProps = {
   initialDate?: string;
@@ -57,64 +63,50 @@ export default function ConfigureUploadPageClient({
   const module2Ref = useRef<HTMLDivElement | null>(null);
 
   const hasImage = apod && apod.media_type === "image" && apod.url;
-  const isEmailValid = useMemo(() => {
-    if (!email) return false;
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }, [email]);
+  const isEmailValid = useMemo(() => isValidEmail(email), [email]);
 
-  const isShippingValid = useMemo(() => {
-    return shipping === "standard" || shipping === "express";
-  }, [shipping]);
+  const isEirCodeValid = useMemo(() => isValidEirCode(eirCode), [eirCode]);
 
-  const isEirCodeValid = useMemo(() => {
-    if (!eirCode.trim()) return false;
-    return /^[AC-FHKNPRTV-Y]\d{2}\s?[AC-FHKNPRTV-Y0-9]{4}$/i.test(
-      eirCode.trim(),
-    );
-  }, [eirCode]);
+  const isCheckoutFormValid = useMemo(
+    () =>
+      isConfigureCheckoutComplete({
+        selectedDate,
+        hasImage: Boolean(hasImage),
+        deviceModel,
+        shipping,
+        email,
+        fullName,
+        phone,
+        line1,
+        city,
+        eirCode,
+      }),
+    [
+      selectedDate,
+      hasImage,
+      deviceModel,
+      shipping,
+      email,
+      fullName,
+      phone,
+      line1,
+      city,
+      eirCode,
+    ],
+  );
 
-  const isCheckoutFormValid = useMemo(() => {
-    return (
-      Boolean(selectedDate) &&
-      Boolean(hasImage) &&
-      Boolean(deviceModel) &&
-      isShippingValid &&
-      isEmailValid &&
-      isEirCodeValid &&
-      fullName.trim().length >= 2 &&
-      phone.trim().length >= 5 &&
-      line1.trim().length >= 2 &&
-      city.trim().length >= 2
-    );
-  }, [
-    selectedDate,
-    hasImage,
-    deviceModel,
-    isShippingValid,
-    isEmailValid,
-    isEirCodeValid,
-    fullName,
-    phone,
-    line1,
-    city,
-  ]);
-
-  const completionStep = useMemo(() => {
-    let completed = 0;
-    if (selectedDate) completed += 1;
-    if (hasImage) completed += 1;
-    if (deviceModel) completed += 1;
-    if (fullName.trim().length >= 2 && isEmailValid && isEirCodeValid)
-      completed += 1;
-    return completed;
-  }, [
-    selectedDate,
-    hasImage,
-    deviceModel,
-    fullName,
-    isEmailValid,
-    isEirCodeValid,
-  ]);
+  const completionStep = useMemo(
+    () =>
+      getConfigureCompletionStep({
+        selectedDate,
+        hasImage: Boolean(hasImage),
+        deviceModel,
+        fullName,
+        email,
+        eirCode,
+      }),
+    [selectedDate, hasImage, deviceModel, fullName, email, eirCode],
+  );
 
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
   const formatEur = useMemo(() => {
