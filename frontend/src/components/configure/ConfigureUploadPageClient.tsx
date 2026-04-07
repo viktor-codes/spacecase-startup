@@ -15,6 +15,12 @@ import {
   createStripeCheckoutSession,
   type CreateStripeCheckoutSessionPayload,
 } from "@/lib/api/ordersClient";
+import {
+  PHONE_MODEL_GROUPS,
+  PHONE_MODELS,
+  SHIPPING_OPTIONS,
+  type ShippingOption,
+} from "@/lib/configure/constants";
 
 type ConfigureUploadPageClientProps = {
   initialDate?: string;
@@ -26,123 +32,6 @@ const SpaceDateScanner = dynamic(
     ssr: false,
   },
 );
-
-type ShippingOption = "standard" | "express";
-
-const SHIPPING_OPTIONS: Record<
-  ShippingOption,
-  { label: string; price: number; description: string; delivery: string }
-> = {
-  standard: {
-    label: "Standard Delivery",
-    price: 39,
-    description: "Tracked postal service",
-    delivery: "7–12 business days",
-  },
-  express: {
-    label: "Priority Galactic Launch",
-    price: 49,
-    description: "DHL/DPD tracked courier · Priority processing",
-    delivery: "2–4 business days",
-  },
-};
-
-const PHONE_MODELS: string[] = [
-  "iPhone 16 Pro Max",
-  "iPhone 16 Pro",
-  "iPhone 16",
-  "iPhone 15 Pro Max",
-  "iPhone 15 Pro",
-  "iPhone 15 Plus",
-  "iPhone 15",
-  "iPhone 14 Pro Max",
-  "iPhone 14 Pro",
-  "iPhone 14 Plus",
-  "iPhone 14",
-  "iPhone 13 Pro Max",
-  "iPhone 13 Pro",
-  "iPhone 13 mini",
-  "iPhone 13",
-  "iPhone 12 Pro Max",
-  "iPhone 12 Pro",
-  "iPhone 12 mini",
-  "iPhone 12",
-  "iPhone 11 Pro Max",
-  "iPhone 11 Pro",
-  "iPhone 11",
-  "iPhone SE (3rd gen)",
-  "iPhone SE (2nd gen)",
-  "Samsung Galaxy S24 Ultra",
-  "Samsung Galaxy S24+",
-  "Samsung Galaxy S24",
-  "Samsung Galaxy S23 Ultra",
-  "Samsung Galaxy S23+",
-  "Samsung Galaxy S23",
-  "Samsung Galaxy S22 Ultra",
-  "Samsung Galaxy S22+",
-  "Samsung Galaxy S22",
-  "Samsung Galaxy S21 Ultra",
-  "Samsung Galaxy S21+",
-  "Samsung Galaxy S21",
-  "Google Pixel 9 Pro",
-  "Google Pixel 9",
-  "Google Pixel 8 Pro",
-  "Google Pixel 8",
-  "Google Pixel 7 Pro",
-  "Google Pixel 7",
-  "Google Pixel 6 Pro",
-  "Google Pixel 6",
-  "Nothing Phone (2a)",
-  "Nothing Phone (2)",
-  "Nothing Phone (1)",
-  "OnePlus 12",
-  "OnePlus 11",
-  "OnePlus 10 Pro",
-  "Huawei P60 Pro",
-  "Huawei P50 Pro",
-  "Xiaomi 14 Pro",
-  "Xiaomi 14",
-  "Xiaomi 13 Pro",
-  "Xiaomi 13",
-  "Sony Xperia 1 V",
-  "Sony Xperia 5 V",
-  "Sony Xperia 10 V",
-];
-
-const PHONE_MODEL_GROUPS: { label: string; models: string[] }[] = [
-  {
-    label: "Apple iPhone",
-    models: PHONE_MODELS.filter((model) => model.startsWith("iPhone")),
-  },
-  {
-    label: "Samsung Galaxy",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Samsung")),
-  },
-  {
-    label: "Google Pixel",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Google")),
-  },
-  {
-    label: "Nothing",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Nothing")),
-  },
-  {
-    label: "OnePlus",
-    models: PHONE_MODELS.filter((model) => model.startsWith("OnePlus")),
-  },
-  {
-    label: "Huawei",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Huawei")),
-  },
-  {
-    label: "Xiaomi",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Xiaomi")),
-  },
-  {
-    label: "Sony Xperia",
-    models: PHONE_MODELS.filter((model) => model.startsWith("Sony")),
-  },
-];
 
 export default function ConfigureUploadPageClient({
   initialDate,

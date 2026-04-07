@@ -18,13 +18,13 @@ export default function Logo({
   return (
     <span className={cn("select-none flex items-center gap-2", className)}>
       <span className="leading-none flex items-center">
-        <Image
+        {/* <Image
           src="/cosmiccase-logo.svg"
           alt="CosmicCase"
           width={iconSize}
           height={iconSize}
           className={cn("inline-block shrink-0", iconClassName)}
-        />
+        /> */}
       </span>
 
       <span
