@@ -10,6 +10,7 @@ import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureChecko
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
 import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
 import ConfigureOrderSummaryCard from "@/components/configure/ConfigureOrderSummaryCard";
+import ConfigureRevealPanel from "@/components/configure/configure-reveal-panel";
 import ConfigureSkyDateCard from "@/components/configure/ConfigureSkyDateCard";
 import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
 import {
@@ -25,6 +26,11 @@ import {
   getConfigureCompletionStep,
   isValidShippingOption,
 } from "@/lib/configure/checkout-validation";
+import {
+  CONFIGURE_STEP_INDEX,
+  getEligibleMaxStepIndex,
+  isStepIndexVisible,
+} from "@/lib/configure/configure-steps";
 import {
   configureContactFormSchema,
   type ConfigureContactFormValues,
@@ -44,6 +50,10 @@ export default function ConfigureUploadPageClient({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
+  /** Monotonic: never decreases when date or device changes; only grows with eligibility. */
+  const [maxRevealedStepIndex, setMaxRevealedStepIndex] = useState<number>(
+    CONFIGURE_STEP_INDEX.DELIVERY,
+  );
   const module2Ref = useRef<HTMLDivElement | null>(null);
 
   const form = useForm<ConfigureContactFormValues>({
@@ -124,6 +134,15 @@ export default function ConfigureUploadPageClient({
     setIsMounted(true);
   }, []);
 
+  const eligibleMaxStepIndex = useMemo(
+    () => getEligibleMaxStepIndex({ hasApodImage: apodImageUrl !== null }),
+    [apodImageUrl],
+  );
+
+  useEffect(() => {
+    setMaxRevealedStepIndex((prev) => Math.max(prev, eligibleMaxStepIndex));
+  }, [eligibleMaxStepIndex]);
+
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
     if (apodImageUrl === null) {
@@ -189,43 +208,70 @@ export default function ConfigureUploadPageClient({
             />
 
             <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
-              <ConfigureSkyDateCard
-                ref={module2Ref}
-                selectedDate={selectedDate}
-                onSelectedDateChange={setSelectedDate}
-                loading={loading}
-                error={error}
-                onSync={() => void handleSync()}
-                thumbnailUrl={apodImageUrl}
-                apod={apod}
-                onOpenImagePreview={() => setIsImagePreviewOpen(true)}
-              />
+              {isStepIndexVisible(
+                CONFIGURE_STEP_INDEX.SKY,
+                maxRevealedStepIndex,
+              ) ? (
+                <ConfigureSkyDateCard
+                  ref={module2Ref}
+                  selectedDate={selectedDate}
+                  onSelectedDateChange={setSelectedDate}
+                  loading={loading}
+                  error={error}
+                  onSync={() => void handleSync()}
+                  thumbnailUrl={apodImageUrl}
+                  apod={apod}
+                  onOpenImagePreview={() => setIsImagePreviewOpen(true)}
+                />
+              ) : null}
 
-              <ConfigureDeviceCard
-                deviceModel={deviceModel}
-                onDeviceModelChange={setDeviceModel}
-              />
+              {isStepIndexVisible(
+                CONFIGURE_STEP_INDEX.DEVICE,
+                maxRevealedStepIndex,
+              ) ? (
+                <ConfigureDeviceCard
+                  deviceModel={deviceModel}
+                  onDeviceModelChange={setDeviceModel}
+                />
+              ) : null}
 
-              <ConfigureDeliveryCard
-                shipping={shipping}
-                onShippingChange={setShipping}
-                formatEur={formatEur}
-              />
+              {isStepIndexVisible(
+                CONFIGURE_STEP_INDEX.DELIVERY,
+                maxRevealedStepIndex,
+              ) ? (
+                <ConfigureDeliveryCard
+                  shipping={shipping}
+                  onShippingChange={setShipping}
+                  formatEur={formatEur}
+                />
+              ) : null}
 
-              {apodImageUrl !== null && (
-                <ConfigureCheckoutDetailsCard submitError={submitError} />
-              )}
+              {isStepIndexVisible(
+                CONFIGURE_STEP_INDEX.DETAILS,
+                maxRevealedStepIndex,
+              ) ? (
+                <ConfigureRevealPanel>
+                  <ConfigureCheckoutDetailsCard submitError={submitError} />
+                </ConfigureRevealPanel>
+              ) : null}
 
-              <ConfigureOrderSummaryCard
-                deviceModel={deviceModel}
-                selectedDate={selectedDate}
-                shipping={shipping}
-                formattedPrice={formattedPrice}
-                isCheckoutFormValid={isCheckoutFormValid}
-                completionStep={completionStep}
-                isSubmitting={isSubmitting}
-                onLaunch={() => void handleLaunch()}
-              />
+              {isStepIndexVisible(
+                CONFIGURE_STEP_INDEX.SUMMARY,
+                maxRevealedStepIndex,
+              ) ? (
+                <ConfigureRevealPanel>
+                  <ConfigureOrderSummaryCard
+                    deviceModel={deviceModel}
+                    selectedDate={selectedDate}
+                    shipping={shipping}
+                    formattedPrice={formattedPrice}
+                    isCheckoutFormValid={isCheckoutFormValid}
+                    completionStep={completionStep}
+                    isSubmitting={isSubmitting}
+                    onLaunch={() => void handleLaunch()}
+                  />
+                </ConfigureRevealPanel>
+              ) : null}
             </div>
           </div>
         </Container>
