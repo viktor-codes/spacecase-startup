@@ -7,21 +7,17 @@ import { Check } from "lucide-react";
 import Container from "@/components/Container";
 import ConfigureCosmicFrameCard from "@/components/configure/ConfigureCosmicFrameCard";
 import ConfigureDateScannerCard from "@/components/configure/ConfigureDateScannerCard";
+import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
+import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
 import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
-import { cn } from "@/lib/utils";
 import type { ApodResponse } from "@/lib/api/apodClient";
 import {
   createStripeCheckoutSession,
   type CreateStripeCheckoutSessionPayload,
 } from "@/lib/api/ordersClient";
-import {
-  PHONE_MODEL_GROUPS,
-  PHONE_MODELS,
-  SHIPPING_OPTIONS,
-  type ShippingOption,
-} from "@/lib/configure/constants";
+import { PHONE_MODELS, SHIPPING_OPTIONS, type ShippingOption } from "@/lib/configure/constants";
 import {
   getConfigureCompletionStep,
   isConfigureCheckoutComplete,
@@ -203,110 +199,16 @@ export default function ConfigureUploadPageClient({
               onOpenImagePreview={() => setIsImagePreviewOpen(true)}
             />
 
-            {/* Module 3: Device configuration */}
-            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-              <div className="flex items-center justify-between">
-                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
-                  03 · Device configuration
-                </h2>
-              </div>
+            <ConfigureDeviceCard
+              deviceModel={deviceModel}
+              onDeviceModelChange={setDeviceModel}
+            />
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="device-model"
-                  className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                >
-                  Device Model
-                </label>
-                <div
-                  className={cn(
-                    "relative mt-1 flex items-center justify-between rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 text-sm text-text-primary",
-                    "focus-within:border-(--border-vivid) focus-within:ring-1 focus-within:ring-brand-pink/30",
-                  )}
-                >
-                  <select
-                    id="device-model"
-                    value={deviceModel}
-                    onChange={(event) => setDeviceModel(event.target.value)}
-                    className="w-full appearance-none border-none bg-transparent font-mono text-sm text-text-primary outline-none"
-                  >
-                    {PHONE_MODEL_GROUPS.map((group) => (
-                      <optgroup key={group.label} label={group.label}>
-                        {group.models.map((model) => (
-                          <option
-                            key={model}
-                            value={model}
-                            className="bg-surface-overlay text-text-primary"
-                          >
-                            {model}
-                          </option>
-                        ))}
-                      </optgroup>
-                    ))}
-                  </select>
-                  <span className="pointer-events-none ml-3 font-mono text-xs text-text-tertiary">
-                    ▼
-                  </span>
-                </div>
-              </div>
-            </GlassCard>
-
-            {/* Module 4: Delivery options */}
-            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
-                04 · Delivery
-              </h2>
-
-              <div className="space-y-3">
-                {(
-                  Object.entries(SHIPPING_OPTIONS) as [
-                    ShippingOption,
-                    (typeof SHIPPING_OPTIONS)[ShippingOption],
-                  ][]
-                ).map(([key, option]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setShipping(key)}
-                    className={cn(
-                      "flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
-                      shipping === key
-                        ? "border-(--border-vivid) bg-brand-pink/10 ring-1 ring-brand-pink/20"
-                        : "border-(--border-default) hover:border-brand-pink/40",
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
-                        shipping === key
-                          ? "border-brand-pink bg-brand-pink"
-                          : "border-(--border-default)",
-                      )}
-                    >
-                      {shipping === key && (
-                        <div className="h-1.5 w-1.5 rounded-full bg-white" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-baseline justify-between">
-                        <p className="font-mono text-sm font-semibold text-text-primary">
-                          {option.label}
-                        </p>
-                        <p className="font-mono text-sm font-semibold text-text-primary">
-                          {formatEur(option.price)}
-                        </p>
-                      </div>
-                      <p className="mt-0.5 font-mono text-[11px] text-text-tertiary">
-                        {option.description}
-                      </p>
-                      <p className="font-mono text-[11px] text-text-tertiary">
-                        {option.delivery}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </GlassCard>
+            <ConfigureDeliveryCard
+              shipping={shipping}
+              onShippingChange={setShipping}
+              formatEur={formatEur}
+            />
 
             {/* Module 5: Your details */}
             {hasImage && (
