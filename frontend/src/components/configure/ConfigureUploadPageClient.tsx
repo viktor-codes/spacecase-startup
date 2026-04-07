@@ -396,6 +396,7 @@ export default function ConfigureUploadPageClient({
                 <div className="pb-8">
                   <ConfigureCardsCarousel
                     slides={configureSlides}
+                    stepLabels={CONFIGURE_PROGRESS_LABELS}
                     onActiveStepIndexChange={setMobileCarouselStepIndex}
                   />
                 </div>
