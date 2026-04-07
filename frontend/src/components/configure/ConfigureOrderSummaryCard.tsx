@@ -87,6 +87,7 @@ export default function ConfigureOrderSummaryCard({
         size="lg"
         className="mt-3 w-full font-mono text-xs tracking-[0.25em] uppercase"
         disabled={!isCheckoutFormValid || isSubmitting}
+        data-testid="configure-launch-checkout"
         onClick={() => void onLaunch()}
       >
         {isSubmitting ? "Redirecting to payment..." : "Launch My CosmicCase"}

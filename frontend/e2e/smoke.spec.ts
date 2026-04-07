@@ -11,9 +11,8 @@ test.describe("critical paths", () => {
 
   test("configure page loads", async ({ page }) => {
     await page.goto("/configure/upload");
-    await expect(
-      page.getByRole("heading", { name: /Configure Your CosmicCase/i }),
-    ).toBeVisible();
+    await expect(page.getByTestId("configure-page-heading")).toBeVisible();
+    await expect(page.getByTestId("configure-sync-nasa")).toBeVisible();
   });
 
   test("try-now anchor navigates from hero", async ({ page }) => {

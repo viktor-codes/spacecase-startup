@@ -45,6 +45,7 @@ const ConfigureDateScannerCard = forwardRef<
           variant="space"
           className="font-mono text-[11px] tracking-[0.25em] uppercase"
           disabled={loading}
+          data-testid="configure-sync-nasa"
           onClick={() => void onSync()}
         >
           {loading ? "Syncing..." : "Sync with NASA"}

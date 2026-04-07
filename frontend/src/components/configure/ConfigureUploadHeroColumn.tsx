@@ -16,7 +16,10 @@ export default function ConfigureUploadHeroColumn({
   return (
     <div className="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
       <div className="max-w-xl">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl">
+        <h1
+          className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl"
+          data-testid="configure-page-heading"
+        >
           Configure Your CosmicCase
         </h1>
       </div>
