@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Check } from "lucide-react";
 
 import Container from "@/components/Container";
+import ConfigureApodImagePreviewModal from "@/components/configure/ConfigureApodImagePreviewModal";
+import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureCheckoutDetailsCard";
 import ConfigureCosmicFrameCard from "@/components/configure/ConfigureCosmicFrameCard";
 import ConfigureDateScannerCard from "@/components/configure/ConfigureDateScannerCard";
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
 import ConfigureDeviceCard from "@/components/configure/ConfigureDeviceCard";
+import ConfigureOrderSummaryCard from "@/components/configure/ConfigureOrderSummaryCard";
 import ConfigureUploadHeroColumn from "@/components/configure/ConfigureUploadHeroColumn";
-import { Button } from "@/components/ui/button";
-import { GlassCard } from "@/components/ui/glass-card";
-import type { ApodResponse } from "@/lib/api/apodClient";
 import {
   createStripeCheckoutSession,
   type CreateStripeCheckoutSessionPayload,
@@ -210,262 +208,48 @@ export default function ConfigureUploadPageClient({
               formatEur={formatEur}
             />
 
-            {/* Module 5: Your details */}
             {hasImage && (
-              <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-                <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
-                  05 · Your details
-                </h2>
-
-                <div className="space-y-3">
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="fullName"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                    >
-                      Full name
-                    </label>
-                    <input
-                      id="fullName"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="name"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="email"
-                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                      >
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                        autoComplete="email"
-                        inputMode="email"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="phone"
-                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                      >
-                        Phone
-                      </label>
-                      <input
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                        autoComplete="tel"
-                        inputMode="tel"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="line1"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                    >
-                      Address line 1
-                    </label>
-                    <input
-                      id="line1"
-                      value={line1}
-                      onChange={(e) => setLine1(e.target.value)}
-                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="address-line1"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="line2"
-                      className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                    >
-                      Address line 2 (optional)
-                    </label>
-                    <input
-                      id="line2"
-                      value={line2}
-                      onChange={(e) => setLine2(e.target.value)}
-                      className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                      autoComplete="address-line2"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="city"
-                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                      >
-                        City
-                      </label>
-                      <input
-                        id="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                        autoComplete="address-level2"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="eirCode"
-                        className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary"
-                      >
-                        Eircode
-                      </label>
-                      <input
-                        id="eirCode"
-                        value={eirCode}
-                        onChange={(e) => setEirCode(e.target.value)}
-                        className="w-full rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-3 font-mono text-sm text-text-primary outline-none focus:border-(--border-vivid) focus:ring-1 focus:ring-brand-pink/30"
-                        autoComplete="postal-code"
-                      />
-                    </div>
-                  </div>
-
-                  {!isEmailValid && email.trim().length > 0 && (
-                    <p className="font-mono text-xs text-red-500">
-                      Please enter a valid email address.
-                    </p>
-                  )}
-                  {!isEirCodeValid && eirCode.trim().length > 0 && (
-                    <p className="font-mono text-xs text-red-500">
-                      Enter a valid Eircode (e.g. A65 F4E2).
-                    </p>
-                  )}
-                </div>
-
-                {submitError && (
-                  <p className="mt-1 font-mono text-xs text-red-500">
-                    {submitError}
-                  </p>
-                )}
-              </GlassCard>
+              <ConfigureCheckoutDetailsCard
+                fullName={fullName}
+                onFullNameChange={setFullName}
+                email={email}
+                onEmailChange={setEmail}
+                phone={phone}
+                onPhoneChange={setPhone}
+                line1={line1}
+                onLine1Change={setLine1}
+                line2={line2}
+                onLine2Change={setLine2}
+                city={city}
+                onCityChange={setCity}
+                eirCode={eirCode}
+                onEirCodeChange={setEirCode}
+                isEmailValid={isEmailValid}
+                isEirCodeValid={isEirCodeValid}
+                submitError={submitError}
+              />
             )}
 
-            {/* Module 6: Order summary */}
-            <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
-                    06 · Order summary
-                  </p>
-                  <p className="font-mono text-sm text-text-primary">
-                    {deviceModel || "Select your device"}
-                  </p>
-                  {selectedDate && (
-                    <p className="font-mono text-[11px] text-text-secondary">
-                      Date synced: {selectedDate}
-                    </p>
-                  )}
-                  <p className="font-mono text-[11px] text-text-secondary">
-                    Shipping: {SHIPPING_OPTIONS[shipping].label}
-                  </p>
-                </div>
-
-                <div className="text-right">
-                  <p className="font-mono text-xs uppercase tracking-[0.25em] text-text-secondary">
-                    Total
-                  </p>
-                  <p className="text-2xl font-semibold text-text-primary">
-                    {formattedPrice}
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-1.5 border-t border-(--border-default) pt-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
-                  What&apos;s included
-                </p>
-                {[
-                  "NASA APOD image for your exact date",
-                  "AI reconstruction to 300+ DPI",
-                  "Dual-layer Tough case (PC + TPU)",
-                  "Full-wrap edge-to-edge print",
-                  "Fade-resistant UV ink",
-                  SHIPPING_OPTIONS[shipping].label,
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <Check className="h-3 w-3 shrink-0 text-brand" />
-                    <span className="font-mono text-[11px] text-text-secondary">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                type="button"
-                variant="space"
-                size="lg"
-                className="mt-3 w-full font-mono text-xs uppercase tracking-[0.25em]"
-                disabled={!isCheckoutFormValid || isSubmitting}
-                onClick={() => void handleLaunch()}
-              >
-                {isSubmitting
-                  ? "Redirecting to payment..."
-                  : "Launch My CosmicCase"}
-              </Button>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-tertiary">
-                {isCheckoutFormValid
-                  ? "Ready to launch"
-                  : `Complete ${completionStep}/4 steps to continue`}
-              </p>
-            </GlassCard>
+            <ConfigureOrderSummaryCard
+              deviceModel={deviceModel}
+              selectedDate={selectedDate}
+              shipping={shipping}
+              formattedPrice={formattedPrice}
+              isCheckoutFormValid={isCheckoutFormValid}
+              completionStep={completionStep}
+              isSubmitting={isSubmitting}
+              onLaunch={() => void handleLaunch()}
+            />
           </div>
         </div>
       </Container>
 
-      <AnimatePresence>
-        {isImagePreviewOpen && hasImage && (
-          <motion.div
-            className="fixed inset-0 z-(--z-overlay) flex items-center justify-center bg-black/80 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsImagePreviewOpen(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-5xl"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={() => setIsImagePreviewOpen(false)}
-                className="absolute -top-10 right-0 text-text-secondary hover:text-text-primary text-sm font-mono uppercase tracking-[0.2em]"
-                aria-label="Close image preview"
-              >
-                Close
-              </button>
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-(--border-default) bg-surface-overlay">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={(apod as ApodResponse).url}
-                  alt={(apod as ApodResponse).title}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ConfigureApodImagePreviewModal
+        isOpen={isImagePreviewOpen}
+        imageUrl={typeof hasImage === "string" ? hasImage : null}
+        imageTitle={apod?.title ?? "NASA APOD"}
+        onClose={() => setIsImagePreviewOpen(false)}
+      />
     </div>
   );
 }
