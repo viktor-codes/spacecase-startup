@@ -27,6 +27,7 @@ import {
   isValidEirCode,
   isValidEmail,
 } from "@/lib/configure/checkout-validation";
+import { useImagePreviewModal } from "@/hooks/useImagePreviewModal";
 import { useSyncedApod } from "@/hooks/useSyncedApod";
 
 type ConfigureUploadPageClientProps = {
@@ -45,7 +46,6 @@ export default function ConfigureUploadPageClient({
 }: ConfigureUploadPageClientProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
@@ -68,6 +68,10 @@ export default function ConfigureUploadPageClient({
     hasImage,
     handleSync,
   } = useSyncedApod({ initialDate, scrollAfterSyncRef: module2Ref });
+
+  const { isImagePreviewOpen, setIsImagePreviewOpen } = useImagePreviewModal(
+    Boolean(hasImage),
+  );
 
   const isEmailValid = useMemo(() => isValidEmail(email), [email]);
 
@@ -129,25 +133,6 @@ export default function ConfigureUploadPageClient({
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!isImagePreviewOpen) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsImagePreviewOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isImagePreviewOpen]);
-
-  useEffect(() => {
-    if (!hasImage) {
-      setIsImagePreviewOpen(false);
-    }
-  }, [hasImage]);
 
   const handleLaunch = async () => {
     if (!isCheckoutFormValid) return;
