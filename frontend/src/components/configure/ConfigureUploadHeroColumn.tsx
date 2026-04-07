@@ -26,7 +26,7 @@ export default function ConfigureUploadHeroColumn({
 
       <div
         className={cn(
-          "relative flex max-w-[280px] items-center justify-center md:max-w-sm",
+          "relative flex w-full max-w-[280px] items-center justify-center self-center md:max-w-sm lg:self-start",
           syncHighlight && "animate-pulse",
         )}
       >

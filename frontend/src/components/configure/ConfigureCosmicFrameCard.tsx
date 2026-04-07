@@ -62,7 +62,7 @@ export default function ConfigureCosmicFrameCard({
           </button>
         ) : loading ? (
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
-            <div className="h-full w-full animate-pulse bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
+            <div className="h-full w-full animate-pulse bg-linear-to-br from-white/10 via-white/5 to-transparent" />
           </div>
         ) : (
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
