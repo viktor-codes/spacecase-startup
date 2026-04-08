@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import Container from "@/components/Container";
@@ -64,6 +64,10 @@ export default function ConfigureUploadPageClient({
   const [mobileCarouselStepIndex, setMobileCarouselStepIndex] =
     useState<number>(CONFIGURE_STEP_INDEX.SKY);
   const isLg = useMinWidthLg();
+  const heroColumnRef = useRef<HTMLDivElement | null>(null);
+  const [heroColumnHeightPx, setHeroColumnHeightPx] = useState<number | null>(
+    null,
+  );
 
   const form = useForm<ConfigureContactFormValues>({
     resolver: zodResolver(configureContactFormSchema),
@@ -369,6 +373,28 @@ export default function ConfigureUploadPageClient({
   ]);
 
   useEffect(() => {
+    if (isLg !== true) {
+      setHeroColumnHeightPx(null);
+      return;
+    }
+
+    const el = heroColumnRef.current;
+    if (!el) return;
+
+    const apply = () => {
+      const h = el.getBoundingClientRect().height;
+      if (h > 0) setHeroColumnHeightPx(Math.round(h));
+    };
+
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+    };
+  }, [isLg, apodImageUrl, configureSlides.length]);
+
+  useEffect(() => {
     if (configureSlides.length === 0) return;
     setMobileCarouselStepIndex((prev) => {
       const visible = new Set(configureSlides.map((s) => s.stepIndex));
@@ -397,6 +423,7 @@ export default function ConfigureUploadPageClient({
 
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">
               <ConfigureUploadHeroColumn
+                ref={heroColumnRef}
                 syncHighlight={syncHighlight}
                 phoneImageUrl={apodImageUrl}
               />
@@ -411,7 +438,14 @@ export default function ConfigureUploadPageClient({
                 />
               </div>
 
-              <div className="hidden min-w-14 self-start pt-2 lg:block">
+              <div
+                className="hidden min-w-14 self-start pt-2 lg:flex lg:flex-col lg:items-center lg:justify-center lg:self-start lg:pt-0"
+                style={
+                  isLg === true && heroColumnHeightPx !== null
+                    ? { minHeight: heroColumnHeightPx }
+                    : undefined
+                }
+              >
                 <ConfigureProgress
                   dataTestId="configure-progress-desktop"
                   orientation="vertical"
@@ -422,7 +456,17 @@ export default function ConfigureUploadPageClient({
               </div>
 
               {isLg === true ? (
-                <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
+                <div
+                  className="flex min-h-0 flex-col gap-6 overflow-y-auto pb-8 lg:pr-2"
+                  style={
+                    heroColumnHeightPx !== null
+                      ? {
+                          height: heroColumnHeightPx,
+                          maxHeight: heroColumnHeightPx,
+                        }
+                      : undefined
+                  }
+                >
                   {configureSlides.map((slide) => (
                     <motion.div
                       key={slide.stepIndex}

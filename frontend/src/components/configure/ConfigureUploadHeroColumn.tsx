@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef } from "react";
 
 import Phone from "@/components/Phone";
 import { cn } from "@/lib/utils";
@@ -9,12 +10,15 @@ export type ConfigureUploadHeroColumnProps = {
   phoneImageUrl: string | null;
 };
 
-export default function ConfigureUploadHeroColumn({
-  syncHighlight,
-  phoneImageUrl,
-}: ConfigureUploadHeroColumnProps) {
+const ConfigureUploadHeroColumn = forwardRef<
+  HTMLDivElement,
+  ConfigureUploadHeroColumnProps
+>(function ConfigureUploadHeroColumn({ syncHighlight, phoneImageUrl }, ref) {
   return (
-    <div className="flex flex-col lg:sticky lg:top-24 lg:self-start">
+    <div
+      ref={ref}
+      className="flex flex-col lg:sticky lg:top-24 lg:self-start"
+    >
       <div
         className={cn(
           "relative flex w-full max-w-[280px] items-center justify-center self-center md:max-w-sm lg:self-start",
@@ -41,4 +45,8 @@ export default function ConfigureUploadHeroColumn({
       </div>
     </div>
   );
-}
+});
+
+ConfigureUploadHeroColumn.displayName = "ConfigureUploadHeroColumn";
+
+export default ConfigureUploadHeroColumn;
