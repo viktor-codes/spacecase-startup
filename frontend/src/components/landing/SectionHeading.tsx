@@ -65,6 +65,7 @@ export default function SectionHeading({
           isHeroH1
             ? "text-[clamp(3.5rem,8vw,6rem)]"
             : "text-[clamp(2.5rem,5vw,4.5rem)]",
+          titleClassName,
         )}
       >
         {title}

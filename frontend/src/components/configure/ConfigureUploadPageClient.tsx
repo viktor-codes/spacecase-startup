@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import Container from "@/components/Container";
+import SectionHeading from "@/components/landing/SectionHeading";
 import ConfigureApodImagePreviewModal from "@/components/configure/ConfigureApodImagePreviewModal";
 import ConfigureCheckoutDetailsCard from "@/components/configure/ConfigureCheckoutDetailsCard";
 import ConfigureDeliveryCard from "@/components/configure/ConfigureDeliveryCard";
@@ -431,22 +432,31 @@ export default function ConfigureUploadPageClient({
   return (
     <FormProvider {...form}>
       <div className="min-h-screen">
-        <Container className="h-full">
+        <Container className="mt-20 h-full">
           <div className="flex flex-col gap-10">
-            <div className="max-w-2xl space-y-3 lg:max-w-none">
-              <h1
-                className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl"
-                data-testid="configure-page-heading"
-              >
-                Design your CosmicCase
-              </h1>
-              <p className="text-sm leading-relaxed text-text-secondary md:text-base">
-                Pick your sky, your iPhone model, and where we ship — no account
-                needed. You&apos;ll finish payment on Stripe&apos;s secure page.
-              </p>
-            </div>
+            <SectionHeading
+              align="center"
+              className="px-0 lg:px-0"
+              containerClassName="max-w-2xl lg:max-w-none"
+              kicker="CREATE MODE"
+              subtitle={
+                <>
+                  Pick your sky, your iPhone model, and where we ship — no
+                  account needed. You&apos;ll finish payment on Stripe&apos;s
+                  secure page.
+                </>
+              }
+              subtitleClassName="mx-auto max-w-md leading-relaxed text-balance md:leading-loose lg:max-w-lg"
+              title={
+                <span data-testid="configure-page-heading">
+                  Design your CosmicCase
+                </span>
+              }
+              titleAs="h1"
+              titleClassName="mx-0 max-w-xl text-[clamp(2.5rem,5vw,3.5rem)] lg:max-w-none"
+            />
 
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">
+            <div className="my-15 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">
               <ConfigureUploadHeroColumn
                 ref={heroColumnRef}
                 syncHighlight={syncHighlight}
