@@ -10,7 +10,8 @@ services:
       POSTGRES_PASSWORD: cosmiccase_dev
       POSTGRES_DB: cosmiccase
     ports:
-      - "5432:5432"
+      # Host 5433 if something else already uses 5432 (e.g. local Postgres.app)
+      - "5433:5432"
     volumes:
       - cosmiccase_pgdata:/var/lib/postgresql/data
     healthcheck:
