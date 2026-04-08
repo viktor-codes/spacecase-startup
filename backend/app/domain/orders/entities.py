@@ -39,4 +39,7 @@ class Order:
 
     # SHA-256 hex of secret shown only in Stripe success redirect URL
     view_token_hash: str | None = None
+    # Raw secret (server-only): same as token in success URL; used for post-payment email link.
+    # Never expose in public API responses.
+    view_token_secret: str | None = None
 

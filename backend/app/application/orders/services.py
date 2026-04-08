@@ -12,6 +12,9 @@ from app.infrastructure.security.order_view_token import (
     generate_view_token_pair,
     verify_view_token,
 )
+from app.infrastructure.email.order_paid_notification import (
+    send_order_paid_email_if_configured,
+)
 from app.infrastructure.stripe.stripe_provider import StripeProvider
 
 
@@ -123,6 +126,7 @@ class CreateStripeCheckoutSessionService:
             shipping_country=address.country,
             stripe_checkout_session_id=None,
             view_token_hash=view_token_hash,
+            view_token_secret=view_token,
         )
 
         order = await self._order_repository.create_pending_payment(order)
@@ -151,14 +155,20 @@ class HandleStripeCheckoutCompletedService:
         *,
         order_repository: OrderRepository,
         stripe_provider: StripeProvider,
+        settings=None,
     ) -> None:
         self._order_repository = order_repository
         self._stripe_provider = stripe_provider
+        self._settings = settings or get_settings()
 
     async def execute(self, *, order_id: str, stripe_session_id: str) -> None:
         await self._order_repository.mark_paid(
             order_id, stripe_checkout_session_id=stripe_session_id
         )
+        order = await self._order_repository.get_by_id(order_id)
+        if order is None:
+            return
+        await send_order_paid_email_if_configured(order=order, settings=self._settings)
 
 
 class GetOrderService:

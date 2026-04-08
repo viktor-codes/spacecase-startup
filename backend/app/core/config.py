@@ -72,6 +72,9 @@ class Settings(BaseSettings):
         description="Optional Sentry DSN for error monitoring.",
     )
 
+    # Transactional email (Resend — https://resend.com)
+    resend_api_key: str = Field(default="", alias="RESEND_API_KEY")
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

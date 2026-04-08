@@ -37,6 +37,7 @@ class SqlAlchemyOrderRepository(OrderRepository):
             shipping_country=order.shipping_country,
             stripe_checkout_session_id=order.stripe_checkout_session_id,
             view_token_hash=order.view_token_hash,
+            view_token_secret=order.view_token_secret,
             created_at=order.created_at,
             updated_at=order.updated_at,
         )
@@ -80,6 +81,7 @@ class SqlAlchemyOrderRepository(OrderRepository):
             shipping_country=model.shipping_country,
             stripe_checkout_session_id=model.stripe_checkout_session_id,
             view_token_hash=model.view_token_hash,
+            view_token_secret=model.view_token_secret,
         )
 
     async def set_stripe_checkout_session_id(

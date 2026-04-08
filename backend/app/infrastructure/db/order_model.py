@@ -57,4 +57,5 @@ class OrderModel(Base):
     )
 
     view_token_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    view_token_secret: Mapped[str | None] = mapped_column(String(256), nullable=True)
 

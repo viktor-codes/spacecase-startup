@@ -1,3 +1,4 @@
+import logging
 import uuid
 from datetime import date
 from typing import Literal
@@ -18,6 +19,7 @@ from app.infrastructure.db.order_repository import SqlAlchemyOrderRepository
 from app.infrastructure.db.session import get_async_session
 from app.infrastructure.stripe.stripe_provider import StripeProvider
 
+_log = logging.getLogger("uvicorn.error")
 
 router = APIRouter()
 
@@ -144,12 +146,24 @@ async def stripe_webhook(
         order_id = metadata.get("order_id", "")
 
         if order_id and stripe_session_id:
+            _log.info(
+                "Stripe webhook: checkout.session.completed order_id=%s session=%s",
+                order_id,
+                stripe_session_id,
+            )
             service = HandleStripeCheckoutCompletedService(
                 order_repository=order_repository,
                 stripe_provider=stripe_provider,
             )
             await service.execute(
                 order_id=order_id, stripe_session_id=stripe_session_id
+            )
+        else:
+            _log.warning(
+                "Stripe webhook: checkout.session.completed missing order_id or session id "
+                "(metadata.order_id=%r session=%r)",
+                order_id,
+                stripe_session_id,
             )
 
     # Idempotency: return 200 even if order not found.
