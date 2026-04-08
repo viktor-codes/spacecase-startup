@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
+import { LayoutGroup, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -65,6 +65,8 @@ export default function ConfigureUploadPageClient({
     useState<number>(CONFIGURE_STEP_INDEX.SKY);
   const isLg = useMinWidthLg();
   const heroColumnRef = useRef<HTMLDivElement | null>(null);
+  const desktopCardsColumnRef = useRef<HTMLDivElement | null>(null);
+  const prevDesktopSlideCountRef = useRef<number | null>(null);
   const [heroColumnHeightPx, setHeroColumnHeightPx] = useState<number | null>(
     null,
   );
@@ -395,6 +397,23 @@ export default function ConfigureUploadPageClient({
   }, [isLg, apodImageUrl, configureSlides.length]);
 
   useEffect(() => {
+    if (isLg !== true) {
+      prevDesktopSlideCountRef.current = null;
+      return;
+    }
+    const len = configureSlides.length;
+    const prev = prevDesktopSlideCountRef.current;
+    if (prev !== null && len > prev) {
+      requestAnimationFrame(() => {
+        const el = desktopCardsColumnRef.current;
+        if (!el) return;
+        el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+      });
+    }
+    prevDesktopSlideCountRef.current = len;
+  }, [configureSlides.length, isLg]);
+
+  useEffect(() => {
     if (configureSlides.length === 0) return;
     setMobileCarouselStepIndex((prev) => {
       const visible = new Set(configureSlides.map((s) => s.stepIndex));
@@ -457,6 +476,7 @@ export default function ConfigureUploadPageClient({
 
               {isLg === true ? (
                 <div
+                  ref={desktopCardsColumnRef}
                   className="flex min-h-0 flex-col gap-6 overflow-y-auto pb-8 lg:pr-2"
                   style={
                     heroColumnHeightPx !== null
@@ -467,16 +487,32 @@ export default function ConfigureUploadPageClient({
                       : undefined
                   }
                 >
-                  {configureSlides.map((slide) => (
-                    <motion.div
-                      key={slide.stepIndex}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
-                    >
-                      {slide.content}
-                    </motion.div>
-                  ))}
+                  <LayoutGroup id="configure-desktop-cards">
+                    {configureSlides.map((slide) => (
+                      <motion.div
+                        key={slide.stepIndex}
+                        layout
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          layout: {
+                            type: "spring",
+                            stiffness: 420,
+                            damping: 34,
+                            mass: 0.85,
+                          },
+                          opacity: { duration: 0.28 },
+                          y: {
+                            type: "spring",
+                            stiffness: 380,
+                            damping: 32,
+                          },
+                        }}
+                      >
+                        {slide.content}
+                      </motion.div>
+                    ))}
+                  </LayoutGroup>
                 </div>
               ) : (
                 <div className="pb-8">
