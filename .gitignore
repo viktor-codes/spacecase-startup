@@ -18,6 +18,7 @@ yarn-error.log*
 # Python / backend
 backend/.env
 backend/.env.*
+!backend/.env.example
 *.db
 *.sqlite
 *.sqlite3

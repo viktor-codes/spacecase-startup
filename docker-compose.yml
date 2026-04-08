@@ -1,0 +1,23 @@
+# Local PostgreSQL for CosmicCase backend.
+# Start: docker compose up -d
+# URL matches backend/.env.example DATABASE_URL defaults.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cosmiccase-postgres
+    environment:
+      POSTGRES_USER: cosmiccase
+      POSTGRES_PASSWORD: cosmiccase_dev
+      POSTGRES_DB: cosmiccase
+    ports:
+      - "5432:5432"
+    volumes:
+      - cosmiccase_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cosmiccase -d cosmiccase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  cosmiccase_pgdata:

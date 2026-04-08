@@ -52,4 +52,27 @@ describe("getConfigureStepCompletionFlags", () => {
     });
     expect(flags[0]).toBe(false);
   });
+
+  it("marks details incomplete when contact fields fail validation", () => {
+    const flags = getConfigureStepCompletionFlags({
+      ...base,
+      fullName: "",
+      email: "not-an-email",
+      eirCode: "xx",
+      isFullCheckoutValid: false,
+    });
+    expect(flags[3]).toBe(false);
+    expect(flags[4]).toBe(false);
+  });
+
+  it("marks order complete only when isFullCheckoutValid is true", () => {
+    const incomplete = getConfigureStepCompletionFlags({
+      ...base,
+      isFullCheckoutValid: false,
+    });
+    expect(incomplete[4]).toBe(false);
+
+    const complete = getConfigureStepCompletionFlags({ ...base });
+    expect(complete[4]).toBe(true);
+  });
 });

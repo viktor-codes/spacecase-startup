@@ -371,6 +371,7 @@ export default function ConfigureUploadPageClient({
 
               <div className="lg:hidden">
                 <ConfigureProgress
+                  dataTestId="configure-progress-mobile"
                   orientation="horizontal"
                   labels={CONFIGURE_PROGRESS_LABELS}
                   stepComplete={stepCompleteFlags}
@@ -380,6 +381,7 @@ export default function ConfigureUploadPageClient({
 
               <div className="hidden min-w-14 self-start pt-2 lg:block">
                 <ConfigureProgress
+                  dataTestId="configure-progress-desktop"
                   orientation="vertical"
                   labels={CONFIGURE_PROGRESS_LABELS}
                   stepComplete={stepCompleteFlags}

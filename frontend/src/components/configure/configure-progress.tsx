@@ -11,6 +11,8 @@ export type ConfigureProgressProps = {
   orientation: "horizontal" | "vertical";
   /** Carousel / current slide (mobile); adds a focus ring on that step. */
   focusedStepIndex?: number | null;
+  /** Defaults to `configure-progress` for backwards compatibility. */
+  dataTestId?: string;
 };
 
 function StepDot({
@@ -42,6 +44,7 @@ export default function ConfigureProgress({
   labels,
   orientation,
   focusedStepIndex = null,
+  dataTestId = "configure-progress",
 }: ConfigureProgressProps) {
   const count = Math.min(stepComplete.length, labels.length);
 
@@ -50,7 +53,7 @@ export default function ConfigureProgress({
       <nav
         className="flex min-h-[220px] flex-col items-center justify-center py-2 font-mono text-[10px] tracking-[0.18em] text-text-tertiary uppercase"
         aria-label="Configuration progress"
-        data-testid="configure-progress"
+        data-testid={dataTestId}
       >
         <ol className="flex list-none flex-col items-center gap-0 p-0">
           {Array.from({ length: count }, (_, i) => {
@@ -96,7 +99,7 @@ export default function ConfigureProgress({
     <nav
       className="w-full px-0.5 font-mono text-[9px] tracking-[0.15em] text-text-tertiary uppercase sm:text-[10px] sm:tracking-[0.18em]"
       aria-label="Configuration progress"
-      data-testid="configure-progress"
+      data-testid={dataTestId}
     >
       <div className="flex w-full items-center">
         {Array.from({ length: count }, (_, i) => {

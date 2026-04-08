@@ -89,6 +89,7 @@ export default function ConfigureCardsCarousel({
       aria-label="Configure case steps"
       aria-roledescription="carousel"
       className="w-full"
+      data-testid="configure-carousel"
       role="region"
     >
       <div className="w-full overflow-hidden pb-1" ref={viewportRef}>
