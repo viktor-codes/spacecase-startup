@@ -27,7 +27,7 @@ export default function ConfigureCheckoutDetailsCard({
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
-        04 · Your details
+        03 · Your details
       </h2>
 
       <div className="space-y-3">

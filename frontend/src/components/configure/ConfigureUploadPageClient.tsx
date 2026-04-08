@@ -61,9 +61,8 @@ export default function ConfigureUploadPageClient({
   const [maxRevealedStepIndex, setMaxRevealedStepIndex] = useState<number>(
     CONFIGURE_STEP_INDEX.DELIVERY,
   );
-  const [mobileCarouselStepIndex, setMobileCarouselStepIndex] = useState<number>(
-    CONFIGURE_STEP_INDEX.SKY,
-  );
+  const [mobileCarouselStepIndex, setMobileCarouselStepIndex] =
+    useState<number>(CONFIGURE_STEP_INDEX.SKY);
   const module2Ref = useRef<HTMLDivElement | null>(null);
   const isLg = useMinWidthLg();
 
@@ -233,9 +232,7 @@ export default function ConfigureUploadPageClient({
   const configureSlides = useMemo((): ConfigureCarouselSlide[] => {
     const slides: ConfigureCarouselSlide[] = [];
 
-    if (
-      isStepIndexVisible(CONFIGURE_STEP_INDEX.SKY, maxRevealedStepIndex)
-    ) {
+    if (isStepIndexVisible(CONFIGURE_STEP_INDEX.SKY, maxRevealedStepIndex)) {
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.SKY,
         content: (
@@ -254,9 +251,7 @@ export default function ConfigureUploadPageClient({
       });
     }
 
-    if (
-      isStepIndexVisible(CONFIGURE_STEP_INDEX.DEVICE, maxRevealedStepIndex)
-    ) {
+    if (isStepIndexVisible(CONFIGURE_STEP_INDEX.DEVICE, maxRevealedStepIndex)) {
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.DEVICE,
         content: (
@@ -274,11 +269,9 @@ export default function ConfigureUploadPageClient({
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.DELIVERY,
         content: (
-          <ConfigureDeliveryCard
-            shipping={shipping}
-            onShippingChange={setShipping}
-            formatEur={formatEur}
-          />
+          <ConfigureRevealPanel>
+            <ConfigureCheckoutDetailsCard submitError={submitError} />
+          </ConfigureRevealPanel>
         ),
       });
     }
@@ -289,9 +282,11 @@ export default function ConfigureUploadPageClient({
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.DETAILS,
         content: (
-          <ConfigureRevealPanel>
-            <ConfigureCheckoutDetailsCard submitError={submitError} />
-          </ConfigureRevealPanel>
+          <ConfigureDeliveryCard
+            shipping={shipping}
+            onShippingChange={setShipping}
+            formatEur={formatEur}
+          />
         ),
       });
     }
