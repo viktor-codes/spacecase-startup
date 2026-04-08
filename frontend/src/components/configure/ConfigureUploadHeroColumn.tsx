@@ -14,10 +14,7 @@ const ConfigureUploadHeroColumn = forwardRef<
   ConfigureUploadHeroColumnProps
 >(function ConfigureUploadHeroColumn({ syncHighlight, phoneImageUrl }, ref) {
   return (
-    <div
-      ref={ref}
-      className="flex flex-col lg:sticky lg:top-24 lg:self-start"
-    >
+    <div ref={ref} className="flex flex-col lg:sticky lg:top-24 lg:self-start">
       <div
         className={cn(
           "relative flex w-full max-w-[280px] items-center justify-center self-center md:max-w-sm lg:self-start",
@@ -28,7 +25,7 @@ const ConfigureUploadHeroColumn = forwardRef<
           imgSrc={phoneImageUrl}
           dark
           placeholderText="Pick a date to see your case…"
-          className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
+          className="rounded-[2.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
         />
       </div>
     </div>

@@ -22,6 +22,13 @@ type PhoneScreenFillProps = {
 function PhoneScreenFill({ src, placeholderText }: PhoneScreenFillProps) {
   const [loaded, setLoaded] = useState(false);
 
+  const bindScreenImageRef = (node: HTMLImageElement | null) => {
+    // From cache, load may finish before `onLoad` is observable — same bug as missing onLoad after hard reload.
+    if (node?.complete && node.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  };
+
   return (
     <>
       <div
@@ -36,6 +43,7 @@ function PhoneScreenFill({ src, placeholderText }: PhoneScreenFillProps) {
         </span>
       </div>
       <img
+        ref={bindScreenImageRef}
         src={src}
         alt="phone background"
         className={cn(
