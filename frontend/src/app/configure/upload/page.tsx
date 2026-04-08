@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import ConfigureUploadPageClient from "@/components/configure/ConfigureUploadPageClient";
 
 export const metadata: Metadata = {
-  title: "CosmicCase — Design Your Cosmic Phone Case",
+  title: "CosmicCase — Design your phone case",
 };
 
 type PageProps = {

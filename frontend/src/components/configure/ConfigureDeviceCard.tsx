@@ -15,10 +15,14 @@ export default function ConfigureDeviceCard({
 }: ConfigureDeviceCardProps) {
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-      <div className="flex items-center justify-between">
+      <div className="space-y-1">
         <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
-          02 · Device configuration
+          02 · Your iPhone
         </h2>
+        <p className="font-mono text-xs text-text-secondary">
+          We print for your exact model so the artwork lines up with edges and
+          camera cutouts.
+        </p>
       </div>
 
       <div className="space-y-2">
@@ -26,7 +30,7 @@ export default function ConfigureDeviceCard({
           htmlFor="device-model"
           className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase"
         >
-          Device Model
+          iPhone model
         </label>
         <div
           className={cn(

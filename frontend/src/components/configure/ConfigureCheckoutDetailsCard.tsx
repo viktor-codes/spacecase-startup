@@ -26,9 +26,15 @@ export default function ConfigureCheckoutDetailsCard({
 
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
-      <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
-        03 · Your details
-      </h2>
+      <div className="space-y-1">
+        <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
+          04 · Contact &amp; shipping
+        </h2>
+        <p className="font-mono text-xs text-text-secondary">
+          No account needed. We&apos;ll email your order confirmation and
+          tracking to the address below.
+        </p>
+      </div>
 
       <div className="space-y-3">
         <div className="space-y-2">

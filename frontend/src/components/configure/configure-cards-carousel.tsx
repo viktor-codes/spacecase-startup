@@ -86,7 +86,7 @@ export default function ConfigureCardsCarousel({
 
   return (
     <section
-      aria-label="Configure case steps"
+      aria-label="Steps to complete your order"
       aria-roledescription="carousel"
       className="w-full"
       data-testid="configure-carousel"
@@ -130,7 +130,7 @@ export default function ConfigureCardsCarousel({
           size="icon"
           className="shrink-0 rounded-xl border border-(--border-default) bg-surface-raised/60 text-text-primary hover:bg-surface-raised"
           disabled={!canScrollPrev}
-          aria-label="Previous configuration step"
+          aria-label="Previous step"
           onClick={scrollPrev}
         >
           <ChevronLeft className="h-4 w-4" aria-hidden />
@@ -149,7 +149,7 @@ export default function ConfigureCardsCarousel({
           size="icon"
           className="shrink-0 rounded-xl border border-(--border-default) bg-surface-raised/60 text-text-primary hover:bg-surface-raised"
           disabled={!canScrollNext}
-          aria-label="Next configuration step"
+          aria-label="Next step"
           onClick={scrollNext}
         >
           <ChevronRight className="h-4 w-4" aria-hidden />

@@ -128,6 +128,17 @@ export default function ConfigureUploadPageClient({
     ],
   );
 
+  const orderSummaryStatusCaption = useMemo(() => {
+    if (isCheckoutFormValid) {
+      return "Next: Stripe’s secure checkout — cards and digital wallets.";
+    }
+    if (completionStep < 4) {
+      const left = 4 - completionStep;
+      return `${left} quick setup step${left === 1 ? "" : "s"} left above.`;
+    }
+    return "Add your phone number and full shipping address to continue.";
+  }, [isCheckoutFormValid, completionStep]);
+
   const totalPrice = SHIPPING_OPTIONS[shipping].price;
   const formatEur = useMemo(() => {
     if (!isMounted) return (price: number) => `€${price}`;
@@ -181,7 +192,7 @@ export default function ConfigureUploadPageClient({
     if (!isCheckoutFormValid) return;
     if (apodImageUrl === null) {
       setSubmitError(
-        "NASA image for this date is not available. Please try another date.",
+        "We couldn’t load an image for that date. Try another day.",
       );
       return;
     }
@@ -215,7 +226,7 @@ export default function ConfigureUploadPageClient({
       const msg =
         e instanceof Error
           ? e.message
-          : "Failed to start payment. Please try again.";
+          : "Couldn’t start checkout. Please try again.";
       setSubmitError(msg);
     } finally {
       setIsSubmitting(false);
@@ -304,7 +315,7 @@ export default function ConfigureUploadPageClient({
               shipping={shipping}
               formattedPrice={formattedPrice}
               isCheckoutFormValid={isCheckoutFormValid}
-              completionStep={completionStep}
+              statusCaption={orderSummaryStatusCaption}
               isSubmitting={isSubmitting}
               onLaunch={() => void handleLaunch()}
             />
@@ -330,7 +341,7 @@ export default function ConfigureUploadPageClient({
     submitError,
     formattedPrice,
     isCheckoutFormValid,
-    completionStep,
+    orderSummaryStatusCaption,
     isSubmitting,
     handleLaunch,
   ]);
@@ -349,13 +360,17 @@ export default function ConfigureUploadPageClient({
       <div className="min-h-screen">
         <Container className="h-full">
           <div className="flex flex-col gap-10">
-            <div className="max-w-xl lg:max-w-none">
+            <div className="max-w-2xl space-y-3 lg:max-w-none">
               <h1
                 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl"
                 data-testid="configure-page-heading"
               >
-                Configure Your CosmicCase
+                Design your CosmicCase
               </h1>
+              <p className="text-sm leading-relaxed text-text-secondary md:text-base">
+                Pick your sky, your iPhone model, and where we ship — no account
+                needed. You&apos;ll finish payment on Stripe&apos;s secure page.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1.1fr)] lg:items-start lg:gap-10">

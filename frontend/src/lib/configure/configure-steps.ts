@@ -56,11 +56,11 @@ export function isStepIndexVisible(
 
 /** Short labels for progress UI (English; card titles stay in components). */
 export const CONFIGURE_PROGRESS_LABELS: readonly string[] = [
-  "Sky",
-  "Device",
+  "Sky date",
+  "iPhone",
   "Delivery",
   "Details",
-  "Order",
+  "Review",
 ];
 
 export type ConfigureStepCompletionInput = {

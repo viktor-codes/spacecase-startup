@@ -15,7 +15,8 @@ export type ConfigureOrderSummaryCardProps = {
   shipping: ShippingOption;
   formattedPrice: string;
   isCheckoutFormValid: boolean;
-  completionStep: number;
+  /** Shown under the CTA: next-step hint or reassurance about Stripe. */
+  statusCaption: string;
   isSubmitting: boolean;
   onLaunch: () => void;
 };
@@ -26,7 +27,7 @@ export default function ConfigureOrderSummaryCard({
   shipping,
   formattedPrice,
   isCheckoutFormValid,
-  completionStep,
+  statusCaption,
   isSubmitting,
   onLaunch,
 }: ConfigureOrderSummaryCardProps) {
@@ -35,14 +36,14 @@ export default function ConfigureOrderSummaryCard({
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
           <p className="font-mono text-xs tracking-[0.25em] text-text-secondary uppercase">
-            05 · Order summary
+            05 · Review &amp; pay
           </p>
           <p className="font-mono text-sm text-text-primary">
-            {deviceModel || "Select your device"}
+            {deviceModel || "Choose your iPhone model"}
           </p>
           {selectedDate && (
             <p className="font-mono text-[11px] text-text-secondary">
-              Date synced: {selectedDate}
+              Sky date: {selectedDate}
             </p>
           )}
           <p className="font-mono text-[11px] text-text-secondary">
@@ -90,12 +91,12 @@ export default function ConfigureOrderSummaryCard({
         data-testid="configure-launch-checkout"
         onClick={() => void onLaunch()}
       >
-        {isSubmitting ? "Redirecting to payment..." : "Launch My CosmicCase"}
+        {isSubmitting
+          ? "Opening secure checkout…"
+          : "Continue to secure payment"}
       </Button>
-      <p className="font-mono text-[10px] tracking-[0.2em] text-text-tertiary uppercase">
-        {isCheckoutFormValid
-          ? "Ready to launch"
-          : `Complete ${completionStep}/4 steps to continue`}
+      <p className="text-[11px] leading-relaxed text-text-tertiary">
+        {statusCaption}
       </p>
     </GlassCard>
   );

@@ -47,11 +47,11 @@ const ConfigureSkyDateCard = forwardRef<
       <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
-            01 · Your sky
+            01 · Your sky on that day
           </h2>
           <p className="mt-1 font-mono text-xs text-text-secondary">
-            Choose a date, sync with NASA, then preview your Astronomy Picture
-            of the Day.
+            Choose a meaningful date. We&apos;ll load NASA&apos;s official
+            Astronomy Picture of the Day for a live preview on your case.
           </p>
         </div>
         <Button
@@ -63,7 +63,7 @@ const ConfigureSkyDateCard = forwardRef<
           data-testid="configure-sync-nasa"
           onClick={() => void onSync()}
         >
-          {loading ? "Syncing..." : "Sync with NASA"}
+          {loading ? "Loading image…" : "Load NASA image"}
         </Button>
       </div>
 
@@ -75,7 +75,7 @@ const ConfigureSkyDateCard = forwardRef<
           showPrimaryButton={false}
           size="compact"
           helperVariant="minimal"
-          helperTextOverride="Type your date and press Sync"
+          helperTextOverride="Enter a date, then tap Load NASA image"
           loading={loading}
           className="space-y-4 rounded-xl border border-(--border-default) bg-surface-raised/50 px-4 py-5 md:px-5 md:py-6"
         />
@@ -86,7 +86,7 @@ const ConfigureSkyDateCard = forwardRef<
       <div className="border-t border-(--border-default) pt-6">
         <div className="mb-4 flex items-center justify-between gap-3">
           <p className="font-mono text-xs tracking-[0.25em] text-text-tertiary uppercase">
-            NASA preview
+            Preview
           </p>
           {selectedDate ? (
             <p className="font-mono text-[11px] tracking-[0.2em] text-text-secondary uppercase">
@@ -129,7 +129,7 @@ const ConfigureSkyDateCard = forwardRef<
             <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-(--border-default) bg-surface-raised/60">
               <div className="flex h-full w-full items-center justify-center bg-surface-raised/60">
                 <span className="px-2 text-center font-mono text-[10px] tracking-[0.25em] text-text-tertiary uppercase">
-                  Awaiting sync
+                  Load image to preview
                 </span>
               </div>
             </div>
@@ -140,12 +140,12 @@ const ConfigureSkyDateCard = forwardRef<
               Image title
             </p>
             <p className="line-clamp-2 text-sm leading-snug font-semibold text-text-primary">
-              {apod?.title ?? "Awaiting synced image"}
+              {apod?.title ?? "Your preview appears here"}
             </p>
 
             <p className="mt-2 line-clamp-4 font-mono text-[11px] leading-relaxed text-text-secondary">
               {apod?.explanation ??
-                "Once you sync a date, you will see NASA’s official description of the Astronomy Picture of the Day for that moment in time."}
+                "Once you load an image, you will see NASA's short description of that day's picture."}
             </p>
           </div>
         </div>

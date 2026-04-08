@@ -33,7 +33,7 @@ export default function ConfigureUploadHeroColumn({
             <Phone
               imgSrc={phoneImageUrl}
               dark
-              placeholderText="Your sky is waiting..."
+              placeholderText="Pick a date to see your case…"
               className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
             />
           </motion.div>

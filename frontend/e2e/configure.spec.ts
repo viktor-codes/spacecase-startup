@@ -39,10 +39,10 @@ test.describe("configure upload page", () => {
       ).not.toBeVisible();
       await expect(page.getByTestId("configure-carousel")).toBeVisible();
       await expect(
-        page.getByRole("button", { name: /previous configuration step/i }),
+        page.getByRole("button", { name: /previous step/i }),
       ).toBeVisible();
       await expect(
-        page.getByRole("button", { name: /next configuration step/i }),
+        page.getByRole("button", { name: /next step/i }),
       ).toBeVisible();
     });
   });
