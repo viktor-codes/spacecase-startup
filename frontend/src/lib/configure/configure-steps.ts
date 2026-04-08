@@ -5,8 +5,8 @@ import {
 } from "@/lib/configure/checkout-validation";
 
 /**
- * Configure upload flow: ordered steps (0..4). Eligibility can drop when NASA
- * image is cleared, but the UI never hides a step once revealed (monotonic).
+ * Configure upload flow: ordered steps (0..4). Cards unlock sequentially;
+ * maxRevealedStepIndex only increases so revealed steps stay visible.
  */
 
 export const CONFIGURE_STEP_IDS = [
@@ -28,23 +28,28 @@ export const CONFIGURE_STEP_INDEX = {
   SUMMARY: 4,
 } as const;
 
-export type ConfigureStepVisibilityInput = {
-  hasApodImage: boolean;
+/**
+ * Progress dots: a step is “done” only after the user has advanced past it
+ * (sequential wizard), except sky (needs date + image) and order (checkout valid).
+ */
+export type SequentialConfigureProgressInput = {
+  skyDone: boolean;
+  /** Highest step index currently revealed (cards shown); monotonic. */
+  maxRevealedStepIndex: number;
+  isCheckoutFormValid: boolean;
 };
 
-/**
- * Highest step index (0-based) that current data says may be shown.
- * Steps 0–2 (sky, device, delivery) are always eligible.
- * Steps 3–4 unlock once a synced APOD image exists. Eligibility can drop if
- * the image is cleared; the UI keeps revealed steps via separate state.
- */
-export function getEligibleMaxStepIndex(
-  input: ConfigureStepVisibilityInput,
-): number {
-  if (input.hasApodImage) {
-    return CONFIGURE_STEP_INDEX.SUMMARY;
-  }
-  return CONFIGURE_STEP_INDEX.DELIVERY;
+export function getSequentialConfigureProgressFlags(
+  input: SequentialConfigureProgressInput,
+): boolean[] {
+  const { skyDone, maxRevealedStepIndex, isCheckoutFormValid } = input;
+  return [
+    skyDone,
+    maxRevealedStepIndex >= CONFIGURE_STEP_INDEX.DEVICE + 1,
+    maxRevealedStepIndex >= CONFIGURE_STEP_INDEX.DELIVERY + 1,
+    maxRevealedStepIndex >= CONFIGURE_STEP_INDEX.DETAILS + 1,
+    isCheckoutFormValid,
+  ];
 }
 
 export function isStepIndexVisible(

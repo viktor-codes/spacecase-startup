@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { PHONE_MODEL_GROUPS } from "@/lib/configure/constants";
 import { cn } from "@/lib/utils";
@@ -7,11 +8,13 @@ import { cn } from "@/lib/utils";
 export type ConfigureDeviceCardProps = {
   deviceModel: string;
   onDeviceModelChange: (model: string) => void;
+  onContinue: () => void;
 };
 
 export default function ConfigureDeviceCard({
   deviceModel,
   onDeviceModelChange,
+  onContinue,
 }: ConfigureDeviceCardProps) {
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
@@ -63,6 +66,17 @@ export default function ConfigureDeviceCard({
           </span>
         </div>
       </div>
+
+      <Button
+        type="button"
+        variant="space"
+        size="lg"
+        className="mt-2 w-full font-mono text-xs tracking-[0.25em] uppercase"
+        data-testid="configure-device-continue"
+        onClick={onContinue}
+      >
+        Continue
+      </Button>
     </GlassCard>
   );
 }

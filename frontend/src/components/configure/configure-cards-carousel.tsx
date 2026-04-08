@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -39,6 +40,7 @@ export default function ConfigureCardsCarousel({
   const [liveMessage, setLiveMessage] = useState("");
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const prevSlideCountRef = useRef(0);
 
   const emitActive = useCallback(() => {
     if (!emblaApi) return;
@@ -69,7 +71,15 @@ export default function ConfigureCardsCarousel({
   }, [emblaApi, emitActive]);
 
   useEffect(() => {
-    emblaApi?.reInit();
+    if (!emblaApi) return;
+    const grew = slides.length > prevSlideCountRef.current;
+    prevSlideCountRef.current = slides.length;
+    emblaApi.reInit();
+    if (grew && slides.length > 0) {
+      queueMicrotask(() => {
+        emblaApi.scrollTo(slides.length - 1, true);
+      });
+    }
   }, [emblaApi, slides]);
 
   const scrollPrev = useCallback(() => {

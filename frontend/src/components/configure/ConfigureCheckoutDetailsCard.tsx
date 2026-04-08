@@ -1,7 +1,9 @@
 "use client";
 
+import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import type { ConfigureContactFormValues } from "@/lib/schemas/configure-contact-form";
 
@@ -10,19 +12,27 @@ const inputClassName =
 
 export type ConfigureCheckoutDetailsCardProps = {
   submitError: string | null;
+  onContinue: () => void | Promise<void>;
 };
 
 export default function ConfigureCheckoutDetailsCard({
   submitError,
+  onContinue,
 }: ConfigureCheckoutDetailsCardProps) {
   const {
     register,
     formState: { errors },
     watch,
+    trigger,
   } = useFormContext<ConfigureContactFormValues>();
 
   const email = watch("email");
   const eirCode = watch("eirCode");
+
+  const handleContinue = useCallback(async () => {
+    const ok = await trigger();
+    if (ok) await onContinue();
+  }, [onContinue, trigger]);
 
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
@@ -182,6 +192,17 @@ export default function ConfigureCheckoutDetailsCard({
       {submitError && (
         <p className="mt-1 font-mono text-xs text-red-500">{submitError}</p>
       )}
+
+      <Button
+        type="button"
+        variant="space"
+        size="lg"
+        className="mt-2 w-full font-mono text-xs tracking-[0.25em] uppercase"
+        data-testid="configure-details-continue"
+        onClick={() => void handleContinue()}
+      >
+        Continue
+      </Button>
     </GlassCard>
   );
 }

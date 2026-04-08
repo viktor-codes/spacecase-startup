@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -33,8 +34,7 @@ import {
 import {
   CONFIGURE_PROGRESS_LABELS,
   CONFIGURE_STEP_INDEX,
-  getConfigureStepCompletionFlags,
-  getEligibleMaxStepIndex,
+  getSequentialConfigureProgressFlags,
   isStepIndexVisible,
 } from "@/lib/configure/configure-steps";
 import {
@@ -57,9 +57,9 @@ export default function ConfigureUploadPageClient({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [deviceModel, setDeviceModel] = useState<string>(PHONE_MODELS[0] ?? "");
   const [shipping, setShipping] = useState<ShippingOption>("standard");
-  /** Monotonic: never decreases when date or device changes; only grows with eligibility. */
+  /** Monotonic: unlocks the next card; only increases. */
   const [maxRevealedStepIndex, setMaxRevealedStepIndex] = useState<number>(
-    CONFIGURE_STEP_INDEX.DELIVERY,
+    CONFIGURE_STEP_INDEX.SKY,
   );
   const [mobileCarouselStepIndex, setMobileCarouselStepIndex] =
     useState<number>(CONFIGURE_STEP_INDEX.SKY);
@@ -155,38 +155,54 @@ export default function ConfigureUploadPageClient({
     setIsMounted(true);
   }, []);
 
-  const eligibleMaxStepIndex = useMemo(
-    () => getEligibleMaxStepIndex({ hasApodImage: apodImageUrl !== null }),
-    [apodImageUrl],
+  const skyDone = useMemo(
+    () => Boolean(selectedDate.trim()) && apodImageUrl !== null,
+    [selectedDate, apodImageUrl],
   );
 
   useEffect(() => {
-    setMaxRevealedStepIndex((prev) => Math.max(prev, eligibleMaxStepIndex));
-  }, [eligibleMaxStepIndex]);
+    if (skyDone) {
+      setMaxRevealedStepIndex((prev) =>
+        Math.max(prev, CONFIGURE_STEP_INDEX.DEVICE),
+      );
+    }
+  }, [skyDone]);
+
+  const advancePastDevice = useCallback(() => {
+    setMaxRevealedStepIndex((prev) =>
+      Math.max(prev, CONFIGURE_STEP_INDEX.DELIVERY),
+    );
+  }, []);
+
+  const advancePastDelivery = useCallback(() => {
+    setMaxRevealedStepIndex((prev) =>
+      Math.max(prev, CONFIGURE_STEP_INDEX.DETAILS),
+    );
+  }, []);
+
+  const advancePastDetails = useCallback(() => {
+    setMaxRevealedStepIndex((prev) =>
+      Math.max(prev, CONFIGURE_STEP_INDEX.SUMMARY),
+    );
+  }, []);
 
   const stepCompleteFlags = useMemo(
     () =>
-      getConfigureStepCompletionFlags({
-        selectedDate,
-        hasApodImage: apodImageUrl !== null,
-        deviceModel,
-        shipping,
-        fullName: contactValues.fullName,
-        email: contactValues.email,
-        eirCode: contactValues.eirCode,
-        isFullCheckoutValid: isCheckoutFormValid,
+      getSequentialConfigureProgressFlags({
+        skyDone,
+        maxRevealedStepIndex,
+        isCheckoutFormValid: isCheckoutFormValid,
       }),
-    [
-      selectedDate,
-      apodImageUrl,
-      deviceModel,
-      shipping,
-      contactValues.fullName,
-      contactValues.email,
-      contactValues.eirCode,
-      isCheckoutFormValid,
-    ],
+    [skyDone, maxRevealedStepIndex, isCheckoutFormValid],
   );
+
+  /** Desktop rail: ring on the current (first incomplete) step; mobile uses carousel index instead. */
+  const desktopActiveStepIndex = useMemo(() => {
+    for (let i = 0; i < stepCompleteFlags.length; i++) {
+      if (!stepCompleteFlags[i]) return i;
+    }
+    return Math.max(0, stepCompleteFlags.length - 1);
+  }, [stepCompleteFlags]);
 
   const handleLaunch = useCallback(async () => {
     if (!isCheckoutFormValid) return;
@@ -269,6 +285,7 @@ export default function ConfigureUploadPageClient({
           <ConfigureDeviceCard
             deviceModel={deviceModel}
             onDeviceModelChange={setDeviceModel}
+            onContinue={advancePastDevice}
           />
         ),
       });
@@ -280,9 +297,12 @@ export default function ConfigureUploadPageClient({
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.DELIVERY,
         content: (
-          <ConfigureRevealPanel>
-            <ConfigureCheckoutDetailsCard submitError={submitError} />
-          </ConfigureRevealPanel>
+          <ConfigureDeliveryCard
+            shipping={shipping}
+            onShippingChange={setShipping}
+            formatEur={formatEur}
+            onContinue={advancePastDelivery}
+          />
         ),
       });
     }
@@ -293,11 +313,12 @@ export default function ConfigureUploadPageClient({
       slides.push({
         stepIndex: CONFIGURE_STEP_INDEX.DETAILS,
         content: (
-          <ConfigureDeliveryCard
-            shipping={shipping}
-            onShippingChange={setShipping}
-            formatEur={formatEur}
-          />
+          <ConfigureRevealPanel>
+            <ConfigureCheckoutDetailsCard
+              submitError={submitError}
+              onContinue={advancePastDetails}
+            />
+          </ConfigureRevealPanel>
         ),
       });
     }
@@ -344,6 +365,9 @@ export default function ConfigureUploadPageClient({
     orderSummaryStatusCaption,
     isSubmitting,
     handleLaunch,
+    advancePastDevice,
+    advancePastDelivery,
+    advancePastDetails,
   ]);
 
   useEffect(() => {
@@ -395,13 +419,21 @@ export default function ConfigureUploadPageClient({
                   orientation="vertical"
                   labels={CONFIGURE_PROGRESS_LABELS}
                   stepComplete={stepCompleteFlags}
+                  focusedStepIndex={desktopActiveStepIndex}
                 />
               </div>
 
               {isLg === true ? (
                 <div className="flex flex-col gap-6 pb-8 lg:h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2">
                   {configureSlides.map((slide) => (
-                    <div key={slide.stepIndex}>{slide.content}</div>
+                    <motion.div
+                      key={slide.stepIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                    >
+                      {slide.content}
+                    </motion.div>
                   ))}
                 </div>
               ) : (

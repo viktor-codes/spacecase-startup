@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import {
   SHIPPING_OPTIONS,
@@ -11,12 +12,14 @@ export type ConfigureDeliveryCardProps = {
   shipping: ShippingOption;
   onShippingChange: (option: ShippingOption) => void;
   formatEur: (price: number) => string;
+  onContinue: () => void;
 };
 
 export default function ConfigureDeliveryCard({
   shipping,
   onShippingChange,
   formatEur,
+  onContinue,
 }: ConfigureDeliveryCardProps) {
   return (
     <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
@@ -78,6 +81,17 @@ export default function ConfigureDeliveryCard({
           </button>
         ))}
       </div>
+
+      <Button
+        type="button"
+        variant="space"
+        size="lg"
+        className="mt-2 w-full font-mono text-xs tracking-[0.25em] uppercase"
+        data-testid="configure-delivery-continue"
+        onClick={onContinue}
+      >
+        Continue
+      </Button>
     </GlassCard>
   );
 }

@@ -9,7 +9,7 @@ export type ConfigureProgressProps = {
   stepComplete: readonly boolean[];
   labels: readonly string[];
   orientation: "horizontal" | "vertical";
-  /** Carousel / current slide (mobile); adds a focus ring on that step. */
+  /** Focus ring on this step: mobile = carousel slide; desktop = first incomplete step. */
   focusedStepIndex?: number | null;
   /** Defaults to `configure-progress` for backwards compatibility. */
   dataTestId?: string;

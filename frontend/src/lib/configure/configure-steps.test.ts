@@ -2,17 +2,27 @@ import { describe, expect, it } from "vitest";
 
 import {
   getConfigureStepCompletionFlags,
-  getEligibleMaxStepIndex,
+  getSequentialConfigureProgressFlags,
   isStepIndexVisible,
 } from "@/lib/configure/configure-steps";
 
-describe("getEligibleMaxStepIndex", () => {
-  it("returns index 2 when no APOD image", () => {
-    expect(getEligibleMaxStepIndex({ hasApodImage: false })).toBe(2);
+describe("getSequentialConfigureProgressFlags", () => {
+  it("marks only sky when max revealed is 1 and sky is done", () => {
+    const flags = getSequentialConfigureProgressFlags({
+      skyDone: true,
+      maxRevealedStepIndex: 1,
+      isCheckoutFormValid: false,
+    });
+    expect(flags).toEqual([true, false, false, false, false]);
   });
 
-  it("returns last step index when APOD image is present", () => {
-    expect(getEligibleMaxStepIndex({ hasApodImage: true })).toBe(4);
+  it("marks through device when max revealed is 2", () => {
+    const flags = getSequentialConfigureProgressFlags({
+      skyDone: true,
+      maxRevealedStepIndex: 2,
+      isCheckoutFormValid: false,
+    });
+    expect(flags).toEqual([true, true, false, false, false]);
   });
 });
 
