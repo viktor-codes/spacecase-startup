@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { forwardRef } from "react";
 
 import Phone from "@/components/Phone";
@@ -25,23 +24,12 @@ const ConfigureUploadHeroColumn = forwardRef<
           syncHighlight && "animate-pulse",
         )}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={phoneImageUrl ?? "placeholder"}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex w-full items-center justify-center"
-          >
-            <Phone
-              imgSrc={phoneImageUrl}
-              dark
-              placeholderText="Pick a date to see your case…"
-              className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
-            />
-          </motion.div>
-        </AnimatePresence>
+        <Phone
+          imgSrc={phoneImageUrl}
+          dark
+          placeholderText="Pick a date to see your case…"
+          className="rounded-[3.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.65)]"
+        />
       </div>
     </div>
   );

@@ -128,32 +128,42 @@ export default function ConfigureSkyDateCard({
             </div>
           )}
 
-          <div className="min-w-0 space-y-2">
-            <p className="font-mono text-xs tracking-[0.25em] text-text-tertiary uppercase">
+          <div className="flex min-h-46 min-w-0 flex-col space-y-2 overflow-hidden">
+            <p className="shrink-0 font-mono text-xs tracking-[0.25em] text-text-tertiary uppercase">
               Image title
             </p>
-            <p className="line-clamp-2 text-sm leading-snug font-semibold text-text-primary">
+            <p className="line-clamp-2 shrink-0 text-sm leading-snug font-semibold text-text-primary">
               {apod?.title ?? "Your preview appears here"}
             </p>
 
-            <p className="mt-2 line-clamp-4 font-mono text-[11px] leading-relaxed text-text-secondary">
+            <p className="line-clamp-4 min-h-0 flex-1 font-mono text-[11px] leading-relaxed text-text-secondary">
               {apod?.explanation ??
                 "Once you load an image, you will see NASA's short description of that day's picture."}
             </p>
           </div>
         </div>
 
-        {thumbnailUrl ? (
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-3 text-center text-sm leading-relaxed text-text-tertiary italic"
-          >
-            On this day, the light you see traveled millions of years to reach
-            Earth — and now it&apos;s yours.
-          </motion.p>
-        ) : null}
+        <div className="mt-3 min-h-17">
+          {thumbnailUrl ? (
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center text-sm leading-relaxed text-text-tertiary italic"
+            >
+              On this day, the light you see traveled millions of years to reach
+              Earth — and now it&apos;s yours.
+            </motion.p>
+          ) : (
+            <p
+              className="invisible text-center text-sm leading-relaxed italic"
+              aria-hidden
+            >
+              On this day, the light you see traveled millions of years to reach
+              Earth — and now it&apos;s yours.
+            </p>
+          )}
+        </div>
       </div>
     </GlassCard>
   );

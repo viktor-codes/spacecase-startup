@@ -403,14 +403,20 @@ export default function ConfigureUploadPageClient({
     }
     const len = configureSlides.length;
     const prev = prevDesktopSlideCountRef.current;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
     if (prev !== null && len > prev) {
-      requestAnimationFrame(() => {
+      timeoutId = setTimeout(() => {
         const el = desktopCardsColumnRef.current;
         if (!el) return;
         el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-      });
+      }, 240);
     }
     prevDesktopSlideCountRef.current = len;
+
+    return () => {
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, [configureSlides.length, isLg]);
 
   useEffect(() => {
@@ -492,20 +498,22 @@ export default function ConfigureUploadPageClient({
                       <motion.div
                         key={slide.stepIndex}
                         layout
-                        initial={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 14 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
                           layout: {
-                            type: "spring",
-                            stiffness: 420,
-                            damping: 34,
-                            mass: 0.85,
+                            type: "tween",
+                            duration: 1,
+                            ease: "linear",
                           },
-                          opacity: { duration: 0.28 },
+                          opacity: {
+                            duration: 0.9,
+                            ease: "linear",
+                          },
                           y: {
-                            type: "spring",
-                            stiffness: 380,
-                            damping: 32,
+                            type: "tween",
+                            duration: 1.1,
+                            ease: "linear",
                           },
                         }}
                       >
