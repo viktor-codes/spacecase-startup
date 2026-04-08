@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import Container from "@/components/Container";
@@ -63,7 +63,6 @@ export default function ConfigureUploadPageClient({
   );
   const [mobileCarouselStepIndex, setMobileCarouselStepIndex] =
     useState<number>(CONFIGURE_STEP_INDEX.SKY);
-  const module2Ref = useRef<HTMLDivElement | null>(null);
   const isLg = useMinWidthLg();
 
   const form = useForm<ConfigureContactFormValues>({
@@ -91,7 +90,7 @@ export default function ConfigureUploadPageClient({
     syncHighlight,
     apodImageUrl,
     handleSync,
-  } = useSyncedApod({ initialDate, scrollAfterSyncRef: module2Ref });
+  } = useSyncedApod({ initialDate });
 
   const { isImagePreviewOpen, setIsImagePreviewOpen } = useImagePreviewModal(
     apodImageUrl !== null,
@@ -264,7 +263,6 @@ export default function ConfigureUploadPageClient({
         stepIndex: CONFIGURE_STEP_INDEX.SKY,
         content: (
           <ConfigureSkyDateCard
-            ref={module2Ref}
             selectedDate={selectedDate}
             onSelectedDateChange={setSelectedDate}
             loading={loading}

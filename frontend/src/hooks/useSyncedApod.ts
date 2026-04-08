@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type RefObject } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   fetchApod,
@@ -8,13 +8,9 @@ import {
 
 export type UseSyncedApodOptions = {
   initialDate?: string;
-  scrollAfterSyncRef?: RefObject<HTMLElement | null>;
 };
 
-export function useSyncedApod({
-  initialDate,
-  scrollAfterSyncRef,
-}: UseSyncedApodOptions) {
+export function useSyncedApod({ initialDate }: UseSyncedApodOptions) {
   const [selectedDate, setSelectedDate] = useState(initialDate ?? "");
   const [apod, setApod] = useState<ApodResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -48,12 +44,6 @@ export function useSyncedApod({
         setApod(data);
         setSyncHighlight(true);
         setTimeout(() => setSyncHighlight(false), 900);
-        requestAnimationFrame(() => {
-          scrollAfterSyncRef?.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        });
       } catch (e) {
         setError("Failed to fetch NASA APOD data. Please try again later.");
         console.error(e);
@@ -61,7 +51,7 @@ export function useSyncedApod({
         setLoading(false);
       }
     },
-    [selectedDate, scrollAfterSyncRef],
+    [selectedDate],
   );
 
   useEffect(() => {

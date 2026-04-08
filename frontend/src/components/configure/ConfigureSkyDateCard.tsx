@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { forwardRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -26,24 +25,18 @@ export type ConfigureSkyDateCardProps = {
   onOpenImagePreview: () => void;
 };
 
-const ConfigureSkyDateCard = forwardRef<
-  HTMLDivElement,
-  ConfigureSkyDateCardProps
->(function ConfigureSkyDateCard(
-  {
-    selectedDate,
-    onSelectedDateChange,
-    loading,
-    error,
-    onSync,
-    thumbnailUrl,
-    apod,
-    onOpenImagePreview,
-  },
-  ref,
-) {
+export default function ConfigureSkyDateCard({
+  selectedDate,
+  onSelectedDateChange,
+  loading,
+  error,
+  onSync,
+  thumbnailUrl,
+  apod,
+  onOpenImagePreview,
+}: ConfigureSkyDateCardProps) {
   return (
-    <GlassCard ref={ref} className="shrink-0 space-y-4 p-5 md:p-6">
+    <GlassCard className="shrink-0 space-y-4 p-5 md:p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="font-mono text-sm font-semibold tracking-[0.2em] text-text-primary uppercase">
@@ -164,8 +157,4 @@ const ConfigureSkyDateCard = forwardRef<
       </div>
     </GlassCard>
   );
-});
-
-ConfigureSkyDateCard.displayName = "ConfigureSkyDateCard";
-
-export default ConfigureSkyDateCard;
+}
