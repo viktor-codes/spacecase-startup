@@ -101,6 +101,7 @@ export default function ConfigureProgress({
       aria-label="Configuration progress"
       data-testid={dataTestId}
     >
+      {/* Dots + connectors on one row so segment lines align to circle centers, not the full label column. */}
       <div className="flex w-full items-center">
         {Array.from({ length: count }, (_, i) => {
           const complete = stepComplete[i] ?? false;
@@ -108,31 +109,48 @@ export default function ConfigureProgress({
           const segmentDone = i > 0 && (stepComplete[i - 1] ?? false);
 
           return (
-            <Fragment key={label}>
+            <Fragment key={`${label}-track`}>
               {i > 0 ? (
                 <span
                   className={cn(
-                    "mx-0.5 h-0.5 min-w-[6px] flex-1 rounded-full transition-colors sm:mx-1",
+                    "mx-0.5 h-0.5 min-w-[6px] flex-1 self-center rounded-full transition-colors sm:mx-1",
                     segmentDone ? "bg-brand-pink/55" : "bg-(--border-default)",
                   )}
                   aria-hidden
                 />
               ) : null}
-              <div className="flex w-11 shrink-0 flex-col items-center gap-1.5 sm:w-14">
+              <div className="flex w-11 shrink-0 justify-center sm:w-14">
                 <StepDot
                   index={i}
                   complete={complete}
                   isFocused={focusedStepIndex === i}
                 />
-                <span
-                  className={cn(
-                    "line-clamp-2 max-w-17 text-center text-[8px] leading-tight sm:max-w-20 sm:text-[9px]",
-                    complete ? "text-text-primary" : "text-text-tertiary",
-                  )}
-                >
-                  {label}
-                </span>
               </div>
+            </Fragment>
+          );
+        })}
+      </div>
+      <div className="mt-1.5 flex w-full items-start">
+        {Array.from({ length: count }, (_, i) => {
+          const complete = stepComplete[i] ?? false;
+          const label = labels[i] ?? "";
+
+          return (
+            <Fragment key={`${label}-caption`}>
+              {i > 0 ? (
+                <div
+                  className="mx-0.5 min-w-[6px] flex-1 sm:mx-1"
+                  aria-hidden
+                />
+              ) : null}
+              <span
+                className={cn(
+                  "line-clamp-2 w-11 shrink-0 text-center text-[8px] leading-tight sm:w-14 sm:text-[9px]",
+                  complete ? "text-text-primary" : "text-text-tertiary",
+                )}
+              >
+                {label}
+              </span>
             </Fragment>
           );
         })}
