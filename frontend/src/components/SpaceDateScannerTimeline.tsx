@@ -10,6 +10,14 @@ type SpaceDateScannerTimelineProps = {
   onCommit: (value: number) => void;
 };
 
+function formatUtcDayMonthYear(ts: number): string {
+  const d = new Date(ts);
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const year = d.getUTCFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 const SpaceDateScannerTimeline = ({
   minDate,
   maxDate,
@@ -53,11 +61,11 @@ const SpaceDateScannerTimeline = ({
 
       {/* Метки дат под слайдером */}
       <div className="mt-4 flex justify-between font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
-        <span>16.06.1995</span>
+        <span>{formatUtcDayMonthYear(minDate)}</span>
         <span className="hidden animate-pulse text-text-secondary md:block">
           Scanning timeline
         </span>
-        <span className="font-technical">Today</span>
+        <span className="font-technical">{formatUtcDayMonthYear(maxDate)}</span>
       </div>
     </div>
   );

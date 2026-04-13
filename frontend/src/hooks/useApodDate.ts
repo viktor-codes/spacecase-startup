@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDate } from "@internationalized/date";
 
 export const APOD_MIN_DATE = "1995-06-16";
@@ -10,11 +10,41 @@ type UseApodDateArgs = {
   onChange?: (date: string) => void;
 };
 
+function parseValueToTimestamp(valueToParse: string): number | null {
+  const [y, m, d] = valueToParse.split("-").map(Number);
+  if (!Number.isNaN(y) && !Number.isNaN(m) && !Number.isNaN(d)) {
+    return Date.UTC(y, m - 1, d);
+  }
+  return null;
+}
+
+function tsToCalendarDate(ts: number) {
+  const d = new Date(ts);
+  return new CalendarDate(
+    d.getUTCFullYear(),
+    d.getUTCMonth() + 1,
+    d.getUTCDate(),
+  );
+}
+
+function stateFromProp(
+  value: string | undefined,
+  minDate: number,
+  maxDate: number,
+): { committed: number | null; preview: number } {
+  const trimmed = value?.trim() ?? "";
+  if (!trimmed) {
+    return { committed: null, preview: minDate };
+  }
+  const parsed = parseValueToTimestamp(trimmed);
+  if (parsed === null) {
+    return { committed: null, preview: minDate };
+  }
+  const clamped = Math.min(Math.max(parsed, minDate), maxDate);
+  return { committed: clamped, preview: clamped };
+}
+
 export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
-  // Всё считаем в UTC (00:00 UTC), чтобы дата не "прыгала" из-за локальной таймзоны.
-  // Важная идея упрощения:
-  // - `committedTimestamp` используется для callbacks / submit (реальная дата)
-  // - `previewTimestamp` используется только для визуального обновления digits во время перетаскивания
   const minDate = useMemo(() => {
     const [y, m, d] = APOD_MIN_DATE.split("-").map(Number);
     return Date.UTC(y, m - 1, d);
@@ -25,48 +55,41 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   }, []);
 
-  const parseValueToTimestamp = (valueToParse: string) => {
-    const [y, m, d] = valueToParse.split("-").map(Number);
-    if (!Number.isNaN(y) && !Number.isNaN(m) && !Number.isNaN(d)) {
-      return Date.UTC(y, m - 1, d);
-    }
-    return null;
-  };
+  const [committedTimestamp, setCommittedTimestamp] = useState<number | null>(
+    () => stateFromProp(value, minDate, maxDate).committed,
+  );
+  const [previewTimestamp, setPreviewTimestamp] = useState(
+    () => stateFromProp(value, minDate, maxDate).preview,
+  );
+  const [calendarValue, setCalendarValue] = useState<CalendarDate | null>(() => {
+    const s = stateFromProp(value, minDate, maxDate);
+    return s.committed !== null ? tsToCalendarDate(s.committed) : null;
+  });
 
-  const initialTimestamp = useMemo(() => {
-    if (!value) return maxDate;
-    const parsed = parseValueToTimestamp(value);
-    if (parsed === null) return maxDate;
-    // clamp нужен только при инициализации/вводе, чтобы гарантировать валидность.
-    return Math.min(Math.max(parsed, minDate), maxDate);
-  }, [value, minDate, maxDate]);
-
-  const [committedTimestamp, setCommittedTimestamp] =
-    useState(initialTimestamp);
-  const [previewTimestamp, setPreviewTimestamp] = useState(initialTimestamp);
+  const prevValueRef = useRef(value);
 
   useEffect(() => {
-    setCommittedTimestamp(initialTimestamp);
-    setPreviewTimestamp(initialTimestamp);
-  }, [initialTimestamp]);
+    const next = stateFromProp(value, minDate, maxDate);
+    setCommittedTimestamp(next.committed);
+    setPreviewTimestamp(next.preview);
 
-  const tsToCalendarDate = (ts: number) => {
-    const d = new Date(ts);
-    return new CalendarDate(
-      d.getUTCFullYear(),
-      d.getUTCMonth() + 1,
-      d.getUTCDate(),
-    );
-  };
+    if (next.committed !== null) {
+      setCalendarValue(tsToCalendarDate(next.committed));
+    } else if (prevValueRef.current?.trim() && !value?.trim()) {
+      // Parent cleared a previously set ISO date (external reset).
+      setCalendarValue(null);
+    }
+
+    prevValueRef.current = value;
+  }, [value, minDate, maxDate]);
 
   const minCalendarDate = useMemo(() => tsToCalendarDate(minDate), [minDate]);
   const maxCalendarDate = useMemo(() => tsToCalendarDate(maxDate), [maxDate]);
-  const previewCalendarValue = useMemo(
-    () => tsToCalendarDate(previewTimestamp),
-    [previewTimestamp],
-  );
 
   const dateString = useMemo(() => {
+    if (committedTimestamp === null) {
+      return "";
+    }
     const d = new Date(committedTimestamp);
     const year = d.getUTCFullYear();
     const month = String(d.getUTCMonth() + 1).padStart(2, "0");
@@ -74,7 +97,6 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     return `${year}-${month}-${day}`;
   }, [committedTimestamp]);
 
-  // Уведомляем родителя только о "реально выбранной" (committed) дате.
   useEffect(() => {
     onChange?.(dateString);
   }, [dateString, onChange]);
@@ -83,24 +105,32 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     const committedNext = typeof next === "number" ? next : previewTimestamp;
     setCommittedTimestamp(committedNext);
     setPreviewTimestamp(committedNext);
+    setCalendarValue(tsToCalendarDate(committedNext));
   };
 
   const handleSliderChange = (nextValue: number) => {
-    // Radix slider ограничен min/max, поэтому clamp не требуется.
-    // Здесь нет реквестов и нет side-effects, только визуальный preview.
     setPreviewTimestamp(nextValue);
   };
 
-  const handleDigitsChange = (value: {
+  const handleDigitsChange = (next: {
     year: number;
     month: number;
     day: number;
   }) => {
-    const ts = Date.UTC(value.year, value.month - 1, value.day);
-    if (ts < minDate || ts > maxDate) return;
-    // При ручном вводе это считается "реальным выбором".
-    setCommittedTimestamp(ts);
-    setPreviewTimestamp(ts);
+    setCalendarValue(new CalendarDate(next.year, next.month, next.day));
+    const ts = Date.UTC(next.year, next.month - 1, next.day);
+    if (ts >= minDate && ts <= maxDate) {
+      setCommittedTimestamp(ts);
+      setPreviewTimestamp(ts);
+    } else {
+      setCommittedTimestamp(null);
+    }
+  };
+
+  const handleDigitsClear = () => {
+    setCalendarValue(null);
+    setCommittedTimestamp(null);
+    setPreviewTimestamp(minDate);
   };
 
   return {
@@ -109,10 +139,11 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
     previewTimestamp,
     minCalendarDate,
     maxCalendarDate,
-    previewCalendarValue,
+    previewCalendarValue: calendarValue,
     dateString,
     handleSliderChange,
     commitSliderValue: commitPreview,
     handleDigitsChange,
+    handleDigitsClear,
   };
 };

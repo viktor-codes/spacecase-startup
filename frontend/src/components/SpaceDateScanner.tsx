@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { DateValue } from "@internationalized/date";
 
 import { cn } from "@/lib/utils";
 import { useApodDate } from "@/hooks/useApodDate";
@@ -44,20 +45,26 @@ const SpaceDateScanner = ({
     minCalendarDate,
     maxCalendarDate,
     handleDigitsChange,
+    handleDigitsClear,
   } = useApodDate({ value, onChange });
 
-  const handleDateFieldChange = (value: {
-    year: number;
-    month: number;
-    day: number;
-  }) => {
-    handleDigitsChange(value);
+  const handleDateFieldChange = (next: DateValue | null) => {
+    if (!next) {
+      handleDigitsClear();
+      return;
+    }
+    handleDigitsChange({
+      year: next.year,
+      month: next.month,
+      day: next.day,
+    });
   };
 
   const handleSubmitClick = () => {
-    if (onSubmit) {
-      onSubmit(dateString);
+    if (!dateString || !onSubmit) {
+      return;
     }
+    onSubmit(dateString);
   };
 
   return (
@@ -96,7 +103,7 @@ const SpaceDateScanner = ({
       {showPrimaryButton && (
         <Button
           type="button"
-          disabled={loading}
+          disabled={loading || !dateString}
           onClick={handleSubmitClick}
           variant="space"
           size="hero"
