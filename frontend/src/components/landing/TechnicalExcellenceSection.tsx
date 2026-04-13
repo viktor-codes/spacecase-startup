@@ -1,236 +1,234 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Section from "@/components/Section";
 import { GlassCard } from "@/components/ui/glass-card";
 import SectionHeading from "@/components/landing/SectionHeading";
+import { cn } from "@/lib/utils";
 
 const featureBullets = [
   {
-    id: "durability",
-    label: "Built to last",
-    description: "Dual-layer Tough absorbs everyday impacts.",
-    position: { top: "14%", left: "28%" },
+    id: "raised-bezel",
+    label: "Raised Bezel Screen Protection",
+    description: "Thicker build for more protection, without looking bulkier.",
   },
   {
-    id: "finish",
-    label: "Glossy finish",
-    description: "Premium coating for glass-like reflections.",
-    position: { top: "40%", left: "18%" },
+    id: "shock-absorption-tpu",
+    label: "Shock Absorption with Black TPU Liner",
+    description:
+      "No more unexpected surprises, thanks to intelligent technology and robust engineering.",
   },
   {
-    id: "prints",
-    label: "Fade-resistant prints",
-    description: "UV-cured color stays crisp for years.",
-    position: { top: "68%", left: "26%" },
+    id: "ports-accessible",
+    label: "All Ports Accessible",
+    description:
+      "Unlike mediocre phone cases, you can still access all ports — no compromise.",
   },
   {
-    id: "protection",
-    label: "Dual-layer protection",
-    description: "PC shell + TPU inner liner.",
-    position: { top: "18%", left: "72%" },
+    id: "no-fade-prints",
+    label: "High-Quality, No-Fade Prints",
+    description:
+      "No worries about the print fading over time. The quality is so high, it'll look just as good next year as it does today.",
   },
   {
-    id: "materials",
-    label: "Impact-ready materials",
-    description: "Aerospace-inspired polymers for strength.",
-    position: { top: "44%", left: "82%" },
+    id: "responsive-buttons",
+    label: "Responsive and Protected Buttons",
+    description:
+      "Easily use your phone without any limitations while having the buttons protected. Nothing is standing in the way of comfortable usage.",
   },
   {
-    id: "weight",
-    label: "Slim, strong feel",
-    description: "Pocket-friendly profile without losing protection.",
-    position: { top: "70%", left: "74%" },
+    id: "dual-layer-pc-tpu",
+    label: "Dual Layer PC+TPU Design",
+    description:
+      "Offer your phone max protection with this double layer bodyguard. The outside has a hard PC cover, while on the inside the impact is absorbed by a soft TPU layer.",
   },
 ];
 
-const TechnicalExcellenceSection = () => {
-  const [activeId, setActiveId] = useState<string>(featureBullets[0].id);
+/* ─── Mobile carousel ─────────────────────────────────────────── */
+const MobileCarousel = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     containScroll: "trimSnaps",
     dragFree: true,
   });
-  const activeFeature =
-    featureBullets.find((f) => f.id === activeId) ?? featureBullets[0];
-
-  const activeIndex = featureBullets.findIndex((f) => f.id === activeId);
 
   useEffect(() => {
     if (!emblaApi) return;
-
-    const handleSelect = () => {
-      const index = emblaApi.selectedScrollSnap();
-      const nextFeature = featureBullets[index];
-      if (nextFeature) {
-        setActiveId(nextFeature.id);
-      }
-    };
-
-    emblaApi.on("select", handleSelect);
-    emblaApi.on("reInit", handleSelect);
-    handleSelect();
-
+    const onSelect = () => setActiveIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
     return () => {
-      emblaApi.off("select", handleSelect);
-      emblaApi.off("reInit", handleSelect);
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
     };
   }, [emblaApi]);
 
-  const handleMobileCardClick = (id: string, index: number) => {
-    setActiveId(id);
+  const scrollTo = (index: number) => {
+    setActiveIndex(index);
     emblaApi?.scrollTo(index);
   };
 
   return (
-    <div id="case-anatomy">
-      <Section className="overflow-visible">
-        <SectionHeading
-          className="mb-12"
-          kicker="Case highlights"
-          title="Engineered for everyday."
-        />
+    <div className="flex flex-col gap-6 md:hidden">
+      {/* Phone image */}
+      <motion.img
+        src="/excelence-2.png"
+        alt="CosmicCase"
+        className="mx-auto w-full max-w-sm"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      />
 
-        {/* Мобильный лэйаут: чехол + свайп карточек */}
-        <div className="mx-auto flex w-full max-w-md flex-col gap-6 md:hidden">
-          <div className="relative mx-auto w-96">
-            <motion.img
-              src="/excelence-2.png"
-              alt="CosmicCase"
-              className="w-full"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </div>
-
-          <div className="-mx-2.5 px-2.5">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex gap-4 pb-2">
-                {featureBullets.map((f, index) => (
-                  <div className="min-w-[82%] shrink-0" key={f.id}>
-                    <GlassCard
-                      className="p-4"
-                      onClick={() => handleMobileCardClick(f.id, index)}
-                    >
-                      <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                        {f.label}
-                      </p>
-                      <p className="text-sm leading-relaxed text-text-secondary">
-                        {f.description}
-                      </p>
-                    </GlassCard>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-3 flex items-center justify-center gap-2">
-              {featureBullets.map((f, index) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  aria-label={`Go to ${f.label}`}
-                  className={`h-1.5 rounded-full transition-all ${
-                    activeIndex === index
-                      ? "w-6 bg-brand-pink"
-                      : "w-2 bg-white/30 hover:bg-white/50"
-                  }`}
-                  onClick={() => handleMobileCardClick(f.id, index)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Планшет и десктоп */}
-        <div className="mx-auto hidden w-full max-w-6xl items-start gap-8 md:grid md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.4fr)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)_minmax(0,0.8fr)] lg:gap-12">
-          {/* Левая колонка с фичами (только десктоп) */}
-          <div className="hidden flex-col gap-4 lg:flex">
-            {featureBullets.slice(0, 3).map((f) => (
-              <GlassCard
+      {/* Carousel */}
+      <div className="min-w-0">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-3 pb-2">
+            {featureBullets.map((f, index) => (
+              <div
                 key={f.id}
-                className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
-                onClick={() => setActiveId(f.id)}
+                className="min-w-0 shrink-0 grow-0 basis-[min(100%,22rem)] sm:basis-[85%]"
               >
-                <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                  {f.label}
-                </p>
-                <p className="text-sm leading-relaxed text-text-secondary">
-                  {f.description}
-                </p>
-              </GlassCard>
+                <GlassCard
+                  className={cn(
+                    "flex min-h-[16rem] flex-col p-4",
+                    activeIndex === index &&
+                      "ring-2 ring-brand-pink/45 ring-inset",
+                  )}
+                  onClick={() => scrollTo(index)}
+                >
+                  <p className="font-technical mb-2 shrink-0 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
+                    {f.label}
+                  </p>
+                  <p className="flex-1 text-sm leading-relaxed text-text-secondary">
+                    {f.description}
+                  </p>
+                </GlassCard>
+              </div>
             ))}
           </div>
-
-          {/* Центральный чехол с точками (планшет и десктоп) */}
-          <div className="relative flex justify-center">
-            <div className="relative w-full">
-              <motion.img
-                src="/excelence-2.png"
-                alt="CosmicCase"
-                className="w-full"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </div>
-          </div>
-
-          {/* Правая колонка: на планшете — весь стек фич, на десктопе — вторая половина */}
-          <div className="flex flex-col gap-4">
-            {/* Планшеты (md–lg): показываем все фичи одной колонкой */}
-            <div className="flex flex-col gap-4 lg:hidden">
-              {featureBullets.map((f) => (
-                <GlassCard
-                  key={f.id}
-                  className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
-                  onClick={() => setActiveId(f.id)}
-                >
-                  <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                    {f.label}
-                  </p>
-                  <p className="text-sm leading-relaxed text-text-secondary">
-                    {f.description}
-                  </p>
-                </GlassCard>
-              ))}
-            </div>
-
-            {/* Десктоп (lg+): во второй колонке только вторая половина фич */}
-            <div className="hidden flex-col gap-4 lg:flex">
-              {featureBullets.slice(3).map((f) => (
-                <GlassCard
-                  key={f.id}
-                  className="cursor-pointer p-4 transition-transform duration-200 hover:-translate-y-1"
-                  onClick={() => setActiveId(f.id)}
-                >
-                  <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                    {f.label}
-                  </p>
-                  <p className="text-sm leading-relaxed text-text-secondary">
-                    {f.description}
-                  </p>
-                </GlassCard>
-              ))}
-            </div>
-
-            {/* Активная фича как краткое резюме */}
-            <GlassCard className="mt-2 p-4">
-              <p className="font-technical mb-2 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                {activeFeature.label}
-              </p>
-              <p className="text-sm leading-relaxed text-text-secondary">
-                {activeFeature.description}
-              </p>
-            </GlassCard>
-          </div>
         </div>
-      </Section>
+
+        {/* Dot indicators */}
+        <div className="mt-3 flex items-center justify-center gap-2">
+          {featureBullets.map((f, index) => (
+            <button
+              key={f.id}
+              type="button"
+              aria-label={`Go to ${f.label}`}
+              className={cn(
+                "h-1.5 rounded-full transition-all",
+                activeIndex === index
+                  ? "w-6 bg-brand-pink"
+                  : "w-2 bg-white/30 hover:bg-white/50",
+              )}
+              onClick={() => scrollTo(index)}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
+
+/* ─── Desktop two-column sticky layout ───────────────────────── */
+const DesktopLayout = () => {
+  const [activeId, setActiveId] = useState<string>(featureBullets[0].id);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the card that's most visible
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length > 0) {
+          const id = (visible[0].target as HTMLElement).dataset.featureId;
+          if (id) setActiveId(id);
+        }
+      },
+      {
+        // Trigger when a card enters the middle band of the viewport
+        rootMargin: "-30% 0px -50% 0px",
+        threshold: 0,
+      },
+    );
+
+    Object.values(cardRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="hidden md:grid md:grid-cols-[1fr_minmax(0,0.7fr)] md:gap-10 lg:gap-16 xl:gap-20">
+      {/* Left: scrollable feature cards */}
+      <div className="flex flex-col gap-5">
+        {featureBullets.map((f) => (
+          <div
+            key={f.id}
+            data-feature-id={f.id}
+            ref={(el) => {
+              cardRefs.current[f.id] = el;
+            }}
+          >
+            <GlassCard
+              className={cn(
+                "flex min-h-[9rem] cursor-pointer flex-col p-5 transition-all duration-300",
+                "hover:-translate-y-0.5",
+                activeId === f.id
+                  ? "ring-2 ring-brand-pink/45 ring-inset"
+                  : "opacity-60 hover:opacity-80",
+              )}
+              onClick={() => setActiveId(f.id)}
+            >
+              <p className="font-technical mb-2 shrink-0 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
+                {f.label}
+              </p>
+              <p className="flex-1 text-sm leading-relaxed text-text-secondary">
+                {f.description}
+              </p>
+            </GlassCard>
+          </div>
+        ))}
+      </div>
+
+      {/* Right: sticky phone image */}
+      <div className="flex items-start justify-center">
+        <div className="sticky top-[20vh] w-full">
+          <motion.img
+            src="/excelence-2.png"
+            alt="CosmicCase"
+            className="w-full"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─── Root section ────────────────────────────────────────────── */
+const TechnicalExcellenceSection = () => (
+  <div id="case-anatomy" className="overflow-x-clip">
+    <Section className="overflow-x-clip overflow-y-visible">
+      <SectionHeading
+        className="mb-12"
+        kicker="Case highlights"
+        title="Engineered for everyday."
+      />
+      <MobileCarousel />
+      <DesktopLayout />
+    </Section>
+  </div>
+);
 
 export default TechnicalExcellenceSection;
