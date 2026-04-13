@@ -44,7 +44,10 @@ const SpaceDateScannerDateDigits = ({
   };
 
   return (
-    <div className="group relative cursor-text">
+    <div
+      className="group relative cursor-text"
+      onKeyDownCapture={handleKeyDown}
+    >
       {/* en-GB → day-month-year with slash literals (e.g. 13/04/2026) */}
       <I18nProvider locale="en-GB">
         <DateField
@@ -56,7 +59,6 @@ const SpaceDateScannerDateDigits = ({
           minValue={minDate}
           maxValue={maxDate}
           onFocusChange={(focused) => setIsEditing(focused)}
-          onKeyDown={handleKeyDown}
         >
           <DateInput
             className={cn(
