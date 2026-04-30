@@ -45,8 +45,7 @@ export default function Header() {
   }, []);
 
   const handleLogoClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
-    // Важно: якорь вида /#home иногда не триггерит скролл повторно,
-    // если URL/хэш не меняются — принудительно делаем scrollIntoView.
+    // /#home may not re-trigger scroll if the hash never changes — force scrollIntoView.
     if (window.location.pathname !== "/") return;
 
     e.preventDefault();

@@ -3,9 +3,9 @@ import uvicorn
 
 def main() -> None:
     """
-    Точка входа для локального запуска бэкенда.
+    Local development entrypoint for the backend.
 
-    Пример:
+    Example:
       uv run python main.py
     """
     uvicorn.run(

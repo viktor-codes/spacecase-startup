@@ -18,7 +18,7 @@ type MobileNavMenuProps = {
   ctaLabel: string;
 };
 
-// Константы для анимации
+// Animation variants
 const menuVariants = {
   closed: {
     opacity: 0,
@@ -38,7 +38,7 @@ const menuVariants = {
       when: "beforeChildren",
       staggerChildren: 0.08,
       duration: 0.3,
-      // Типы Framer Motion немного капризные к типу easing.
+      // Framer Motion’s types are picky about easing tuple shapes.
       ease: [0.23, 1, 0.32, 1] as const,
     },
   },
@@ -116,7 +116,7 @@ export default function MobileNavMenu({
         ref={triggerRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Закрыть навигацию" : "Открыть навигацию"}
+        aria-label={isOpen ? "Close navigation" : "Open navigation"}
         aria-expanded={isOpen}
         aria-controls="main-nav-dropdown"
         className="relative z-(--z-dropdown) flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-surface-raised/50 text-text-secondary transition-transform active:scale-90 md:hidden"
@@ -167,7 +167,7 @@ export default function MobileNavMenu({
                     className="group relative flex items-center justify-between rounded-xl px-4 py-4 text-left transition-colors hover:bg-white/5"
                   >
                     <div className="flex items-center gap-4">
-                      {/* Номер пункта в стиле HUD */}
+                      {/* HUD-style item index */}
                       <span className="font-technical text-[10px] text-brand-pink/50">
                         0{index + 1}
                       </span>
@@ -177,7 +177,7 @@ export default function MobileNavMenu({
                     </div>
                     <ArrowRight className="h-3 w-3 -translate-x-2 text-brand-pink opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
 
-                    {/* Тонкая линия-разделитель снизу */}
+                    {/* Thin bottom divider */}
                     <div className="absolute right-4 bottom-0 left-4 h-px bg-white/5" />
                   </motion.button>
                 ))}
@@ -199,7 +199,7 @@ export default function MobileNavMenu({
                   <ArrowRight className="h-4 w-4" />
                 </button>
 
-                {/* Техническая приписка внизу */}
+                {/* Footer microcopy */}
                 <div className="mt-4 text-center">
                   <span className="font-technical text-[8px] tracking-[0.2em] text-text-tertiary/40 uppercase">
                     System Status: Connected // Node: Orbit-1

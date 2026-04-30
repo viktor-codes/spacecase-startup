@@ -1,47 +1,47 @@
-# CosmicCase — roadmap к production
+# CosmicCase — path to production
 
-Работаем по фазам; отмечайте чекбоксы по мере выполнения.
+Work in phased batches; tick items off as you complete them.
 
-## Фаза A — блокеры и стабильность
+## Phase A — stability blockers
 
-| #   | Задача                                                     | Статус | Файлы / заметки                                                  |
-| --- | ---------------------------------------------------------- | ------ | ---------------------------------------------------------------- |
-| A1  | Объединить `next.config` (images + reactCompiler)          | ☑      | `frontend/next.config.ts` (удалён `next.config.mjs`)             |
-| A2  | Унифицировать `searchParams` (async) на странице configure | ☑      | `frontend/src/app/configure/upload/page.tsx`                     |
-| A3  | Обработка ошибок загрузки заказа (Error UI)                | ☑      | `frontend/src/app/order/error.tsx`                               |
-| A4  | Убрать отладочный вывод из NASA-клиента                    | ☑      | `logger.debug` в `backend/app/infrastructure/nasa/client.py`     |
-| A5  | Строгая валидация `shippingOption` на API                  | ☑      | `Literal["standard","express"]` в `backend/app/api/v1/orders.py` |
+| #   | Task                                              | Status | Files / notes                                                   |
+| --- | ------------------------------------------------- | ------ | --------------------------------------------------------------- |
+| A1  | Consolidate `next.config` (images + reactCompiler) | ☑    | `frontend/next.config.ts` (removed `next.config.mjs`)           |
+| A2  | Standardize async `searchParams` on configure page | ☑     | `frontend/src/app/configure/upload/page.tsx`                    |
+| A3  | Order load error UX (Error boundary / UI)         | ☑      | `frontend/src/app/order/error.tsx`                              |
+| A4  | Remove noisy debug logging from NASA client       | ☑      | `logger.debug` in `backend/app/infrastructure/nasa/client.py`    |
+| A5  | Strict `shippingOption` validation on API         | ☑      | `Literal["standard","express"]` in `backend/app/api/v1/orders.py` |
 
-## Фаза B — доверие и конверсия
+## Phase B — trust & conversion
 
-| #   | Задача                                                 | Статус | Файлы / заметки                                       |
-| --- | ------------------------------------------------------ | ------ | ----------------------------------------------------- |
-| B1  | Polling / «Подтверждаем оплату» на success             | ☑      | `OrderSuccessContent.tsx`, `page.tsx`                 |
-| B2  | Ошибки и retry на лендинге (Try Now)                   | ☑      | `TryNowSection.tsx`                                   |
-| B3  | Open Graph + `metadataBase`                            | ☑      | `layout.tsx` — задайте `NEXT_PUBLIC_SITE_URL` в проде |
-| B4  | APOD: `remotePatterns` или `<img>` для не-nasa.gov URL | ☑      | `next.config.ts` + нативный `<img>` в модалке         |
+| #   | Task                                                   | Status | Files / notes                                        |
+| --- | ------------------------------------------------------ | ------ | ---------------------------------------------------- |
+| B1  | Polling / “Confirming payment” on success               | ☑      | `OrderSuccessContent.tsx`, `page.tsx`                |
+| B2  | Errors and retry on landing (Try Now)                 | ☑      | `TryNowSection.tsx`                                  |
+| B3  | Open Graph + `metadataBase`                             | ☑      | `layout.tsx` — set `NEXT_PUBLIC_SITE_URL` in prod    |
+| B4  | APOD: `remotePatterns` or `<img>` for non-nasa.gov URLs | ☑    | `next.config.ts` + native `<img>` in modal           |
 
-## Фаза C — наблюдаемость и тесты
+## Phase C — observability & tests
 
-| #   | Задача                       | Статус | Файлы / заметки                                                                         |
-| --- | ---------------------------- | ------ | --------------------------------------------------------------------------------------- |
-| C1  | Sentry (frontend + backend)  | ☑      | `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`; опционально `SENTRY_AUTH_TOKEN` для source maps |
-| C2  | Playwright: критический путь | ☑      | `npm run test:e2e` (build + e2e), порт **3001**                                         |
-| C3  | Pytest: health + APOD mock   | ☑      | `cd backend && uv run pytest`                                                           |
+| #   | Task                         | Status | Files / notes                                                                         |
+| --- | ---------------------------- | ------ | ------------------------------------------------------------------------------------- |
+| C1  | Sentry (frontend + backend)   | ☑      | `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`; optional `SENTRY_AUTH_TOKEN` for source maps |
+| C2  | Playwright critical path      | ☑      | `npm run test:e2e` (build + e2e), port **3001**                                       |
+| C3  | Pytest: health + APOD mock    | ☑      | `cd backend && uv run pytest`                                                         |
 
-## Фаза D — полировка
+## Phase D — polish
 
-| #   | Задача                        | Статус | Файлы / заметки                                                                           |
-| --- | ----------------------------- | ------ | ----------------------------------------------------------------------------------------- |
-| D1  | Адаптив / микровзаимодействия | —      | Вручную (верстка не трогалась в коде)                                                     |
-| D2  | Защита `GET /orders/{id}`     | ☑      | Секрет `token` в URL success + SHA-256 в БД; `fetchOrder(id, token)`                      |
-| D3  | PostgreSQL, CORS, env         | ☑      | `DATABASE_URL` (любой SQLAlchemy URL), `CORS_ALLOW_ORIGINS` (через запятую); чеклист ниже |
+| #   | Task                               | Status | Files / notes                                                                               |
+| --- | ---------------------------------- | ------ | ------------------------------------------------------------------------------------------- |
+| D1  | Responsive / micro-interactions    | —      | Manual (layout not tracked as code-only work)                                               |
+| D2  | Protect `GET /orders/{id}`         | ☑      | Secret `token` on success URL + SHA-256 in DB; `fetchOrder(id, token)`                     |
+| D3  | PostgreSQL, CORS, env              | ☑      | `DATABASE_URL` (any SQLAlchemy URL), comma-separated `CORS_ALLOW_ORIGINS`; checklist below   |
 
 ### Pre-launch (env)
 
-- **Frontend (Vercel):** `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SENTRY_DSN` (опц.).
-- **Backend:** `FRONTEND_BASE_URL`, `DATABASE_URL` (например PostgreSQL), `CORS_ALLOW_ORIGINS=https://your-domain.com`, `STRIPE_*`, `NASA_API_KEY`, `SENTRY_DSN` (опц.), `SENTRY_AUTH_TOKEN` в CI для source maps.
+- **Frontend (Vercel):** `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`, optional `NEXT_PUBLIC_SENTRY_DSN`.
+- **Backend:** `FRONTEND_BASE_URL`, `DATABASE_URL` (e.g. PostgreSQL), `CORS_ALLOW_ORIGINS=https://your-domain.com`, `STRIPE_*`, `NASA_API_KEY`, optional `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` in CI for source maps.
 
 ---
 
-**Текущий фокус:** релиз и ваша полировка UI.
+**Current focus:** ship and iterate on UI polish.

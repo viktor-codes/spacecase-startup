@@ -21,7 +21,7 @@ const TryNowSection = () => {
   const [error, setError] = useState<string | null>(null);
   const [notImageHint, setNotImageHint] = useState(false);
 
-  /** Запрос в NASA APOD выполняется только по клику на кнопку "Reveal the Universe". */
+  /** NASA APOD fetch runs only after "Reveal the Universe" is clicked. */
   const handleRevealUniverse = async (selectedDate?: string) => {
     setApod(null);
     setError(null);

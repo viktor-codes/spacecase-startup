@@ -76,7 +76,7 @@ const HeroSection = () => {
 
           {/* Product */}
           <div className="relative mt-4 flex flex-col items-center justify-center gap-6 md:mt-0">
-            {/* Сферическая сетка "Рыбий глаз" за продуктом */}
+            {/* Spherical “fisheye” radial grid behind the product */}
             <div className="pointer-events-none absolute top-1/2 left-1/2 z-(--z-bottom) h-[160%] w-[160%] -translate-x-1/2 -translate-y-1/2">
               <div
                 className="h-full w-full"

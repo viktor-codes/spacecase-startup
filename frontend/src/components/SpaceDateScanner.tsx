@@ -75,7 +75,7 @@ const SpaceDateScanner = ({
         className,
       )}
     >
-      {/* 1. ГИГАНТСКИЕ ЦИФРЫ (РУЧНОЙ ВВОД) */}
+      {/* 1. Large digit fields (manual input) */}
       <SpaceDateScannerDateDigits
         value={previewCalendarValue}
         minDate={minCalendarDate}
@@ -88,7 +88,7 @@ const SpaceDateScanner = ({
         onSubmit={showPrimaryButton ? handleSubmitClick : undefined}
       />
 
-      {/* 2. КОСМИЧЕСКИЙ СЛАЙДЕР — touch-action чтобы не дёргало страницу на тач-устройствах */}
+      {/* 2. Timeline slider — touch-none avoids scroll tug-of-war on touch devices */}
       {showSlider && (
         <SpaceDateScannerTimeline
           minDate={minDate}
@@ -99,7 +99,7 @@ const SpaceDateScanner = ({
         />
       )}
 
-      {/* 3. КНОПКА ПОИСКА (ОПЦИОНАЛЬНО) — запрос в NASA по клику или Enter */}
+      {/* 3. Optional fetch button — NASA request on click or Enter */}
       {showPrimaryButton && (
         <Button
           type="button"

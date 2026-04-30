@@ -27,10 +27,10 @@ const SpaceDateScannerTimeline = ({
 }: SpaceDateScannerTimelineProps) => {
   return (
     <div className="relative w-full max-w-2xl touch-none overflow-hidden px-4">
-      {/* Тонкая линия трека */}
+      {/* Thin track line */}
       <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 rounded-full bg-white" />
 
-      {/* Radix Slider: отвечает за поведение, визуал остаётся кастомным */}
+      {/* Radix Slider: handles behavior; visuals stay fully custom */}
       <Slider.Root
         min={minDate}
         max={maxDate}
@@ -46,11 +46,11 @@ const SpaceDateScannerTimeline = ({
         }}
         className="relative z-(--z-base) flex h-13 w-full items-center"
       >
-        {/* Трек и диапазон оставляем прозрачными, а визуал делаем через Thumb */}
+        {/* Keep track and range transparent; render visuals on the Thumb */}
         <Slider.Track className="relative h-10 w-full bg-transparent">
           <Slider.Range className="absolute inset-y-0 bg-transparent" />
         </Slider.Track>
-        {/* Бегунок: используем стандартный Thumb от Radix */}
+        {/* Thumb uses Radix’s default Thumb node */}
         <Slider.Thumb
           className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/6 shadow-[0_0_0_6px_rgba(255,255,255,0.05)] outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           aria-label="Date"
@@ -59,7 +59,7 @@ const SpaceDateScannerTimeline = ({
         </Slider.Thumb>
       </Slider.Root>
 
-      {/* Метки дат под слайдером */}
+      {/* Date labels under the slider */}
       <div className="mt-4 flex justify-between font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
         <span>{formatUtcDayMonthYear(minDate)}</span>
         <span className="hidden animate-pulse text-text-secondary md:block">
