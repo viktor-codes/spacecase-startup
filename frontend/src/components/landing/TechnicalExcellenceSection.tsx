@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Section from "@/components/Section";
@@ -134,87 +134,38 @@ const MobileCarousel = () => {
 };
 
 /* ─── Desktop two-column sticky layout ───────────────────────── */
-const DesktopLayout = () => {
-  const [activeId, setActiveId] = useState<string>(featureBullets[0].id);
-  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Pick the card that's most visible
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visible.length > 0) {
-          const id = (visible[0].target as HTMLElement).dataset.featureId;
-          if (id) setActiveId(id);
-        }
-      },
-      {
-        // Trigger when a card enters the middle band of the viewport
-        rootMargin: "-30% 0px -50% 0px",
-        threshold: 0,
-      },
-    );
-
-    Object.values(cardRefs.current).forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div className="hidden md:grid md:grid-cols-[1fr_minmax(0,0.7fr)] md:gap-10 lg:gap-16 xl:gap-20">
-      {/* Left: scrollable feature cards */}
-      <div className="flex flex-col gap-5">
-        {featureBullets.map((f) => (
-          <div
-            key={f.id}
-            data-feature-id={f.id}
-            ref={(el) => {
-              cardRefs.current[f.id] = el;
-            }}
-          >
-            <GlassCard
-              className={cn(
-                "flex min-h-[9rem] cursor-pointer flex-col p-5 transition-all duration-300",
-                "hover:-translate-y-0.5",
-                activeId === f.id
-                  ? "ring-2 ring-brand-pink/45 ring-inset"
-                  : "opacity-60 hover:opacity-80",
-              )}
-              onClick={() => setActiveId(f.id)}
-            >
-              <p className="font-technical mb-2 shrink-0 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
-                {f.label}
-              </p>
-              <p className="flex-1 text-sm leading-relaxed text-text-secondary">
-                {f.description}
-              </p>
-            </GlassCard>
-          </div>
-        ))}
-      </div>
-
-      {/* Right: sticky phone image */}
-      <div className="flex items-start justify-center">
-        <div className="sticky top-[20vh] w-full">
-          <motion.img
-            src="/excelence-2.png"
-            alt="CosmicCase"
-            className="w-full"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          />
-        </div>
+const DesktopLayout = () => (
+  <div className="hidden md:grid md:grid-cols-[minmax(0,0.7fr)_1fr] md:gap-10 lg:gap-16 xl:gap-20">
+    {/* Left: sticky phone image */}
+    <div className="flex items-start justify-center">
+      <div className="sticky top-[20vh] w-full">
+        <motion.img
+          src="/excelence-2.png"
+          alt="CosmicCase"
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        />
       </div>
     </div>
-  );
-};
+
+    {/* Right: scrollable feature cards */}
+    <div className="flex flex-col gap-5">
+      {featureBullets.map((f) => (
+        <GlassCard key={f.id} className="flex min-h-[9rem] flex-col p-5">
+          <p className="font-technical mb-2 shrink-0 text-[11px] tracking-[0.2em] text-brand-pink uppercase">
+            {f.label}
+          </p>
+          <p className="flex-1 text-sm leading-relaxed text-text-secondary">
+            {f.description}
+          </p>
+        </GlassCard>
+      ))}
+    </div>
+  </div>
+);
 
 /* ─── Root section ────────────────────────────────────────────── */
 const TechnicalExcellenceSection = () => (
