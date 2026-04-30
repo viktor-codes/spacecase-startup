@@ -1,7 +1,5 @@
 # CosmicCase — internal reference
 
-> **Purpose:** a concise repo playbook and a demonstration of architecture and ops discipline for GitHub viewers. Not public product documentation.
-
 ---
 
 ## Project Vision
