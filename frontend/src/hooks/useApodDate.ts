@@ -98,8 +98,19 @@ export const useApodDate = ({ value, onChange }: UseApodDateArgs) => {
   }, [committedTimestamp]);
 
   useEffect(() => {
-    onChange?.(dateString);
-  }, [dateString, onChange]);
+    // During digit editing, the DateField may produce temporary out-of-range dates.
+    // We keep those locally for UX, but avoid propagating "" to the parent,
+    // otherwise the parent clears `value` and the field resets mid-edit.
+    if (committedTimestamp !== null) {
+      onChange?.(dateString);
+      return;
+    }
+
+    // Explicit clear: calendarValue is null (user cleared the field).
+    if (calendarValue === null) {
+      onChange?.("");
+    }
+  }, [dateString, onChange, committedTimestamp, calendarValue]);
 
   const commitPreview = (next?: number) => {
     const committedNext = typeof next === "number" ? next : previewTimestamp;
